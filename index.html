@@ -2,77 +2,197 @@
 <html lang="zh-CN">
 
 <head>
-  
+  <!-- 设置网页编码，保证中文正常显示 -->
   <meta charset="UTF-8">
 
+  <!-- 让网页适配手机、平板和电脑 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- 浏览器标签页标题 -->
   <title>无声无息:Once Again｜Minecraft 服务器</title>
 
+  <!-- 网页描述 -->
   <meta
     name="description"
     content="无声无息:Once Again Minecraft 服务器官方网站。原版生存、动态难度、安全区旅馆与代币成长体系。"
   >
 
-  <style>
+  <script id="oa-theme-bootstrap">
+(function () {
+  try {
+    const params = new URLSearchParams(location.search);
+    const incoming = params.get('theme');
+    const saved =
+      localStorage.getItem('once-again-theme') ||
+      localStorage.getItem('website-theme') ||
+      localStorage.getItem('sponsor-theme');
+    const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    const theme = (incoming === 'light' || incoming === 'dark') ? incoming : (saved || preferred);
+
+    if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    else document.documentElement.removeAttribute('data-theme');
+
+    if (theme === 'light' || theme === 'dark') {
+      localStorage.setItem('once-again-theme', theme);
+      localStorage.setItem('website-theme', theme);
+      localStorage.setItem('sponsor-theme', theme);
+    }
+  } catch (e) {}
+})();
+</script>
+<style>
+    /*
+      ==================================================
+      一、全局主题变量
+      ==================================================
+
+      默认使用黑色主题。
+
+      网页切换到白色主题时，
+      JavaScript 会给 html 标签添加：
+      data-theme="light"
+
+      然后下面的白色主题变量会覆盖默认变量。
+    */
 
     :root {
-      
+      /*
+        告诉浏览器当前网页主要是深色主题。
+        浏览器表单和滚动条可能会参考这个设置。
+      */
       color-scheme: dark;
 
-      --background: #敬请期待;
+      /*
+        网页背景色。
+      */
+      --background: #050908;
 
+      /*
+        第二层背景色。
+      */
       --background-secondary: #09120f;
 
+      /*
+        导航栏背景色。
+      */
       --navbar-background: rgba(5, 9, 8, 0.76);
 
+      /*
+        普通卡片背景。
+      */
       --card-background: rgba(15, 29, 24, 0.82);
 
+      /*
+        较亮的卡片背景。
+      */
       --card-background-hover: rgba(22, 43, 35, 0.92);
 
+      /*
+        卡片边框颜色。
+      */
       --card-border: rgba(112, 255, 178, 0.14);
 
+      /*
+        鼠标悬停时的边框颜色。
+      */
       --card-border-hover: rgba(112, 255, 178, 0.42);
 
+      /*
+        网站主色。
+      */
       --primary: #70efad;
 
+      /*
+        主色的深色版本。
+      */
       --primary-dark: #32bd79;
 
+      /*
+        黄色强调色。
+      */
       --accent: #ffd166;
 
+      /*
+        主文字颜色。
+      */
       --text: #f5fff9;
 
+      /*
+        次要文字颜色。
+      */
       --text-muted: #a7bab0;
 
+      /*
+        很淡的文字颜色。
+      */
       --text-soft: #7f9188;
 
+      /*
+        普通边框。
+      */
       --line: rgba(255, 255, 255, 0.07);
 
+      /*
+        背景网格颜色。
+      */
       --grid-line: rgba(112, 239, 173, 0.035);
 
+      /*
+        卡片阴影。
+      */
       --shadow:
         0 24px 70px rgba(0, 0, 0, 0.38);
 
+      /*
+        较小的阴影。
+      */
       --shadow-small:
         0 12px 35px rgba(0, 0, 0, 0.24);
 
+      /*
+        按钮文字颜色。
+      */
       --button-text: #03160c;
 
+      /*
+        场景天空颜色。
+      */
       --scene-sky-top: #132d27;
       --scene-sky-bottom: #1f5b43;
 
+      /*
+        场景地面颜色。
+      */
       --scene-ground-one: #267b52;
       --scene-ground-two: #173d2e;
       --scene-ground-three: #091a14;
 
+      /*
+        月亮颜色。
+      */
       --moon-color: #e0fff2;
 
+      /*
+        主题切换按钮背景。
+      */
       --theme-button-background: rgba(255, 255, 255, 0.06);
 
+      /*
+        鼠标经过主题按钮时的背景。
+      */
       --theme-button-hover: rgba(112, 239, 173, 0.13);
 
+      /*
+        页面选择文字时的颜色。
+      */
       --selection-background: rgba(112, 239, 173, 0.3);
     }
+
+    /*
+      ==================================================
+      二、白色主题变量
+      ==================================================
+    */
 
     html[data-theme="light"] {
       color-scheme: light;
@@ -89,13 +209,13 @@
       --card-border-hover: rgba(27, 156, 91, 0.38);
 
       --primary: #1ea464;
-      --primary-dark: #敬请期待;
+      --primary-dark: #137345;
 
       --accent: #bd7900;
 
       --text: #13241b;
       --text-muted: #5d7065;
-      --text-soft: #敬请期待;
+      --text-soft: #819087;
 
       --line: rgba(10, 39, 23, 0.09);
 
@@ -114,7 +234,7 @@
 
       --scene-ground-one: #5bbd75;
       --scene-ground-two: #337a4a;
-      --scene-ground-three: #敬请期待;
+      --scene-ground-three: #245939;
 
       --moon-color: #fff4ba;
 
@@ -124,6 +244,12 @@
       --selection-background: rgba(30, 164, 100, 0.22);
     }
 
+    /*
+      ==================================================
+      三、基础样式
+      ==================================================
+    */
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -131,9 +257,15 @@
     }
 
     html {
-      
+      /*
+        点击导航栏时平滑滚动。
+      */
       scroll-behavior: smooth;
 
+      /*
+        页面背景色也设置在 html 上，
+        防止主题切换时出现白边。
+      */
       background: var(--background);
     }
 
@@ -172,11 +304,17 @@
       line-height: 1.7;
       overflow-x: hidden;
 
+      /*
+        主题切换时，背景和文字会平滑过渡。
+      */
       transition:
         background-color 0.6s ease,
         color 0.45s ease;
     }
 
+    /*
+      白色主题下更换背景光晕。
+    */
     html[data-theme="light"] body {
       background:
         radial-gradient(
@@ -197,6 +335,9 @@
         );
     }
 
+    /*
+      选择网页文字时的背景颜色。
+    */
     ::selection {
       background: var(--selection-background);
       color: var(--text);
@@ -216,11 +357,17 @@
       max-width: 100%;
     }
 
+    /*
+      限制网页主要内容宽度。
+    */
     .container {
       width: min(1180px, calc(100% - 40px));
       margin: 0 auto;
     }
 
+    /*
+      为大部分会变化的元素添加主题过渡。
+    */
     .navbar,
     .server-card,
     .stat-card,
@@ -241,9 +388,24 @@
         box-shadow 0.45s ease;
     }
 
+    /*
+      ==================================================
+      四、主题切换扩散动画
+      ==================================================
+
+      用户点击主题按钮时，
+      JavaScript 会设置扩散圆的位置和颜色。
+
+      圆形会从按钮位置向整个屏幕扩散，
+      形成比较精致的主题切换效果。
+    */
+
     .theme-transition-circle {
       position: fixed;
 
+      /*
+        初始位置和大小由 JavaScript 设置。
+      */
       left: 0;
       top: 0;
 
@@ -252,18 +414,30 @@
 
       border-radius: 50%;
 
+      /*
+        默认不显示。
+      */
       opacity: 0;
 
-      z-index: 2147483647;
+      /*
+        让它盖住网页，但不阻挡点击。
+      */
+      z-index: 99999;
       pointer-events: none;
 
       transform: translate(-50%, -50%) scale(0);
     }
 
+    /*
+      执行动画时添加这个类。
+    */
     .theme-transition-circle.active {
       animation: themeCircleExpand 0.72s cubic-bezier(0.65, 0, 0.2, 1);
     }
 
+    /*
+      主题扩散圆动画。
+    */
     @keyframes themeCircleExpand {
       0% {
         opacity: 1;
@@ -279,6 +453,12 @@
         transform: translate(-50%, -50%) scale(180);
       }
     }
+
+    /*
+      ==================================================
+      五、顶部导航栏
+      ==================================================
+    */
 
     .navbar {
       position: fixed;
@@ -296,6 +476,9 @@
       border-bottom: 1px solid var(--line);
     }
 
+    /*
+      页面滚动后 JavaScript 会添加 scrolled 类。
+    */
     .navbar.scrolled {
       box-shadow: var(--shadow-small);
     }
@@ -319,6 +502,9 @@
       letter-spacing: 0.5px;
     }
 
+    /*
+      左上角方块 Logo。
+    */
     .logo-icon {
       position: relative;
 
@@ -350,6 +536,9 @@
         box-shadow 0.35s ease;
     }
 
+    /*
+      Logo 光泽动画。
+    */
     .logo-icon::after {
       content: "";
 
@@ -387,6 +576,9 @@
       color: var(--text);
     }
 
+    /*
+      右侧导航和主题按钮的外层。
+    */
     .nav-right {
       display: flex;
       align-items: center;
@@ -468,6 +660,12 @@
         0 15px 34px rgba(45, 188, 118, 0.3);
     }
 
+    /*
+      ==================================================
+      六、黑白主题切换按钮
+      ==================================================
+    */
+
     .theme-toggle {
       position: relative;
 
@@ -513,6 +711,9 @@
       transform: scale(0.9);
     }
 
+    /*
+      太阳和月亮图标使用纯 CSS 绘制。
+    */
     .theme-icon {
       position: absolute;
 
@@ -524,6 +725,9 @@
         transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
+    /*
+      太阳中心。
+    */
     .sun-icon {
       border-radius: 50%;
       background: #ffcf5a;
@@ -532,6 +736,9 @@
         0 0 16px rgba(255, 207, 90, 0.55);
     }
 
+    /*
+      太阳光线。
+    */
     .sun-icon::before,
     .sun-icon::after {
       content: "";
@@ -563,6 +770,9 @@
         rotate(90deg);
     }
 
+    /*
+      使用额外元素画斜方向太阳光线。
+    */
     .sun-rays {
       position: absolute;
 
@@ -591,6 +801,9 @@
       transform: rotate(90deg);
     }
 
+    /*
+      月亮图标。
+    */
     .moon-icon-small {
       border-radius: 50%;
 
@@ -600,6 +813,9 @@
         0 0 16px rgba(188, 213, 255, 0.35);
     }
 
+    /*
+      通过覆盖一部分圆形，制造月牙效果。
+    */
     .moon-icon-small::after {
       content: "";
 
@@ -619,6 +835,10 @@
         background-color 0.45s ease;
     }
 
+    /*
+      黑色主题下：
+      显示太阳，表示点击后切换到白色主题。
+    */
     html:not([data-theme="light"]) .sun-icon,
     html:not([data-theme="light"]) .sun-rays {
       opacity: 1;
@@ -630,6 +850,10 @@
       transform: scale(0.4) rotate(-100deg);
     }
 
+    /*
+      白色主题下：
+      显示月亮，表示点击后切换到黑色主题。
+    */
     html[data-theme="light"] .sun-icon,
     html[data-theme="light"] .sun-rays {
       opacity: 0;
@@ -641,6 +865,9 @@
       transform: scale(1) rotate(0deg);
     }
 
+    /*
+      手机菜单按钮。
+    */
     .menu-button {
       display: none;
 
@@ -666,6 +893,12 @@
       background: var(--theme-button-hover);
     }
 
+    /*
+      ==================================================
+      七、首页首屏
+      ==================================================
+    */
+
     .hero {
       position: relative;
 
@@ -679,6 +912,9 @@
       overflow: hidden;
     }
 
+    /*
+      首屏背景网格。
+    */
     .hero::before {
       content: "";
 
@@ -708,6 +944,9 @@
       pointer-events: none;
     }
 
+    /*
+      首屏漂浮装饰光球。
+    */
     .hero-orb {
       position: absolute;
 
@@ -857,6 +1096,9 @@
         0 0 38px rgba(101, 230, 164, 0.18);
     }
 
+    /*
+      主标题强调文字下方装饰线。
+    */
     .hero-title span::after {
       content: "";
 
@@ -900,6 +1142,9 @@
       margin-top: 36px;
     }
 
+    /*
+      通用按钮。
+    */
     .button {
       position: relative;
 
@@ -928,6 +1173,9 @@
         background-color 0.28s ease;
     }
 
+    /*
+      按钮光泽。
+    */
     .button::after {
       content: "";
 
@@ -1005,6 +1253,12 @@
     .hero-server-address strong {
       color: var(--accent);
     }
+
+    /*
+      ==================================================
+      八、首屏服务器展示卡片
+      ==================================================
+    */
 
     .hero-visual {
       position: relative;
@@ -1119,6 +1373,9 @@
       color: var(--text-muted);
     }
 
+    /*
+      Minecraft 风格场景。
+    */
     .block-scene {
       position: relative;
 
@@ -1146,6 +1403,9 @@
         inset 0 0 40px rgba(0, 0, 0, 0.16);
     }
 
+    /*
+      场景星星。
+    */
     .scene-star {
       position: absolute;
 
@@ -1263,7 +1523,7 @@
 
       box-shadow:
         32px -28px 0 #1d5239,
-        64px -56px 0 #敬请期待,
+        64px -56px 0 #287550,
         96px -28px 0 #1d5239,
         128px 0 0 #173d2c;
     }
@@ -1384,6 +1644,12 @@
       font-size: 17px;
     }
 
+    /*
+      ==================================================
+      九、通用区块样式
+      ==================================================
+    */
+
     section {
       padding: 105px 0;
     }
@@ -1421,6 +1687,22 @@
       font-size: 17px;
     }
 
+    /*
+      ==================================================
+      十、可重复触发的滚动动画
+      ==================================================
+
+      原来的动画只在第一次进入屏幕时执行。
+
+      现在 JavaScript 会这样处理：
+
+      1. 元素进入屏幕时添加 reveal-active
+      2. 元素离开屏幕时删除 reveal-active
+      3. 再次向上或向下滚动回来时重新添加
+
+      因此上下滚动都会再次播放动画。
+    */
+
     .reveal {
       opacity: 0;
 
@@ -1436,6 +1718,9 @@
         filter 0.7s ease;
     }
 
+    /*
+      元素进入屏幕后使用这个状态。
+    */
     .reveal.reveal-active {
       opacity: 1;
 
@@ -1446,6 +1731,9 @@
       filter: blur(0);
     }
 
+    /*
+      从左边进入的动画。
+    */
     .reveal-left {
       opacity: 0;
 
@@ -1467,6 +1755,9 @@
       filter: blur(0);
     }
 
+    /*
+      从右边进入的动画。
+    */
     .reveal-right {
       opacity: 0;
 
@@ -1488,12 +1779,22 @@
       filter: blur(0);
     }
 
+    /*
+      JavaScript 会设置 --delay，
+      实现多个卡片依次出现。
+    */
     .reveal,
     .reveal-left,
     .reveal-right {
       transition-delay:
         var(--delay, 0ms);
     }
+
+    /*
+      ==================================================
+      十一、服务器数据
+      ==================================================
+    */
 
     .stats {
       padding-top: 0;
@@ -1529,6 +1830,9 @@
         box-shadow 0.35s ease;
     }
 
+    /*
+      卡片右上角光晕。
+    */
     .stat-card::after {
       content: "";
 
@@ -1584,6 +1888,12 @@
       font-size: 14px;
     }
 
+    /*
+      ==================================================
+      十二、服务器特色
+      ==================================================
+    */
+
     .feature-grid {
       display: grid;
       grid-template-columns:
@@ -1619,6 +1929,9 @@
         box-shadow 0.35s ease;
     }
 
+    /*
+      特色卡片背景光晕。
+    */
     .feature-card::before {
       content: "";
 
@@ -1641,6 +1954,9 @@
         opacity 0.45s ease;
     }
 
+    /*
+      卡片顶部流光。
+    */
     .feature-card::after {
       content: "";
 
@@ -1735,6 +2051,12 @@
 
       color: var(--text-muted);
     }
+
+    /*
+      ==================================================
+      十三、公告区域
+      ==================================================
+    */
 
     .news-grid {
       display: grid;
@@ -1835,6 +2157,12 @@
       font-size: 19px;
     }
 
+    /*
+      ==================================================
+      十四、加入服务器区域
+      ==================================================
+    */
+
     .join-box {
       position: relative;
 
@@ -1866,6 +2194,9 @@
         );
     }
 
+    /*
+      加入区域移动光线。
+    */
     .join-box::before {
       content: "";
 
@@ -2084,6 +2415,12 @@
       color: var(--text-muted);
     }
 
+    /*
+      ==================================================
+      十五、联系我们
+      ==================================================
+    */
+
     .contact-grid {
       display: grid;
       grid-template-columns:
@@ -2171,6 +2508,12 @@
       transform: scaleX(1);
     }
 
+    /*
+      ==================================================
+      十六、页脚
+      ==================================================
+    */
+
     footer {
       padding: 45px 0;
 
@@ -2207,8 +2550,16 @@
       transform: translateY(-2px);
     }
 
+    /*
+      ==================================================
+      十七、平板适配
+      ==================================================
+    */
+
     @media (max-width: 950px) {
-      
+      /*
+        手机和平板导航菜单。
+      */
       .nav-links {
         position: fixed;
 
@@ -2234,6 +2585,9 @@
 
         box-shadow: var(--shadow);
 
+        /*
+          默认隐藏菜单。
+        */
         opacity: 0;
         visibility: hidden;
 
@@ -2249,6 +2603,9 @@
           transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
       }
 
+      /*
+        菜单打开状态。
+      */
       .nav-links.open {
         opacity: 1;
         visibility: visible;
@@ -2310,6 +2667,12 @@
         padding: 48px 30px;
       }
     }
+
+    /*
+      ==================================================
+      十八、手机适配
+      ==================================================
+    */
 
     @media (max-width: 600px) {
       .container {
@@ -2406,6 +2769,15 @@
       }
     }
 
+    /*
+      ==================================================
+      十九、减少动态效果
+      ==================================================
+
+      如果用户的操作系统设置了“减少动态效果”，
+      网页会自动减少动画，避免不适。
+    */
+
     @media (prefers-reduced-motion: reduce) {
       html {
         scroll-behavior: auto;
@@ -2429,8 +2801,18 @@
         filter: none;
       }
     }
+  
 
-    
+    /*
+      ==================================================
+      二十、首屏三行标题与 Once Again 粉白字标
+      ==================================================
+
+      这部分是针对首屏框选区域的排版修正：
+      1. 标题固定为三行。
+      2. 每一行不允许内部自动换行。
+      3. 第三行使用粉色与白色组成的 OA 风格字标。
+    */
 
     .hero-title {
       max-width: 720px;
@@ -2453,6 +2835,7 @@
       letter-spacing: 0;
     }
 
+    /* 取消旧版本给 hero-title span 添加的绿色下划线 */
     .hero-title > span::after {
       display: none;
     }
@@ -2475,6 +2858,7 @@
       isolation: isolate;
     }
 
+    /* 粉色斜切装饰，增强战队字标感 */
     .oa-wordmark::before {
       content: "";
       position: absolute;
@@ -2527,12 +2911,22 @@
       text-shadow: 0 1px 0 rgba(126, 0, 47, 0.18);
     }
 
+    /* 白色主题与黑色主题下都保持粉白识别色 */
     html:not([data-theme="light"]) .oa-wordmark {
       background: rgba(255, 255, 255, 0.97);
       box-shadow:
         0 0.18em 0.7em rgba(255, 79, 154, 0.24),
         0 0 0 1px rgba(255, 255, 255, 0.8);
     }
+
+    /*
+      ==================================================
+      二十一、加入服务器区域重新排版
+      ==================================================
+
+      电脑端：左文案、右操作面板。
+      手机端：自动变成上下排列。
+    */
 
     .join-box-redesign {
       display: grid;
@@ -2732,8 +3126,18 @@
       }
     }
 
-    
+  
 
+    /*
+      ==================================================
+      二十二、最终视觉修正
+      ==================================================
+      1. 主题切换改为实时切换，不再出现覆盖页面的大圆形。
+      2. Once Again 字标统一为粉色与白色。
+      3. 加入服务器标题始终保持单行。
+    */
+
+    /* 彻底关闭旧版主题扩散遮罩，避免切换主题时遮挡内容 */
     .theme-transition-circle,
     .theme-transition-circle.active {
       display: none !important;
@@ -2742,6 +3146,12 @@
       pointer-events: none !important;
     }
 
+    /*
+      粉白 OA 字标：
+      - 左侧斜杠使用粉色
+      - ONCE 使用白字粉底
+      - AGAIN 使用粉字白底
+    */
     .hero-title .oa-wordmark {
       gap: 0.07em;
       padding: 0.075em 0.13em 0.085em 0.2em;
@@ -2790,6 +3200,7 @@
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.9);
     }
 
+    /* 加入服务器区域的品牌小标也统一为粉白 */
     .join-brand-oa {
       color: #ffffff !important;
       background: linear-gradient(135deg, #ff4f9a, #ff73ad);
@@ -2801,6 +3212,7 @@
       color: #ff4f9a;
     }
 
+    /* 标题固定一行，并稍微压缩字距以适配常见电脑宽度 */
     .join-title {
       max-width: none;
       width: max-content;
@@ -2810,6 +3222,7 @@
       letter-spacing: -0.055em;
     }
 
+    /* 周围细节：减少空旷感，让左侧品牌与说明更紧凑 */
     .join-copy {
       align-self: center;
     }
@@ -2834,8 +3247,13 @@
       }
     }
 
-    
+  
 
+    /* ==================================================
+       二十三、正式官网动效与成长流程
+       ================================================== */
+
+    /* 首屏品牌只在页面加载时执行一次，形成明确的开场节奏 */
     body.page-ready .server-status {
       animation: heroIntro 0.65s 0.05s both cubic-bezier(.2,.8,.2,1);
     }
@@ -2873,6 +3291,7 @@
       100% { opacity: 1; transform: translateX(0) skewX(-7deg) scale(1); }
     }
 
+    /* 当前栏目高亮，增强正式站点的导航反馈 */
     .nav-links a.section-active:not(.nav-button) {
       color: #ff5aa2;
     }
@@ -2882,6 +3301,7 @@
       background: linear-gradient(90deg, #ff4f9a, #ff91c1);
     }
 
+    /* 数字进入视口后递增 */
     .metric-card strong {
       min-height: 1.25em;
       font-variant-numeric: tabular-nums;
@@ -2897,6 +3317,7 @@
       opacity: .8;
     }
 
+    /* 成长流程 */
     .journey-section {
       position: relative;
       overflow: hidden;
@@ -3000,6 +3421,7 @@
       line-height: 1.75;
     }
 
+    /* 卡片按鼠标位置产生极轻微的立体反馈，不做夸张旋转 */
     .interactive-card {
       transform-style: preserve-3d;
       will-change: transform;
@@ -3015,7 +3437,15 @@
       .journey-step { min-height: 0; }
     }
 
-    
+  
+
+    /*
+      ==================================================
+      自定义左上角 Logo
+      ==================================================
+      使用用户提供的 Once Again 图片，并嵌入到 HTML 内部。
+      因此移动 HTML 文件时不需要额外携带图片文件。
+    */
     .logo-image-wrap {
       padding: 0;
       background: #ffffff;
@@ -3046,6 +3476,7 @@
       transform: scale(1.12);
     }
 
+    /* 关闭旧方块 Logo 的扫光伪元素，避免遮住图片主体 */
     .logo-image-wrap::after {
       display: none;
     }
@@ -3057,7 +3488,13 @@
         0 0 0 1px rgba(255, 255, 255, 0.9) inset;
     }
 
-    
+
+    /*
+      ==================================================
+      Logo 点击放大预览
+      ==================================================
+      点击左上角图片后打开全屏预览；点击背景、关闭按钮或按 Esc 关闭。
+    */
     .logo-image-wrap {
       cursor: zoom-in;
     }
@@ -3065,7 +3502,7 @@
     .logo-lightbox {
       position: fixed;
       inset: 0;
-      z-index: 2147483647;
+      z-index: 10000;
       display: grid;
       place-items: center;
       padding: 28px;
@@ -3148,7 +3585,27 @@
       .logo-lightbox-close { top: -12px; right: -8px; width: 40px; height: 40px; }
     }
 
-    
+  
+
+    /*
+      ==================================================
+      二十四、Once Again 字标闪电出场动画
+      ==================================================
+
+      这一组样式只控制首页第三行的 ONCE AGAIN 字标。
+
+      动画触发方式：
+      1. 页面第一次打开时自动播放一次。
+      2. 鼠标移入字标时重新播放。
+      3. 鼠标点击字标时重新播放。
+      4. 键盘选中字标后，按 Enter 或空格也会重新播放。
+
+      修改建议：
+      --oa-electric-pink：主闪电颜色。
+      --oa-electric-white：闪电中心的白色高光。
+      --oa-electric-violet：边缘紫色光晕。
+      --oa-electric-duration：整套动画持续时间。
+    */
 
     :root {
       --oa-electric-pink: #ff3f96;
@@ -3157,6 +3614,10 @@
       --oa-electric-duration: 920ms;
     }
 
+    /*
+      让字标可以接收鼠标与键盘交互。
+      touch-action: manipulation 可以减少移动端点击延迟。
+    */
     .oa-wordmark {
       cursor: pointer;
       touch-action: manipulation;
@@ -3166,6 +3627,10 @@
       will-change: transform, filter, box-shadow;
     }
 
+    /*
+      键盘使用 Tab 选中字标时显示粉色焦点框，
+      方便只用键盘的用户确认当前操作位置。
+    */
     .oa-wordmark:focus-visible {
       box-shadow:
         0 0 0 4px rgba(255, 255, 255, 0.95),
@@ -3173,6 +3638,10 @@
         0 0 38px rgba(255, 63, 150, 0.5);
     }
 
+    /*
+      JavaScript 会自动创建这个闪电图层。
+      它覆盖整个字标，但 pointer-events:none 不会阻挡点击。
+    */
     .oa-electric-layer {
       position: absolute;
       inset: -18%;
@@ -3182,6 +3651,10 @@
       opacity: 0;
     }
 
+    /*
+      每一道闪电都是一个细长矩形，
+      再通过 clip-path 裁剪成折线形状。
+    */
     .oa-electric-bolt {
       position: absolute;
       display: block;
@@ -3217,6 +3690,10 @@
       transform-origin: center;
     }
 
+    /*
+      六道闪电使用不同位置、角度和缩放，
+      避免动画看起来像同一条光线重复出现。
+    */
     .oa-electric-bolt:nth-child(1) {
       top: 8%;
       left: 3%;
@@ -3253,6 +3730,10 @@
       transform: rotate(-10deg) scaleX(0.56);
     }
 
+    /*
+      火花粒子由 JavaScript 动态创建。
+      每个粒子的方向、距离和延迟都会稍有不同。
+    */
     .oa-electric-spark {
       position: absolute;
       z-index: 10;
@@ -3268,6 +3749,10 @@
       transform: translate(-50%, -50%) scale(0.3);
     }
 
+    /*
+      横向扫描高光。
+      它会从字标左侧快速穿过右侧，模拟能量启动。
+    */
     .oa-electric-scan {
       position: absolute;
       top: -35%;
@@ -3288,6 +3773,10 @@
       pointer-events: none;
     }
 
+    /*
+      oa-electric-active 是整套动画的开关类。
+      JavaScript 每次重播时会先移除，再重新添加这个类。
+    */
     .oa-wordmark.oa-electric-active {
       animation:
         oaElectricLogo var(--oa-electric-duration)
@@ -3302,6 +3791,9 @@
       animation: oaElectricScan 620ms 110ms cubic-bezier(0.18, 0.8, 0.2, 1) both;
     }
 
+    /*
+      每道闪电使用不同延迟，制造不规则的连锁放电感。
+    */
     .oa-wordmark.oa-electric-active .oa-electric-bolt:nth-child(1) {
       animation: oaElectricBolt 510ms 30ms steps(2, end) both;
     }
@@ -3333,6 +3825,12 @@
         cubic-bezier(0.18, 0.75, 0.25, 1) both;
     }
 
+    /*
+      字标主体动画：
+      - 前半段快速闪烁与轻微错位。
+      - 中间出现强烈粉白光。
+      - 最后平稳回到原位。
+    */
     @keyframes oaElectricLogo {
       0% {
         opacity: 0.25;
@@ -3392,6 +3890,7 @@
       }
     }
 
+    /* 闪电图层在动画结束后自动淡出。 */
     @keyframes oaElectricLayer {
       0% { opacity: 0; }
       8% { opacity: 1; }
@@ -3399,6 +3898,7 @@
       100% { opacity: 0; }
     }
 
+    /* 单道闪电采用跳帧式闪烁，更接近真实放电。 */
     @keyframes oaElectricBolt {
       0%, 12% { opacity: 0; filter: blur(3px); }
       18% { opacity: 1; filter: blur(0); }
@@ -3409,6 +3909,7 @@
       76%, 100% { opacity: 0; filter: blur(2px); }
     }
 
+    /* 高光从左向右扫过。 */
     @keyframes oaElectricScan {
       0% {
         left: -38%;
@@ -3425,6 +3926,10 @@
       }
     }
 
+    /*
+      火花从字标边缘向外飞散。
+      --spark-x 与 --spark-y 由 JavaScript 为每个粒子单独设置。
+    */
     @keyframes oaElectricSpark {
       0% {
         opacity: 0;
@@ -3444,6 +3949,10 @@
       }
     }
 
+    /*
+      鼠标悬停但动画尚未触发时，
+      字标会有非常轻微的呼吸光，提示它可以交互。
+    */
     .oa-wordmark:hover:not(.oa-electric-active) {
       box-shadow:
         0 0.18em 0.55em rgba(255, 63, 150, 0.3),
@@ -3452,6 +3961,10 @@
       filter: brightness(1.035);
     }
 
+    /*
+      对开启“减少动态效果”的用户禁用闪烁与快速位移，
+      只保留简单高亮，避免造成视觉不适。
+    */
     @media (prefers-reduced-motion: reduce) {
       .oa-wordmark.oa-electric-active,
       .oa-wordmark.oa-electric-active .oa-electric-layer,
@@ -3469,1039 +3982,632 @@
 
   
 
-    /* 最高层级 Logo 预览：避免被导航、卡片及变换层覆盖 */
-    .logo-lightbox {
-      z-index: 2147483647 !important;
-      isolation: isolate;
-      transform: translateZ(0);
+    /* ==================================================
+       一致性修复：贴边浮窗 + 右下角场景入口
+       仅新增这两个浮层，不改动页面主体结构。
+       ================================================== */
+
+    :root {
+      --oa-floating-bg: rgba(7, 20, 15, 0.86);
+      --oa-floating-border: rgba(112, 239, 173, 0.24);
+      --oa-floating-border-strong: rgba(112, 239, 173, 0.58);
+      --oa-floating-shadow: 0 16px 42px rgba(0, 0, 0, 0.30);
+      --oa-floating-soft: rgba(255, 255, 255, 0.06);
     }
 
-    .logo-lightbox.open {
+    html[data-theme="light"] {
+      --oa-floating-bg: rgba(255, 255, 255, 0.90);
+      --oa-floating-border: rgba(30, 164, 100, 0.20);
+      --oa-floating-border-strong: rgba(30, 164, 100, 0.48);
+      --oa-floating-shadow: 0 16px 42px rgba(33, 83, 52, 0.16);
+      --oa-floating-soft: rgba(20, 90, 48, 0.055);
+    }
+
+    /* ---------- 贴边浮窗 ---------- */
+    .oa-edge-dock {
+      --oa-dock-peek: 22px;
+      position: fixed;
+      top: 180px;
+      right: 0;
+      width: 184px;
+      z-index: 3600;
       display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      border: 1px solid var(--oa-floating-border);
+      border-radius: 18px 0 0 18px;
+      background: var(--oa-floating-bg);
+      box-shadow: var(--oa-floating-shadow);
+      backdrop-filter: blur(18px) saturate(135%);
+      -webkit-backdrop-filter: blur(18px) saturate(135%);
+      transform: translateX(calc(100% - var(--oa-dock-peek)));
+      transition:
+        transform .46s cubic-bezier(.2,.8,.2,1),
+        background .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+      will-change: transform;
+      isolation: isolate;
+      user-select: none;
+      touch-action: none;
+    
+      height: 68px;}
+
+    .oa-edge-dock[data-side="left"] {
+      left: 0;
+      right: auto;
+      grid-template-columns: minmax(0, 1fr) 22px;
+      border-radius: 0 18px 18px 0;
+      transform: translateX(calc(-100% + var(--oa-dock-peek)));
     }
 
-    .logo-lightbox-dialog,
-    .logo-lightbox-close {
+    .oa-edge-dock:hover,
+    .oa-edge-dock:focus-within,
+    .oa-edge-dock.oa-open,
+    .oa-edge-dock.oa-dragging {
+      transform: translateX(0);
+      border-color: var(--oa-floating-border-strong);
+    }
+
+    .oa-edge-grip {
+      min-height: 68px;
+      display: grid;
+      place-items: center;
+      cursor: grab;
       position: relative;
       z-index: 2;
+      color: var(--primary);
+      background: linear-gradient(180deg, transparent, var(--oa-floating-soft), transparent);
     }
 
-    body.lightbox-open > *:not(.logo-lightbox) {
-      pointer-events: none;
+    .oa-edge-dock[data-side="left"] .oa-edge-grip {
+      grid-column: 2;
     }
 
-    body.lightbox-open .logo-lightbox,
-    body.lightbox-open .logo-lightbox * {
+    .oa-edge-grip::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 -9px currentColor, 0 9px currentColor;
+      opacity: .82;
+    }
+
+    .oa-edge-dock.oa-dragging .oa-edge-grip {
+      cursor: grabbing;
+    }
+
+    .oa-edge-content {
+      min-width: 0;
+      padding: 0 15px 0 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      gap: 10px;
       pointer-events: auto;
     }
 
-    /* 可关闭的场景入口小窗口 */
-    .scene-teaser {
+    .oa-edge-dock[data-side="left"] .oa-edge-content {
+      grid-column: 1;
+      grid-row: 1;
+      padding: 0 12px 0 15px;
+    }
+
+    .oa-float-control {
+      min-height: 46px;
+      border: 1px solid var(--oa-floating-border);
+      border-radius: 14px;
+      background: var(--oa-floating-soft);
+      color: var(--text);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.018);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 12px;
+      font: 800 14px/1 "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition:
+        transform .28s cubic-bezier(.2,.8,.2,1),
+        background .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease,
+        color .3s ease;
+    }
+
+    .oa-float-control:hover {
+      transform: translateY(-2px);
+      border-color: var(--oa-floating-border-strong);
+      background: var(--theme-button-hover);
+      box-shadow: 0 10px 24px rgba(30, 164, 100, .13);
+    }
+
+    .oa-float-control:active {
+      transform: scale(.96);
+    }
+
+    .oa-team-button::before {
+      content: "✦";
+      color: var(--primary);
+      font-size: 16px;
+    }
+
+    /* 主题按钮按 jieshao / scene 的圆形玻璃按钮逻辑统一。 */
+    .oa-edge-theme.theme-toggle {
+      width: 48px;
+      height: 48px;
+      min-height: 48px;
+      align-self: center;
+      flex: 0 0 48px;
+      padding: 0;
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+
+    .oa-theme-glyph {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+      line-height: 1;
+      transition:
+        opacity .32s ease,
+        transform .44s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .oa-theme-sun {
+      color: #ffd15a;
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      text-shadow: 0 0 14px rgba(255, 209, 90, .34);
+    }
+
+    .oa-theme-moon {
+      color: var(--text);
+      opacity: 0;
+      transform: scale(.56) rotate(-90deg);
+    }
+
+    html[data-theme="light"] .oa-theme-sun {
+      opacity: 0;
+      transform: scale(.56) rotate(90deg);
+    }
+
+    html[data-theme="light"] .oa-theme-moon {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    /* ---------- 右下角：助力服务器复活 ---------- */
+    @property --oa-teaser-angle {
+      syntax: "<angle>";
+      inherits: false;
+      initial-value: 0deg;
+    }
+
+    .oa-scene-teaser {
+      --oa-teaser-angle: 0deg;
       position: fixed;
       right: 22px;
       bottom: 22px;
-      z-index: 12000;
-      width: min(330px, calc(100vw - 32px));
-      overflow: hidden;
-      border: 1px solid rgba(255, 91, 162, 0.42);
-      border-radius: 20px;
-      background: linear-gradient(145deg, rgba(18, 35, 29, 0.96), rgba(8, 17, 14, 0.98));
-      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.38), 0 0 34px rgba(255, 79, 154, 0.12);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      opacity: 0;
-      transform: translateY(24px) scale(0.96);
-      animation: sceneTeaserIn 0.7s 1.1s cubic-bezier(.2,.8,.2,1) forwards;
-      transition: transform .3s ease, box-shadow .3s ease, opacity .25s ease;
+      z-index: 3400;
+      width: min(352px, calc(100vw - 28px));
+      padding: 2px;
+      border-radius: 22px;
+      background:
+        conic-gradient(
+          from var(--oa-teaser-angle),
+          #ff62ad,
+          #a776ff,
+          #5e8cff,
+          #46e4ff,
+          #62f2bf,
+          #ffe46b,
+          #ff8b78,
+          #ff62ad
+        );
+      box-shadow:
+        0 0 18px rgba(92, 168, 255, .28),
+        0 0 32px rgba(255, 91, 174, .18),
+        0 18px 52px rgba(0, 0, 0, .30);
+      animation:
+        oaTeaserOrbit 10s linear infinite,
+        oaTeaserBreathe 4.8s ease-in-out infinite;
+      cursor: pointer;
+      isolation: isolate;
+      transform: translateZ(0);
+      transition: transform .34s cubic-bezier(.2,.8,.2,1);
     }
 
-    html[data-theme="light"] .scene-teaser {
-      background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(244,248,245,.98));
-      box-shadow: 0 22px 55px rgba(50, 80, 62, 0.18), 0 0 28px rgba(255,79,154,.1);
+    .oa-scene-teaser:hover {
+      transform: translateY(-5px) scale(1.012);
     }
 
-    .scene-teaser:hover {
-      transform: translateY(-5px) scale(1.01);
-      box-shadow: 0 28px 72px rgba(0,0,0,.45), 0 0 42px rgba(255,79,154,.2);
-    }
-
-    .scene-teaser.is-closing {
-      opacity: 0;
-      transform: translateY(18px) scale(.94);
+    .oa-scene-teaser::before {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      z-index: -1;
+      border-radius: 28px;
+      background:
+        conic-gradient(
+          from var(--oa-teaser-angle),
+          rgba(255, 98, 173, .46),
+          rgba(129, 112, 255, .42),
+          rgba(70, 228, 255, .40),
+          rgba(98, 242, 191, .36),
+          rgba(255, 228, 107, .34),
+          rgba(255, 98, 173, .46)
+        );
+      filter: blur(16px);
+      opacity: .50;
       pointer-events: none;
     }
 
-    .scene-teaser-link {
-      display: block;
-      padding: 22px 54px 22px 22px;
+    .oa-scene-teaser-inner {
+      position: relative;
+      min-height: 132px;
+      padding: 18px 48px 18px 18px;
+      border-radius: 20px;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.055), transparent 48%),
+        var(--oa-floating-bg);
+      backdrop-filter: blur(20px) saturate(135%);
+      -webkit-backdrop-filter: blur(20px) saturate(135%);
+      color: var(--text);
     }
 
-    .scene-teaser-kicker {
-      display: block;
-      color: #ff6eae;
-      font-size: 12px;
+    .oa-scene-teaser-inner::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      right: -78px;
+      bottom: -88px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(112,239,173,.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    .oa-scene-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #ff72b4;
+      font-size: 11px;
       font-weight: 900;
-      letter-spacing: .16em;
+      letter-spacing: .18em;
+      text-transform: uppercase;
     }
 
-    .scene-teaser-title {
+    .oa-scene-kicker-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #65efac;
+      box-shadow: 0 0 12px rgba(101,239,172,.55);
+      animation: oaTeaserDot 2.6s ease-in-out infinite;
+    }
+
+    .oa-scene-title {
       display: block;
       margin-top: 7px;
       color: var(--text);
-      font-size: 25px;
-      font-weight: 900;
+      font-size: 22px;
       line-height: 1.2;
+      font-weight: 950;
+      letter-spacing: -.02em;
     }
 
-    .scene-teaser-copy {
+    .oa-scene-desc {
       display: block;
       margin-top: 8px;
+      max-width: 245px;
       color: var(--text-muted);
       font-size: 13px;
       line-height: 1.65;
     }
 
-    .scene-teaser-action {
+    .oa-scene-enter {
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      margin-top: 14px;
+      margin-top: 11px;
       color: var(--primary);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
+      transition: transform .25s ease;
     }
 
-    .scene-teaser-close {
+    .oa-scene-teaser:hover .oa-scene-enter {
+      transform: translateX(3px);
+    }
+
+    .oa-scene-close {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      z-index: 2;
-      width: 34px;
-      height: 34px;
+      top: 10px;
+      right: 10px;
+      z-index: 8;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 1px solid var(--oa-floating-border);
+      border-radius: 50%;
       display: grid;
       place-items: center;
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: 50%;
-      background: rgba(255,255,255,.08);
+      background: rgba(5, 15, 11, .50);
       color: var(--text);
-      cursor: pointer;
-      transition: transform .25s ease, background .25s ease;
-    }
-
-    .scene-teaser-close:hover {
-      transform: rotate(90deg) scale(1.08);
-      background: rgba(255,79,154,.2);
-    }
-
-    .scene-teaser::after {
-      content: "❤";
-      position: absolute;
-      right: 18px;
-      bottom: -17px;
-      color: rgba(255,79,154,.13);
-      font-size: 88px;
+      font-size: 19px;
       line-height: 1;
-      pointer-events: none;
-    }
-
-    @keyframes sceneTeaserIn {
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    @media (max-width: 600px) {
-      .scene-teaser { right: 12px; bottom: 12px; width: calc(100vw - 24px); }
-      .scene-teaser-link { padding: 18px 50px 18px 18px; }
-      .scene-teaser-title { font-size: 21px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .scene-teaser { opacity: 1; transform: none; animation: none; }
-    }
-
-  
-    /* 修复 Logo 预览关闭按钮位置：保持在预览框右上角 */
-    .logo-lightbox-dialog {
-      position: relative !important;
-    }
-
-    .logo-lightbox-close {
-      position: absolute !important;
-      top: -16px !important;
-      right: -16px !important;
-      left: auto !important;
-      bottom: auto !important;
-      z-index: 3 !important;
-      margin: 0 !important;
-    }
-
-    @media (max-width: 600px) {
-      .logo-lightbox-close {
-        top: -12px !important;
-        right: -8px !important;
-      }
-    }
-
-
-    /* 右下角入口持续闪光与抖动提醒 */
-    .scene-teaser {
-      animation:
-        sceneTeaserIn 0.7s 1.1s cubic-bezier(.2,.8,.2,1) forwards,
-        sceneTeaserShake 0.62s 1.85s ease-in-out infinite,
-        sceneTeaserGlow 1.05s 1.85s ease-in-out infinite alternate !important;
-      will-change: transform, box-shadow, filter;
-    }
-
-    .scene-teaser::before {
-      content: "";
-      position: absolute;
-      top: -65%;
-      left: -42%;
-      z-index: 1;
-      width: 26%;
-      height: 230%;
-      pointer-events: none;
-      opacity: 0;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        rgba(255, 92, 168, 0.72),
-        rgba(255, 255, 255, 0.9),
-        transparent
-      );
-      filter: blur(2px) drop-shadow(0 0 12px rgba(255, 79, 154, 0.9));
-      transform: rotate(18deg);
-      animation: sceneTeaserShine 1.35s 1.85s ease-in-out infinite;
-    }
-
-    .scene-teaser-link,
-    .scene-teaser-close {
-      position: relative;
-      z-index: 3;
-    }
-
-    .scene-teaser:hover {
-      animation-play-state: running !important;
-    }
-
-    @keyframes sceneTeaserShake {
-      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-      15% { transform: translate3d(-3px, 1px, 0) rotate(-0.7deg) scale(1.006); }
-      30% { transform: translate3d(3px, -1px, 0) rotate(0.7deg) scale(1.01); }
-      45% { transform: translate3d(-2px, -1px, 0) rotate(-0.45deg) scale(1.006); }
-      60% { transform: translate3d(2px, 1px, 0) rotate(0.45deg) scale(1.01); }
-      75% { transform: translate3d(-1px, 0, 0) rotate(-0.2deg) scale(1.004); }
-    }
-
-    @keyframes sceneTeaserGlow {
-      0% {
-        border-color: rgba(255, 91, 162, 0.42);
-        box-shadow:
-          0 22px 60px rgba(0, 0, 0, 0.38),
-          0 0 18px rgba(255, 79, 154, 0.22),
-          inset 0 0 0 rgba(255, 255, 255, 0);
-        filter: brightness(1);
-      }
-      100% {
-        border-color: rgba(255, 163, 207, 0.98);
-        box-shadow:
-          0 26px 74px rgba(0, 0, 0, 0.48),
-          0 0 18px rgba(255, 255, 255, 0.72),
-          0 0 48px rgba(255, 79, 154, 0.9),
-          0 0 86px rgba(184, 137, 255, 0.48),
-          inset 0 0 22px rgba(255, 79, 154, 0.12);
-        filter: brightness(1.12) saturate(1.12);
-      }
-    }
-
-    @keyframes sceneTeaserShine {
-      0% { left: -42%; opacity: 0; }
-      10% { opacity: 0.9; }
-      58% { opacity: 0.8; }
-      78%, 100% { left: 126%; opacity: 0; }
-    }
-
-    .scene-teaser.is-closing {
-      animation: none !important;
-    }
-
-    .scene-teaser.is-closing::before {
-      animation: none !important;
-      opacity: 0 !important;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .scene-teaser {
-        animation: sceneTeaserGlow 1.3s ease-in-out infinite alternate !important;
-      }
-      .scene-teaser::before { animation: none !important; }
-    }
-
-
-
-    /* 右下角入口：优化为持续呼吸闪光 + 间歇轻震，避免高频抖动造成突兀 */
-    .scene-teaser {
-      overflow: hidden !important;
-      animation:
-        sceneTeaserIn 0.7s 0.8s cubic-bezier(.2,.8,.2,1) forwards,
-        sceneTeaserPulse 1.8s 1.55s ease-in-out infinite,
-        sceneTeaserNudge 4.8s 1.55s ease-in-out infinite !important;
-      transform-origin: center bottom;
-      will-change: transform, box-shadow, filter;
-    }
-
-    /* 扫光层放在内容之下，不影响关闭按钮 */
-    .scene-teaser::before {
-      content: "";
-      position: absolute;
-      top: -55%;
-      left: -46%;
-      z-index: 0;
-      width: 28%;
-      height: 220%;
-      pointer-events: none;
-      opacity: 0;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,.16),
-        rgba(255,79,154,.68),
-        rgba(255,255,255,.9),
-        transparent
-      );
-      filter: blur(2px) drop-shadow(0 0 12px rgba(255,79,154,.75));
-      transform: rotate(17deg);
-      animation: sceneTeaserSweep 2.6s 1.7s ease-in-out infinite !important;
-    }
-
-    .scene-teaser-link {
-      position: relative !important;
-      z-index: 1 !important;
-    }
-
-    /* 修复关闭按钮错位：固定在弹窗右上角 */
-    .scene-teaser-close {
-      position: absolute !important;
-      top: 10px !important;
-      right: 10px !important;
-      left: auto !important;
-      bottom: auto !important;
-      z-index: 20 !important;
-      margin: 0 !important;
-      transform: none;
-      box-shadow: 0 8px 22px rgba(0,0,0,.25);
-    }
-
-    .scene-teaser-close:hover {
-      transform: rotate(90deg) scale(1.08) !important;
-    }
-
-    @keyframes sceneTeaserPulse {
-      0%, 100% {
-        border-color: rgba(255,79,154,.46);
-        box-shadow:
-          0 22px 60px rgba(0,0,0,.38),
-          0 0 12px rgba(255,79,154,.18),
-          inset 0 0 0 rgba(255,79,154,0);
-        filter: brightness(1) saturate(1);
-      }
-      50% {
-        border-color: rgba(255,173,211,.96);
-        box-shadow:
-          0 25px 70px rgba(0,0,0,.46),
-          0 0 22px rgba(255,255,255,.48),
-          0 0 46px rgba(255,79,154,.72),
-          0 0 78px rgba(184,137,255,.28),
-          inset 0 0 24px rgba(255,79,154,.10);
-        filter: brightness(1.08) saturate(1.08);
-      }
-    }
-
-    /* 每隔数秒提醒一次，而不是不停高频抖动 */
-    @keyframes sceneTeaserNudge {
-      0%, 72%, 100% { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
-      76% { transform: translate3d(-2px,0,0) rotate(-.35deg) scale(1.008); }
-      80% { transform: translate3d(2px,-1px,0) rotate(.35deg) scale(1.012); }
-      84% { transform: translate3d(-1px,1px,0) rotate(-.2deg) scale(1.006); }
-      88% { transform: translate3d(1px,0,0) rotate(.15deg) scale(1.004); }
-      92% { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
-    }
-
-    @keyframes sceneTeaserSweep {
-      0%, 52% { left: -46%; opacity: 0; }
-      58% { opacity: .85; }
-      78% { opacity: .72; }
-      92%, 100% { left: 126%; opacity: 0; }
-    }
-
-    .scene-teaser.is-closing,
-    .scene-teaser.is-closing::before {
-      animation: none !important;
-    }
-
-    @media (max-width: 600px) {
-      .scene-teaser-close {
-        top: 8px !important;
-        right: 8px !important;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .scene-teaser {
-        animation: sceneTeaserPulse 1.8s ease-in-out infinite !important;
-      }
-      .scene-teaser::before { animation: none !important; }
-    }
-
-
-    /* 右下角入口最终版：灵动岛式连续彩色流动边框 */
-    .scene-teaser {
-      --teaser-surface: linear-gradient(145deg, rgba(18,35,29,.96), rgba(8,17,14,.985));
-      overflow: hidden !important;
-      border: 2px solid transparent !important;
-      border-radius: 22px !important;
-      background:
-        var(--teaser-surface) padding-box,
-        linear-gradient(115deg,
-          #ff4f9a 0%,
-          #9b7cff 18%,
-          #4da8ff 36%,
-          #45e6d0 54%,
-          #7df58d 70%,
-          #ffd166 84%,
-          #ff6b9f 100%) border-box !important;
-      background-size: 100% 100%, 320% 100% !important;
-      background-position: 0 0, 0% 50% !important;
-      animation:
-        sceneTeaserIn .72s .75s cubic-bezier(.2,.8,.2,1) forwards,
-        sceneTeaserBorderFlow 5.8s 1.4s linear infinite,
-        sceneTeaserSoftGlow 3.8s 1.4s ease-in-out infinite !important;
-      transform-origin: center bottom;
-      box-shadow:
-        0 22px 60px rgba(0,0,0,.38),
-        0 0 18px rgba(77,168,255,.12),
-        0 0 28px rgba(255,79,154,.10) !important;
-      filter: none !important;
-      will-change: background-position, box-shadow, transform;
-    }
-
-    html[data-theme="light"] .scene-teaser {
-      --teaser-surface: linear-gradient(145deg, rgba(255,255,255,.97), rgba(244,248,245,.985));
-      box-shadow:
-        0 20px 52px rgba(50,80,62,.16),
-        0 0 18px rgba(77,168,255,.10),
-        0 0 26px rgba(255,79,154,.08) !important;
-    }
-
-    /* 删除旧版横向扫光，避免突然闪入闪出 */
-    .scene-teaser::before {
-      content: none !important;
-      display: none !important;
-      animation: none !important;
-    }
-
-    .scene-teaser:hover {
-      transform: translateY(-5px) scale(1.012) !important;
-      box-shadow:
-        0 28px 72px rgba(0,0,0,.44),
-        0 0 24px rgba(69,230,208,.18),
-        0 0 40px rgba(155,124,255,.16),
-        0 0 52px rgba(255,79,154,.14) !important;
-    }
-
-    .scene-teaser-close {
-      position: absolute !important;
-      top: 10px !important;
-      right: 10px !important;
-      left: auto !important;
-      bottom: auto !important;
-      z-index: 30 !important;
-      margin: 0 !important;
-    }
-
-    @keyframes sceneTeaserBorderFlow {
-      0%   { background-position: 0 0, 0% 50%; }
-      100% { background-position: 0 0, 320% 50%; }
-    }
-
-    @keyframes sceneTeaserSoftGlow {
-      0%,100% {
-        box-shadow:
-          0 22px 60px rgba(0,0,0,.38),
-          0 0 15px rgba(77,168,255,.10),
-          0 0 24px rgba(255,79,154,.08);
-      }
-      50% {
-        box-shadow:
-          0 24px 66px rgba(0,0,0,.42),
-          0 0 22px rgba(69,230,208,.16),
-          0 0 34px rgba(155,124,255,.13),
-          0 0 42px rgba(255,79,154,.11);
-      }
-    }
-
-    .scene-teaser.is-closing {
-      animation: none !important;
-      opacity: 0 !important;
-      transform: translateY(18px) scale(.94) !important;
-    }
-
-    @media (max-width: 600px) {
-      .scene-teaser-close { top: 8px !important; right: 8px !important; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .scene-teaser {
-        animation: none !important;
-        opacity: 1 !important;
-        transform: none !important;
-        background-position: 0 0, 45% 50% !important;
-      }
-    }
-
-
-    /* 右下角入口最终增强：高亮、连续、可见的灵动岛彩色流光 */
-    @property --teaser-angle {
-      syntax: "<angle>";
-      inherits: false;
-      initial-value: 0deg;
-    }
-
-    .scene-teaser {
-      --teaser-angle: 0deg;
-      isolation: isolate !important;
-      overflow: visible !important;
-      border: 0 !important;
-      border-radius: 24px !important;
-      background: transparent !important;
-      box-shadow:
-        0 24px 64px rgba(0,0,0,.46),
-        0 0 22px rgba(62,170,255,.30),
-        0 0 38px rgba(155,92,255,.24),
-        0 0 54px rgba(255,79,154,.20) !important;
-      animation:
-        sceneTeaserIn .72s .75s cubic-bezier(.2,.8,.2,1) forwards,
-        teaserAngleFlow 3.2s 1.4s linear infinite,
-        teaserAuraBreath 2.8s 1.4s ease-in-out infinite !important;
-      will-change: transform, box-shadow, --teaser-angle;
-    }
-
-    .scene-teaser::before {
-      content: "" !important;
-      display: block !important;
-      position: absolute !important;
-      inset: -5px !important;
-      z-index: -2 !important;
-      border-radius: 29px !important;
-      pointer-events: none !important;
-      opacity: 1 !important;
-      background: conic-gradient(
-        from var(--teaser-angle),
-        #ff3b8d 0deg,
-        #ff7a45 42deg,
-        #ffd84d 82deg,
-        #7cff76 126deg,
-        #38e8d2 172deg,
-        #3ba7ff 220deg,
-        #8c62ff 270deg,
-        #e34dff 316deg,
-        #ff3b8d 360deg
-      ) !important;
-      filter:
-        brightness(1.35)
-        saturate(1.35)
-        drop-shadow(0 0 7px rgba(255,255,255,.52))
-        drop-shadow(0 0 16px rgba(59,167,255,.72))
-        drop-shadow(0 0 28px rgba(227,77,255,.55)) !important;
-      transform: translateZ(0) !important;
-      animation: none !important;
-    }
-
-    .scene-teaser::after {
-      content: "" !important;
-      display: block !important;
-      position: absolute !important;
-      inset: 3px !important;
-      z-index: -1 !important;
-      border-radius: 20px !important;
-      pointer-events: none !important;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(255,255,255,.10), transparent 36%),
-        linear-gradient(145deg, rgba(17,34,28,.985), rgba(7,15,13,.995)) !important;
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.06),
-        inset 0 0 28px rgba(68,226,208,.035) !important;
-    }
-
-    html[data-theme="light"] .scene-teaser::after {
-      background:
-        radial-gradient(circle at 20% 10%, rgba(255,255,255,.78), transparent 42%),
-        linear-gradient(145deg, rgba(255,255,255,.985), rgba(241,247,243,.995)) !important;
-      box-shadow:
-        inset 0 0 0 1px rgba(18,70,43,.08),
-        inset 0 0 28px rgba(59,167,255,.04) !important;
-    }
-
-    .scene-teaser-link {
-      position: relative !important;
-      z-index: 2 !important;
-      border-radius: 20px !important;
-    }
-
-    .scene-teaser:hover {
-      transform: translateY(-5px) scale(1.018) !important;
-      box-shadow:
-        0 30px 78px rgba(0,0,0,.50),
-        0 0 28px rgba(56,232,210,.42),
-        0 0 48px rgba(140,98,255,.36),
-        0 0 68px rgba(255,59,141,.30) !important;
-    }
-
-    .scene-teaser-close {
-      position: absolute !important;
-      top: 10px !important;
-      right: 10px !important;
-      left: auto !important;
-      bottom: auto !important;
-      z-index: 50 !important;
-      margin: 0 !important;
-    }
-
-    @keyframes teaserAngleFlow {
-      to { --teaser-angle: 360deg; }
-    }
-
-    @keyframes teaserAuraBreath {
-      0%,100% {
-        box-shadow:
-          0 24px 64px rgba(0,0,0,.46),
-          0 0 20px rgba(59,167,255,.26),
-          0 0 36px rgba(140,98,255,.21),
-          0 0 50px rgba(255,59,141,.18);
-      }
-      50% {
-        box-shadow:
-          0 28px 72px rgba(0,0,0,.50),
-          0 0 30px rgba(56,232,210,.44),
-          0 0 52px rgba(140,98,255,.34),
-          0 0 76px rgba(255,59,141,.28);
-      }
-    }
-
-    .scene-teaser.is-closing,
-    .scene-teaser.is-closing::before {
-      animation: none !important;
-    }
-
-    @media (max-width: 600px) {
-      .scene-teaser-close { top: 8px !important; right: 8px !important; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .scene-teaser {
-        animation: none !important;
-        opacity: 1 !important;
-        transform: none !important;
-      }
-      .scene-teaser::before {
-        background: linear-gradient(120deg,#ff3b8d,#ffd84d,#38e8d2,#3ba7ff,#8c62ff,#ff3b8d) !important;
-      }
-    }
-
-
-    /* 最终修正：边框严格贴合弹窗，彩色光缓慢环绕并呼吸 */
-    @property --teaser-ring-angle {
-      syntax: "<angle>";
-      inherits: false;
-      initial-value: 0deg;
-    }
-
-    .scene-teaser {
-      --teaser-ring-angle: 0deg;
-      box-sizing: border-box !important;
-      overflow: hidden !important;
-      isolation: isolate !important;
-      border: 3px solid transparent !important;
-      border-radius: 24px !important;
-      background:
-        linear-gradient(145deg, rgba(17,34,28,.985), rgba(7,15,13,.995)) padding-box,
-        conic-gradient(
-          from var(--teaser-ring-angle),
-          #ff4fa3 0deg,
-          #ff8a4c 52deg,
-          #ffe45c 103deg,
-          #63f59b 154deg,
-          #43eadc 205deg,
-          #4aa8ff 257deg,
-          #9a67ff 309deg,
-          #ff4fa3 360deg
-        ) border-box !important;
-      box-shadow:
-        0 22px 58px rgba(0,0,0,.38),
-        0 0 14px rgba(74,168,255,.22),
-        0 0 26px rgba(154,103,255,.18),
-        0 0 40px rgba(255,79,163,.14) !important;
-      animation:
-        sceneTeaserIn .72s .65s cubic-bezier(.2,.8,.2,1) forwards,
-        sceneTeaserRingOrbit 9s 1.35s linear infinite,
-        sceneTeaserRingBreath 4.6s 1.35s ease-in-out infinite !important;
-      will-change: transform, box-shadow, --teaser-ring-angle;
-    }
-
-    html[data-theme="light"] .scene-teaser {
-      background:
-        linear-gradient(145deg, rgba(255,255,255,.985), rgba(241,247,243,.995)) padding-box,
-        conic-gradient(
-          from var(--teaser-ring-angle),
-          #ff4fa3 0deg,
-          #ff8a4c 52deg,
-          #ffe45c 103deg,
-          #63d985 154deg,
-          #35cfc2 205deg,
-          #4a91ff 257deg,
-          #9166ef 309deg,
-          #ff4fa3 360deg
-        ) border-box !important;
-    }
-
-    .scene-teaser::before,
-    .scene-teaser::after {
-      content: none !important;
-      display: none !important;
-      animation: none !important;
-    }
-
-    .scene-teaser-link {
-      position: relative !important;
-      z-index: 1 !important;
-      padding: 22px 58px 22px 22px !important;
-    }
-
-    .scene-teaser-close {
-      position: absolute !important;
-      top: 12px !important;
-      right: 12px !important;
-      left: auto !important;
-      bottom: auto !important;
-      z-index: 20 !important;
-      margin: 0 !important;
-      transform: none;
-    }
-
-    .scene-teaser-close:hover {
-      transform: rotate(90deg) scale(1.06) !important;
-    }
-
-    .scene-teaser:hover {
-      transform: translateY(-4px) scale(1.012) !important;
-    }
-
-    @keyframes sceneTeaserRingOrbit {
-      to { --teaser-ring-angle: 360deg; }
-    }
-
-    @keyframes sceneTeaserRingBreath {
-      0%, 100% {
-        box-shadow:
-          0 22px 58px rgba(0,0,0,.38),
-          0 0 12px rgba(74,168,255,.18),
-          0 0 22px rgba(154,103,255,.14),
-          0 0 34px rgba(255,79,163,.11);
-        filter: brightness(.94) saturate(.96);
-      }
-      50% {
-        box-shadow:
-          0 25px 66px rgba(0,0,0,.43),
-          0 0 22px rgba(67,234,220,.34),
-          0 0 38px rgba(154,103,255,.28),
-          0 0 58px rgba(255,79,163,.22);
-        filter: brightness(1.08) saturate(1.12);
-      }
-    }
-
-    .scene-teaser.is-closing {
-      animation: none !important;
-      opacity: 0 !important;
-      transform: translateY(18px) scale(.94) !important;
-    }
-
-    @media (max-width: 600px) {
-      .scene-teaser {
-        right: 12px !important;
-        bottom: 12px !important;
-        width: calc(100vw - 24px) !important;
-      }
-      .scene-teaser-close {
-        top: 10px !important;
-        right: 10px !important;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .scene-teaser {
-        animation: none !important;
-        opacity: 1 !important;
-        transform: none !important;
-        filter: none !important;
-      }
-    }
-
-
-    /* 右下角场景入口：互动吸引版 */
-    .scene-teaser {
-      --teaser-tilt-x: 0deg;
-      --teaser-tilt-y: 0deg;
-      transform-style: preserve-3d;
-      transform: perspective(900px) rotateX(var(--teaser-tilt-x)) rotateY(var(--teaser-tilt-y));
-      transition: transform .34s cubic-bezier(.2,.85,.2,1), box-shadow .42s ease, filter .42s ease !important;
       cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform .22s ease, background .25s ease, border-color .25s ease;
     }
 
-    .scene-teaser-link {
-      overflow: hidden !important;
-      transform-style: preserve-3d;
+    html[data-theme="light"] .oa-scene-close {
+      background: rgba(255,255,255,.74);
     }
 
-    .scene-teaser-link::before {
-      content: "";
-      position: absolute;
-      inset: -65% -25%;
-      z-index: -1;
+    .oa-scene-close:hover {
+      transform: rotate(8deg) scale(1.08);
+      border-color: var(--oa-floating-border-strong);
+      background: var(--theme-button-hover);
+    }
+
+    .oa-scene-teaser.oa-closing {
+      animation: none;
+      opacity: 0;
+      transform: translateY(14px) scale(.96);
+      transition: opacity .24s ease, transform .28s ease;
       pointer-events: none;
-      background:
-        radial-gradient(circle at 30% 40%, rgba(255,79,163,.22), transparent 23%),
-        radial-gradient(circle at 70% 62%, rgba(67,234,220,.19), transparent 24%),
-        radial-gradient(circle at 52% 22%, rgba(154,103,255,.18), transparent 20%);
-      filter: blur(18px);
-      animation: teaserInnerAurora 7.5s ease-in-out infinite alternate;
     }
 
-    .scene-teaser-link::after {
-      content: "";
-      position: absolute;
-      top: -55%;
-      left: -35%;
-      width: 28%;
-      height: 210%;
-      z-index: 0;
-      pointer-events: none;
-      opacity: .42;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.72), transparent);
-      filter: blur(3px);
-      transform: rotate(16deg);
-      animation: teaserSoftSweep 6.8s ease-in-out infinite;
+    @keyframes oaTeaserOrbit {
+      to { --oa-teaser-angle: 360deg; }
     }
 
-    .scene-teaser-kicker,
-    .scene-teaser-title,
-    .scene-teaser-copy,
-    .scene-teaser-action {
-      position: relative;
-      z-index: 2;
-      transform: translateZ(18px);
-    }
-
-    .scene-teaser-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      width: max-content;
-    }
-
-    .scene-teaser-kicker::before {
-      content: "";
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #ff5aa7;
-      box-shadow: 0 0 12px #ff5aa7, 0 0 22px rgba(255,90,167,.55);
-      animation: teaserLiveDot 1.7s ease-in-out infinite;
-    }
-
-    .scene-teaser-title {
-      background: linear-gradient(100deg, var(--text) 0 36%, #ff74b5 47%, #7fe8ff 56%, var(--text) 68% 100%);
-      background-size: 240% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent !important;
-      animation: teaserTitleGlow 5.8s ease-in-out infinite;
-    }
-
-    .scene-teaser-copy {
-      transition: transform .35s ease, color .35s ease;
-    }
-
-    .scene-teaser-action {
-      display: inline-flex !important;
-      align-items: center;
-      gap: 7px;
-      width: max-content;
-      padding: 6px 10px 6px 0;
-      border-radius: 999px;
-      transition: gap .3s ease, transform .3s ease, color .3s ease;
-    }
-
-    .scene-teaser-action::after {
-      content: "✦";
-      font-size: 12px;
-      opacity: .72;
-      animation: teaserActionSpark 1.8s ease-in-out infinite;
-    }
-
-    .scene-teaser-orbit {
-      position: absolute;
-      z-index: 1;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      pointer-events: none;
-      filter: blur(.2px);
-      box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
-      animation: teaserParticleFloat var(--orbit-duration, 5s) ease-in-out var(--orbit-delay, 0s) infinite;
-    }
-
-    .scene-teaser-orbit.o1 { left: 10%; top: 24%; color: #ff5aa7; --orbit-duration: 4.6s; }
-    .scene-teaser-orbit.o2 { right: 18%; top: 18%; color: #76e7ff; --orbit-duration: 5.4s; --orbit-delay: -.8s; }
-    .scene-teaser-orbit.o3 { right: 12%; bottom: 20%; color: #ffe66d; --orbit-duration: 4.9s; --orbit-delay: -1.7s; }
-
-    .scene-teaser:hover {
-      transform: perspective(900px) rotateX(var(--teaser-tilt-x)) rotateY(var(--teaser-tilt-y)) translateY(-7px) scale(1.025) !important;
-      filter: saturate(1.08) brightness(1.035);
-    }
-
-    .scene-teaser:hover .scene-teaser-copy {
-      transform: translateX(3px) translateZ(18px);
-    }
-
-    .scene-teaser:hover .scene-teaser-action {
-      gap: 12px;
-      transform: translateX(4px) translateZ(20px);
-      color: #52e0c4;
-    }
-
-    .scene-teaser:active {
-      transform: perspective(900px) scale(.985) !important;
-      transition-duration: .12s !important;
-    }
-
-    .scene-teaser-click-ripple {
-      position: absolute;
-      z-index: 30;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      pointer-events: none;
-      border: 1px solid rgba(255,255,255,.8);
-      box-shadow: 0 0 18px rgba(97,224,255,.7);
-      transform: translate(-50%,-50%) scale(.2);
-      animation: teaserClickRipple .62s ease-out forwards;
-    }
-
-    @keyframes teaserInnerAurora {
-      0% { transform: translate3d(-3%,-2%,0) rotate(0deg) scale(1); opacity: .62; }
-      50% { transform: translate3d(4%,3%,0) rotate(7deg) scale(1.08); opacity: .88; }
-      100% { transform: translate3d(-1%,5%,0) rotate(-5deg) scale(1.03); opacity: .68; }
-    }
-
-    @keyframes teaserSoftSweep {
-      0%, 15% { left: -42%; opacity: 0; }
-      30% { opacity: .38; }
-      55% { left: 118%; opacity: .26; }
-      70%, 100% { left: 118%; opacity: 0; }
-    }
-
-    @keyframes teaserLiveDot {
-      0%,100% { transform: scale(.82); opacity: .58; }
-      50% { transform: scale(1.18); opacity: 1; }
-    }
-
-    @keyframes teaserTitleGlow {
-      0%, 18% { background-position: 100% 0; text-shadow: none; }
-      45% { background-position: 0 0; text-shadow: 0 0 18px rgba(126,232,255,.16); }
-      72%,100% { background-position: -90% 0; text-shadow: none; }
-    }
-
-    @keyframes teaserActionSpark {
-      0%,100% { transform: scale(.72) rotate(0deg); opacity: .4; }
-      50% { transform: scale(1.15) rotate(90deg); opacity: 1; }
-    }
-
-    @keyframes teaserParticleFloat {
-      0%,100% { transform: translate3d(0,0,0) scale(.7); opacity: .28; }
-      45% { transform: translate3d(8px,-10px,0) scale(1.1); opacity: .95; }
-      70% { transform: translate3d(-4px,-5px,0) scale(.85); opacity: .55; }
-    }
-
-    @keyframes teaserClickRipple {
-      to { transform: translate(-50%,-50%) scale(8); opacity: 0; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .scene-teaser-link::before,
-      .scene-teaser-link::after,
-      .scene-teaser-kicker::before,
-      .scene-teaser-title,
-      .scene-teaser-action::after,
-      .scene-teaser-orbit {
-        animation: none !important;
+    @keyframes oaTeaserBreathe {
+      0%, 100% {
+        box-shadow:
+          0 0 13px rgba(92,168,255,.18),
+          0 0 24px rgba(255,91,174,.12),
+          0 18px 52px rgba(0,0,0,.28);
       }
-      .scene-teaser { transform: none !important; }
+      50% {
+        box-shadow:
+          0 0 23px rgba(92,168,255,.36),
+          0 0 42px rgba(255,91,174,.25),
+          0 20px 58px rgba(0,0,0,.34);
+      }
     }
 
-
-    /* 去除右下角弹窗标题字体流光，保留静态清晰文字 */
-    .scene-teaser-title {
-      background: none !important;
-      background-image: none !important;
-      background-size: auto !important;
-      background-position: initial !important;
-      -webkit-background-clip: border-box !important;
-      background-clip: border-box !important;
-      color: var(--text) !important;
-      animation: none !important;
-      text-shadow: none !important;
-      filter: none !important;
-      will-change: auto !important;
+    @keyframes oaTeaserDot {
+      0%, 100% { opacity: .55; transform: scale(.86); }
+      50% { opacity: 1; transform: scale(1.12); }
     }
-
-
-    /* 现代轻量粒子背景（稳定版）：仅使用 transform/opacity，永不遮挡主体 */
-    .ambient-particles {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-      opacity: .58;
-    }
-
-    html[data-theme="light"] .ambient-particles { opacity: .34; }
 
     @media (max-width: 700px) {
-      .ambient-particles { opacity: .44; }
-      html[data-theme="light"] .ambient-particles { opacity: .28; }
+      .oa-edge-dock {
+        --oa-dock-peek: 18px;
+        width: 154px;
+        grid-template-columns: 18px minmax(0, 1fr);
+      }
+
+      .oa-edge-dock[data-side="left"] {
+        grid-template-columns: minmax(0, 1fr) 18px;
+      }
+
+      .oa-edge-grip { min-height: 116px; }
+      .oa-edge-content { padding: 10px 10px 10px 7px; }
+      .oa-edge-dock[data-side="left"] .oa-edge-content { padding: 10px 7px 10px 10px; }
+      .oa-float-control { min-height: 42px; font-size: 13px; }
+      .oa-edge-theme.theme-toggle { width: 44px; height: 44px; min-height: 44px; flex-basis: 44px; }
+
+      .oa-scene-teaser {
+        right: 12px;
+        bottom: 12px;
+        width: min(332px, calc(100vw - 24px));
+      }
+
+      .oa-scene-teaser-inner {
+        min-height: 122px;
+        padding: 16px 44px 16px 16px;
+      }
+
+      .oa-scene-title { font-size: 20px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .ambient-particles { display: none !important; }
+      .oa-edge-dock,
+      .oa-float-control,
+      .oa-theme-glyph,
+      .oa-scene-teaser,
+      .oa-scene-kicker-dot,
+      .oa-scene-enter {
+        animation: none !important;
+        transition-duration: .01ms !important;
+      }
     }
-</style>
+
   
+
+    /* ===== 三页面一致性：统一顶部主题按钮 ===== */
+    :root {
+      --oa-control-bg: rgba(8, 19, 15, 0.72);
+      --oa-control-border: rgba(112, 239, 173, 0.20);
+      --oa-control-shadow: 0 12px 34px rgba(0, 0, 0, 0.16);
+      --oa-control-accent: #70efad;
+    }
+
+    html[data-theme="light"] {
+      --oa-control-bg: rgba(255, 255, 255, 0.80);
+      --oa-control-border: rgba(30, 164, 100, 0.18);
+      --oa-control-shadow: 0 12px 34px rgba(29, 67, 46, 0.12);
+      --oa-control-accent: #1ea464;
+    }
+
+    #themeToggle.theme-toggle {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      min-height: 48px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid var(--oa-control-border);
+      border-radius: 50%;
+      background: var(--oa-control-bg);
+      color: var(--text);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: var(--oa-control-shadow);
+      cursor: pointer;
+      transform: none;
+      transition:
+        transform .28s cubic-bezier(.2,.8,.2,1),
+        border-color .3s ease,
+        background .3s ease,
+        box-shadow .3s ease;
+    }
+
+    #themeToggle.theme-toggle:hover {
+      transform: translateY(-3px);
+      background: var(--oa-control-bg);
+      border-color: var(--oa-control-accent);
+      box-shadow: 0 15px 38px rgba(0, 0, 0, .20);
+    }
+
+    html[data-theme="light"] #themeToggle.theme-toggle:hover {
+      box-shadow: 0 15px 38px rgba(29, 67, 46, .14);
+    }
+
+    #themeToggle.theme-toggle:active {
+      transform: scale(.95);
+    }
+
+    #themeToggle .oa-theme-glyph {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      line-height: 1;
+      transition: opacity .3s ease, transform .45s cubic-bezier(.2,.8,.2,1);
+    }
+
+    #themeToggle .oa-theme-sun {
+      color: var(--oa-control-accent);
+      opacity: 1;
+      transform: scale(1) rotate(0);
+      text-shadow: 0 0 14px color-mix(in srgb, var(--oa-control-accent) 45%, transparent);
+    }
+
+    #themeToggle .oa-theme-moon {
+      color: var(--oa-control-accent);
+      opacity: 0;
+      transform: scale(.5) rotate(-90deg);
+      text-shadow: none;
+    }
+
+    html[data-theme="light"] #themeToggle .oa-theme-sun {
+      opacity: 0;
+      transform: scale(.5) rotate(90deg);
+    }
+
+    html[data-theme="light"] #themeToggle .oa-theme-moon {
+      opacity: 1;
+      transform: scale(1) rotate(0);
+    }
+
+    @media (max-width: 760px) {
+      #themeToggle.theme-toggle {
+        width: 43px;
+        height: 43px;
+        min-width: 43px;
+        min-height: 43px;
+      }
+    }
+
+
+  /* ===== 最终尺寸同步：主页团队浮窗 = scene1 ===== */
+  .oa-edge-dock {
+    width: 184px;
+    height: 68px;
+  }
+
+  .oa-edge-grip {
+    min-height: 68px;
+  }
+
+  .oa-edge-content {
+    padding: 0 15px 0 12px;
+  }
+
+  .oa-edge-dock[data-side="left"] .oa-edge-content {
+    padding: 0 12px 0 15px;
+  }
+
+  @media (max-width: 700px) {
+    .oa-edge-dock {
+      --oa-dock-peek: 20px;
+      width: 170px;
+      height: 62px;
+      grid-template-columns: 20px minmax(0, 1fr);
+    }
+
+    .oa-edge-dock[data-side="left"] {
+      grid-template-columns: minmax(0, 1fr) 20px;
+    }
+
+    .oa-edge-grip {
+      min-height: 62px;
+    }
+
+    .oa-edge-content {
+      padding: 0 12px 0 10px;
+    }
+
+    .oa-edge-dock[data-side="left"] .oa-edge-content {
+      padding: 0 10px 0 12px;
+    }
+  }
+
+</style>
+  <!-- 浏览器标签页图标：使用你上传的 Once Again 图片 -->
   <link rel="icon" type="image/png" href="data:image/png;base64,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">
 </head>
 
 <body>
-<canvas id="ambientParticles" class="ambient-particles" aria-hidden="true"></canvas>
-
-
+<!--
+    页面漂浮装饰光点。
+  -->
   <div class="hero-orb hero-orb-one"></div>
   <div class="hero-orb hero-orb-two"></div>
   <div class="hero-orb hero-orb-three"></div>
 
+  <!--
+    ==================================================
+    顶部导航栏
+    ==================================================
+  -->
   <header class="navbar" id="navbar">
     <div class="container nav-inner">
 
+      <!--
+        左上角服务器 Logo 和名称。
+      -->
       <a class="logo" href="#home">
         <span class="logo-icon logo-image-wrap" id="logoPreviewTrigger" role="button" tabindex="0" aria-label="放大查看 Once Again Logo" title="点击放大查看">
           <img src="data:image/webp;base64,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" alt="">
@@ -4511,6 +4617,9 @@
 
       <div class="nav-right">
 
+        <!--
+          导航菜单。
+        -->
         <nav class="nav-links" id="navLinks">
           <a href="#home">首页</a>
           <a href="#features">核心玩法</a>
@@ -4522,6 +4631,16 @@
           </a>
         </nav>
 
+        <!--
+          黑白主题切换按钮。
+
+          点击后会自动：
+          1. 切换黑白主题
+          2. 播放扩散动画
+          3. 保存用户选择
+        -->
+        
+
         <button
           class="theme-toggle"
           id="themeToggle"
@@ -4529,14 +4648,13 @@
           aria-label="切换到白色主题"
           title="切换黑白主题"
         >
-          
-          <span class="theme-icon sun-icon"></span>
-
-          <span class="theme-icon sun-rays"></span>
-
-          <span class="theme-icon moon-icon-small"></span>
+          <span class="oa-theme-glyph oa-theme-sun" aria-hidden="true">☀</span>
+          <span class="oa-theme-glyph oa-theme-moon" aria-hidden="true">☾</span>
         </button>
 
+        <!--
+          手机端导航菜单按钮。
+        -->
         <button
           class="menu-button"
           id="menuButton"
@@ -4550,7 +4668,8 @@
     </div>
   </header>
 
-  
+
+  <!-- Logo 全屏放大预览 -->
   <div class="logo-lightbox" id="logoLightbox" aria-hidden="true">
     <div class="logo-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Once Again Logo 大图预览">
       <button class="logo-lightbox-close" id="logoLightboxClose" type="button" aria-label="关闭图片预览">×</button>
@@ -4558,37 +4677,48 @@
     </div>
   </div>
 
-  <aside class="scene-teaser" id="sceneTeaser" aria-label="助力服务器复活入口">
-    <button class="scene-teaser-close" id="sceneTeaserClose" type="button" aria-label="关闭窗口">×</button>
-    <a class="scene-teaser-link" href="scene1.html">
-      <span class="scene-teaser-kicker">NEW SCENE</span>
-      <strong class="scene-teaser-title">助力服务器</strong>
-      <span class="scene-teaser-copy">前往另一个场景，查看赞助与支持方式。</span>
-      <span class="scene-teaser-action">进入场景 →</span>
-      <i class="scene-teaser-orbit o1" aria-hidden="true"></i>
-      <i class="scene-teaser-orbit o2" aria-hidden="true"></i>
-      <i class="scene-teaser-orbit o3" aria-hidden="true"></i>
-    </a>
-  </aside>
-
   <main>
 
+    <!--
+      ==================================================
+      首页首屏
+      ==================================================
+    -->
     <section class="hero" id="home">
       <div class="container hero-grid">
 
+        <!--
+          首屏左侧内容。
+        -->
         <div class="hero-content reveal-left">
 
+          <!--
+            服务器状态目前是静态文字。
+
+            如果服务器关闭，可以修改成：
+            服务器维护中
+          -->
           <div class="server-status">
             <span class="status-dot"></span>
             服务器筹备中
           </div>
 
+          <!--
+            首页主标题。
+
+            span 中的文字会显示为主题色。
+          -->
           <h1 class="hero-title" aria-label="沉默不会结束，这一次我们 Once Again">
-            
+            <!-- 第一行：固定为一整行，避免中文被浏览器随意拆开 -->
             <span class="hero-title-line">沉默不会结束</span>
 
+            <!-- 第二行：固定为一整行 -->
             <span class="hero-title-line">这一次我们</span>
 
+            <!--
+              第三行：Once Again 战队感字标。
+              粉色负责视觉识别，白色卡片负责对比度。
+            -->
             <span class="hero-title-line hero-title-brand">
               <span class="oa-wordmark" aria-hidden="true">
                 <span class="oa-slash"></span>
@@ -4598,22 +4728,34 @@
             </span>
           </h1>
 
+          <!--
+            服务器简介。
+          -->
           <p class="hero-description">
             欢迎来到“无声无息:Once Again”。这里保留原版生存的自由，
             并加入个人动态难度、安全区旅馆、怪物代币与角色成长。
             从探索与战斗中获得资源，回到旅馆整备，然后再次出发。
           </p>
 
+          <!--
+            首页按钮。
+          -->
           <div class="hero-actions">
 
+            <!--
+              点击后复制服务器地址。
+            -->
             <button
               class="button button-primary"
               type="button"
               onclick="copyServerAddress()"
             >
-              敬请期待服务器地址
+              复制服务器地址
             </button>
 
+            <!--
+              点击后跳转到服务器特色。
+            -->
             <a
               class="button button-secondary"
               href="#features"
@@ -4623,13 +4765,26 @@
 
           </div>
 
+          <!--
+            重要：
+            把 zxwusheng.vip 修改成你的服务器地址。
+
+            例如：
+            mc.example.cn
+
+            或者：
+            123.123.123.123:25565
+          -->
           <p class="hero-server-address">
             服务器地址：
-            <strong>不告诉你</strong>
+            <strong>zxwusheng.vip</strong>
           </p>
 
         </div>
 
+        <!--
+          首屏右侧卡片。
+        -->
         <div class="hero-visual reveal-right">
 
           <div class="visual-glow"></div>
@@ -4649,22 +4804,35 @@
               每一次归来，都是下一次冒险的起点。
             </p>
 
+            <!--
+              纯 CSS Minecraft 场景。
+            -->
             <div class="block-scene">
 
+              <!-- 星星 -->
               <div class="scene-star one"></div>
               <div class="scene-star two"></div>
               <div class="scene-star three"></div>
 
+              <!-- 月亮 -->
               <div class="moon"></div>
 
+              <!-- 方块山 -->
               <div class="block-mountain"></div>
 
+              <!-- 漂浮方块 -->
               <div class="small-block one"></div>
               <div class="small-block two"></div>
               <div class="small-block three"></div>
 
             </div>
 
+            <!--
+              服务器基本信息。
+
+              下面的数据都是示例，
+              请修改成你的真实信息。
+            -->
             <div class="card-info-grid">
 
               <div class="card-info-item">
@@ -4694,32 +4862,45 @@
       </div>
     </section>
 
+    <!--
+      ==================================================
+      服务器数据
+      ==================================================
+
+      style 属性中的 --delay
+      用于控制卡片依次出现的时间。
+    -->
     <section class="stats" aria-label="核心数值">
       <div class="container stats-grid metric-grid">
 
         <article class="stat-card metric-card reveal" style="--delay: 0ms;">
-          <strong>丰富</strong>
-          <span>可探索与收集的道具种类</span>
+          <strong><span class="count-up" data-count="3" data-prefix="0–">0</span></strong>
+          <span>普通与强化怪物的代币掉落范围</span>
         </article>
 
         <article class="stat-card metric-card reveal" style="--delay: 90ms;">
-          <strong>逐级</strong>
-          <span>随等级提升解锁更强力内容</span>
+          <strong><span class="count-up" data-count="10">0</span></strong>
+          <span>升级券暂定兑换价格</span>
         </article>
 
         <article class="stat-card metric-card reveal" style="--delay: 180ms;">
-          <strong>多类</strong>
-          <span>代币可用于不同大类的成长兑换</span>
+          <strong><span class="count-up" data-count="50">0</span></strong>
+          <span>传送卷轴暂定代币价格</span>
         </article>
 
         <article class="stat-card metric-card reveal" style="--delay: 270ms;">
-          <strong>持续</strong>
-          <span>活动、道具与挑战还会陆续推出</span>
+          <strong><span class="count-up" data-count="3">0</span></strong>
+          <span>首版优先开放的核心属性</span>
         </article>
 
       </div>
     </section>
 
+    <!--
+      ==================================================
+      服务器特色
+      ==================================================
+    -->
     <section id="features">
       <div class="container">
 
@@ -4792,7 +4973,7 @@
 
             <p>
               主世界承担基础成长，下界提高生命与伤害压力，末地作为更高阶挑战，
-              精英挑战、Boss 与特殊掉落等内容还会陆续推出。
+              后续可加入精英词条、Boss 与特殊掉落。
             </p>
           </article>
 
@@ -4802,11 +4983,11 @@
           >
             <div class="feature-icon">◆</div>
 
-            <h3>代币与成长兑换</h3>
+            <h3>代币与属性成长</h3>
 
             <p>
-              强化怪物可掉落服务器代币。代币可用于兑换成长、补给、功能与特殊道具等大类内容，
-              道具种类丰富多样，随等级上升，可解锁的强力道具也会越来越多。
+              强化怪物可掉落服务器代币。代币可兑换升级券、传送卷轴和补给，
+              首版优先开放生命、攻击与防御三项角色属性。
             </p>
           </article>
 
@@ -4816,11 +4997,11 @@
           >
             <div class="feature-icon">☻</div>
 
-            <h3>多种多样的道具</h3>
+            <h3>导航与安全回城</h3>
 
             <p>
-              各种道具应有尽有：快速回城、药水增益、特殊技能等功能一应俱全，
-              并会随着玩家成长逐步解锁更多强力选择。
+              指南针持续指向旅馆；传送卷轴可消耗代币回城，
+              但需要读条，并在战斗、受伤或特殊场景中受到限制。
             </p>
           </article>
 
@@ -4828,6 +5009,11 @@
       </div>
     </section>
 
+    <!--
+      ==================================================
+      玩家成长流程
+      ==================================================
+    -->
     <section class="journey-section" id="journey">
       <div class="container">
         <div class="section-heading reveal-left">
@@ -4845,7 +5031,7 @@
             <span class="journey-number">01</span>
             <div class="journey-icon">⌂</div>
             <h3>抵达旅馆</h3>
-            <p>在初始大厅了解规则，领取基础装备与食物，为第一次野外冒险做好准备。</p>
+            <p>在初始大厅了解规则，领取装备、食物、指南针与基础回城道具。</p>
           </article>
 
           <article class="journey-step reveal" style="--delay: 80ms;">
@@ -4866,38 +5052,46 @@
             <span class="journey-number">04</span>
             <div class="journey-icon">◆</div>
             <h3>带回代币</h3>
-            <p>击杀怪物获取服务器代币，在完成探索后返回安全区整理收获。</p>
+            <p>击杀怪物获取服务器代币，并通过受限读条的传送卷轴安全返程。</p>
           </article>
 
           <article class="journey-step reveal" style="--delay: 320ms;">
             <span class="journey-number">05</span>
             <div class="journey-icon">✦</div>
             <h3>兑换并成长</h3>
-            <p>在旅馆找到升级券商人和道具兑换商人，兑换成长、补给、功能与特殊道具等内容，再次整备出发。</p>
+            <p>在旅馆兑换升级券与补给，提升生命、攻击和防御，然后再次出发。</p>
           </article>
         </div>
       </div>
     </section>
 
+    <!--
+      ==================================================
+      最新公告
+      ==================================================
+    -->
     <section id="news">
       <div class="container">
 
         <div class="section-heading reveal-right">
           <span class="eyebrow">
-            Preview Content
+            Development Plan
           </span>
 
           <h2>
-            Once Again 服务器内容预告
+            Once Again 首版内容规划
           </h2>
 
           <p>
-            服务器还会陆续推出更多活动、道具、属性、排行榜、头衔与高阶挑战，让每一次冒险都有新的目标。
+            首版优先验证核心成长闭环，复杂词条、重生与高阶附魔将在基础玩法稳定后再评估加入。
           </p>
         </div>
 
         <div class="news-grid">
 
+          <!--
+            左侧主要公告。
+          -->
           <article class="news-card reveal-left">
             <time>首版核心循环</time>
 
@@ -4906,12 +5100,15 @@
             </h3>
 
             <p>
-              新玩家将在初始大厅了解玩法，并领取基础装备与食物。
-              进入野外后，通过挑战强化怪物获取代币，再回到安全区寻找升级券商人和道具兑换商人，
-              兑换成长、补给、功能与特殊道具等大类内容，逐步提升角色实力。
+              新玩家将在初始大厅了解玩法并领取基础装备、食物、指南针与传送卷轴。
+              进入野外后，通过挑战强化怪物获取代币，再回到安全区兑换升级券与补给，
+              逐步提升角色属性和个人难度。
             </p>
           </article>
 
+          <!--
+            右侧公告列表。
+          -->
           <div class="news-list">
 
             <article
@@ -4925,8 +5122,7 @@
               </h3>
 
               <p>
-                旅馆将承担出生、床位、公告、整备与集合功能；升级券商人负责成长类兑换，
-                道具兑换商人则提供补给、功能与特殊道具等丰富选择。
+                旅馆将承担出生、床位、公告、兑换与回城功能；餐厅按独立冷却提供基础食物补给。
               </p>
             </article>
 
@@ -4934,14 +5130,14 @@
               class="news-card news-small reveal-right"
               style="--delay: 170ms;"
             >
-              <time>持续更新</time>
+              <time>后续扩展</time>
 
               <h3>
-                更多活动与长期目标
+                排行榜、精英怪与长期目标
               </h3>
 
               <p>
-                服务器还会陆续推出活动、更多道具与属性、排行榜、精英挑战、Boss、头衔及其他长期内容。
+                核心循环稳定后，将评估排行榜、精英怪词条、Boss、重生机制及外观称号等长期内容。
               </p>
             </article>
 
@@ -4950,11 +5146,22 @@
       </div>
     </section>
 
+    <!--
+      ==================================================
+      加入服务器
+      ==================================================
+    -->
     <section id="join">
       <div class="container">
 
+        <!--
+          重新排版后的加入服务器区域：
+          左侧负责标题与说明，右侧负责服务器地址和信息标签。
+          在电脑端为左右两栏，在手机端自动变成上下排列。
+        -->
         <div class="join-box join-box-redesign reveal">
 
+          <!-- 左侧文案区域 -->
           <div class="join-copy">
             <span class="eyebrow">Join The Server</span>
 
@@ -4974,11 +5181,17 @@
             </p>
           </div>
 
+          <!-- 右侧操作区域 -->
           <div class="join-panel">
             <span class="join-panel-label">SERVER ADDRESS</span>
 
+            <!--
+              服务器地址：
+              修改下面 code 标签中的 zxwusheng.vip 即可。
+              复制按钮会自动读取这里的内容。
+            -->
             <div class="ip-box join-ip-box">
-              <code id="serverAddress">敬请期待</code>
+              <code id="serverAddress">zxwusheng.vip</code>
 
               <button
                 class="copy-button"
@@ -4986,10 +5199,11 @@
                 type="button"
                 onclick="copyServerAddress()"
               >
-                敬请期待地址
+                复制地址
               </button>
             </div>
 
+            <!-- 服务器信息标签，可直接修改文字 -->
             <div class="join-notes join-note-grid">
               <span><b>平台</b> Java 版</span>
               <span><b>版本</b> 26.3</span>
@@ -5002,6 +5216,11 @@
       </div>
     </section>
 
+    <!--
+      ==================================================
+      联系我们
+      ==================================================
+    -->
     <section id="contact">
       <div class="container">
 
@@ -5022,6 +5241,12 @@
 
         <div class="contact-grid">
 
+          <!--
+            QQ 群卡片。
+
+            把 123456789 修改成真实群号。
+            把 href="#" 修改成真实加群链接。
+          -->
           <article
             class="contact-card reveal"
             style="--delay: 0ms;"
@@ -5031,8 +5256,7 @@
             <h3>玩家交流群</h3>
 
             <p>
-              QQ 群号：敬请期待！！我们大概在年底见面
-              ( •̀ ω •́ )✧
+              QQ 群号：132336319
             </p>
 
             <a
@@ -5044,6 +5268,9 @@
             </a>
           </article>
 
+          <!--
+            问题反馈卡片。
+          -->
           <article
             class="contact-card reveal"
             style="--delay: 100ms;"
@@ -5066,6 +5293,9 @@
             </a>
           </article>
 
+          <!--
+            服务器规则卡片。
+          -->
           <article
             class="contact-card reveal"
             style="--delay: 200ms;"
@@ -5094,6 +5324,11 @@
 
   </main>
 
+  <!--
+    ==================================================
+    页脚
+    ==================================================
+  -->
   <footer>
     <div class="container footer-inner">
 
@@ -5111,34 +5346,103 @@
     </div>
   </footer>
 
-  <script>
+  
 
-    
+  <!-- 贴边浮窗：团队介绍 -->
+  <aside class="oa-edge-dock" id="oaEdgeDock" data-side="right" aria-label="快捷操作浮窗">
+    <div class="oa-edge-grip" id="oaEdgeGrip" role="button" tabindex="0" aria-label="拖动或展开快捷浮窗" title="拖动调整位置"></div>
+    <div class="oa-edge-content">
+      <a class="oa-float-control oa-team-button" id="oaTeamButton" href="jieshao.html">团队介绍</a>
+    </div>
+  </aside>
+
+  <!-- 右下角场景入口：助力服务器复活 -->
+  <div class="oa-scene-teaser" id="oaSceneTeaser" role="button" tabindex="0" aria-label="助力服务器复活，进入赞助场景">
+    <div class="oa-scene-teaser-inner">
+      <button class="oa-scene-close" id="oaSceneTeaserClose" type="button" aria-label="关闭助力服务器复活窗口" title="关闭">×</button>
+      <span class="oa-scene-kicker"><i class="oa-scene-kicker-dot"></i>NEW SCENE</span>
+      <strong class="oa-scene-title">助力服务器复活</strong>
+      <span class="oa-scene-desc">前往另一个场景，查看赞助与支持方式。</span>
+      <span class="oa-scene-enter">进入场景 <span aria-hidden="true">→</span></span>
+    </div>
+  </div>
+
+
+  <script>
+    /*
+      ==================================================
+      一、获取页面元素
+      ==================================================
+    */
+
+    /*
+      获取整个 html 标签。
+
+      主题属性会添加到这个标签上。
+    */
     const htmlElement =
       document.documentElement;
 
+    /*
+      获取顶部导航栏。
+    */
     const navbar =
       document.getElementById("navbar");
 
+    /*
+      获取手机菜单按钮。
+    */
     const menuButton =
       document.getElementById("menuButton");
 
+    /*
+      获取导航菜单。
+    */
     const navLinks =
       document.getElementById("navLinks");
 
+    /*
+      获取主题切换按钮。
+    */
     const themeToggle =
       document.getElementById("themeToggle");
 
+    /*
+      获取主题切换扩散圆。
+    */
     const themeTransitionCircle = null;
 
-    const savedTheme =
-      localStorage.getItem("website-theme");
+    /*
+      ==================================================
+      二、读取用户上次选择的主题
+      ==================================================
 
+      localStorage 可以在浏览器本地保存数据。
+
+      即使用户刷新网页或下次重新打开网页，
+      主题仍然会保持。
+    */
+
+    const savedTheme =
+      localStorage.getItem("once-again-theme") ||
+      localStorage.getItem("website-theme") ||
+      localStorage.getItem("sponsor-theme");
+
+    /*
+      检测操作系统是否偏好浅色主题。
+    */
     const prefersLightTheme =
       window.matchMedia(
         "(prefers-color-scheme: light)"
       ).matches;
 
+    /*
+      如果用户以前选择过主题，
+      优先使用用户保存的主题。
+
+      如果没有保存过，
+      就参考操作系统主题。
+    */
     if (savedTheme === "light") {
       htmlElement.setAttribute(
         "data-theme",
@@ -5155,27 +5459,45 @@
       );
     }
 
+    /*
+      更新主题按钮提示文字。
+    */
     updateThemeButtonText();
 
+    /*
+      ==================================================
+      三、主题切换按钮
+      ==================================================
+    */
     themeToggle.addEventListener(
       "click",
       function () {
-        
+        /*
+          实时切换主题：
+          不再创建或播放覆盖页面的扩散圆，点击后立即完成切换。
+        */
         const isLightTheme =
           htmlElement.getAttribute("data-theme") === "light";
 
         if (isLightTheme) {
           htmlElement.removeAttribute("data-theme");
+          localStorage.setItem("once-again-theme", "dark");
           localStorage.setItem("website-theme", "dark");
+          localStorage.setItem("sponsor-theme", "dark");
         } else {
           htmlElement.setAttribute("data-theme", "light");
+          localStorage.setItem("once-again-theme", "light");
           localStorage.setItem("website-theme", "light");
+          localStorage.setItem("sponsor-theme", "light");
         }
 
         updateThemeButtonText();
       }
     );
 
+    /*
+      更新主题按钮的辅助文字。
+    */
     function updateThemeButtonText() {
       const isLightTheme =
         htmlElement.getAttribute(
@@ -5205,15 +5527,29 @@
       }
     }
 
+    /*
+      ==================================================
+      四、手机导航菜单
+      ==================================================
+    */
+
     menuButton.addEventListener(
       "click",
       function () {
-        
+        /*
+          切换 open 类。
+        */
         navLinks.classList.toggle("open");
 
+        /*
+          判断菜单现在是否打开。
+        */
         const isMenuOpen =
           navLinks.classList.contains("open");
 
+        /*
+          更新按钮图标和辅助文字。
+        */
         menuButton.textContent =
           isMenuOpen
             ? "×"
@@ -5228,6 +5564,10 @@
       }
     );
 
+    /*
+      点击任意导航链接后，
+      自动关闭手机菜单。
+    */
     const navigationItems =
       document.querySelectorAll(
         ".nav-links a"
@@ -5253,20 +5593,36 @@
       }
     );
 
+    /*
+      点击菜单外面时关闭手机菜单。
+    */
     document.addEventListener(
       "click",
       function (event) {
-        
+        /*
+          如果屏幕大于 950px，
+          不需要执行手机菜单关闭逻辑。
+        */
         if (window.innerWidth > 950) {
           return;
         }
 
+        /*
+          判断点击位置是否在导航菜单里。
+        */
         const clickedInsideMenu =
           navLinks.contains(event.target);
 
+        /*
+          判断点击位置是否在菜单按钮里。
+        */
         const clickedMenuButton =
           menuButton.contains(event.target);
 
+        /*
+          如果点击的是菜单外部，
+          就关闭菜单。
+        */
         if (
           !clickedInsideMenu &&
           !clickedMenuButton
@@ -5285,18 +5641,36 @@
       }
     );
 
+    /*
+      ==================================================
+      五、复制服务器地址
+      ==================================================
+    */
+
     async function copyServerAddress() {
-      
+      /*
+        获取服务器地址元素。
+      */
       const serverAddressElement =
         document.getElementById(
           "serverAddress"
         );
 
+      /*
+        获取复制按钮。
+      */
       const copyButton =
         document.getElementById(
           "copyButton"
         );
 
+      /*
+        读取服务器地址。
+
+        replace(/\s+/g, "")
+        会删除换行和空格，
+        防止复制出多余空白。
+      */
       const serverAddress =
         serverAddressElement
           ? serverAddressElement
@@ -5305,15 +5679,23 @@
           : "zxwusheng.vip";
 
       try {
-        
+        /*
+          将服务器地址复制到剪贴板。
+        */
         await navigator.clipboard.writeText(
           serverAddress
         );
 
+        /*
+          修改按钮文字。
+        */
         if (copyButton) {
           copyButton.textContent =
-            "敬请期待成功";
+            "复制成功";
 
+          /*
+            播放复制成功动画。
+          */
           copyButton.classList.remove(
             "copy-success"
           );
@@ -5325,10 +5707,13 @@
           );
         }
 
+        /*
+          1.8 秒后恢复按钮。
+        */
         setTimeout(function () {
           if (copyButton) {
             copyButton.textContent =
-              "敬请期待地址";
+              "复制地址";
 
             copyButton.classList.remove(
               "copy-success"
@@ -5337,32 +5722,70 @@
         }, 1800);
 
       } catch (error) {
-        
+        /*
+          如果浏览器不允许自动复制，
+          就显示手动复制输入框。
+        */
         window.prompt(
-          "自动敬请期待失败，请手动敬请期待服务器地址：",
+          "自动复制失败，请手动复制服务器地址：",
           serverAddress
         );
       }
     }
+
+    /*
+      ==================================================
+      六、上下滚动都能重复播放渐入动画
+      ==================================================
+
+      这是本次修改的重点。
+
+      工作方式：
+
+      1. 元素进入屏幕：
+         添加 reveal-active
+
+      2. 元素离开屏幕：
+         删除 reveal-active
+
+      3. 用户向上滚动回来：
+         再次添加 reveal-active
+
+      所以无论向上还是向下，
+      元素都会重新渐入。
+    */
 
     const revealElements =
       document.querySelectorAll(
         ".reveal, .reveal-left, .reveal-right"
       );
 
+    /*
+      创建进入屏幕检测器。
+    */
     const revealObserver =
       new IntersectionObserver(
         function (entries) {
           entries.forEach(
             function (entry) {
-              
+              /*
+                元素进入屏幕时。
+              */
               if (entry.isIntersecting) {
-                
+                /*
+                  添加动画激活类。
+                */
                 entry.target.classList.add(
                   "reveal-active"
                 );
               } else {
-                
+                /*
+                  元素离开屏幕后，
+                  删除动画激活类。
+
+                  下次再次进入屏幕时，
+                  就能重新播放动画。
+                */
                 entry.target.classList.remove(
                   "reveal-active"
                 );
@@ -5371,22 +5794,42 @@
           );
         },
         {
-          
+          /*
+            元素进入屏幕约 13% 时触发。
+          */
           threshold: 0.13,
 
+          /*
+            上下各缩小一点检测区域。
+
+            这样元素完全接近屏幕时才开始动画，
+            视觉效果更自然。
+          */
           rootMargin:
             "-35px 0px -35px 0px"
         }
       );
 
+    /*
+      开始检测所有动画元素。
+    */
     revealElements.forEach(
       function (element) {
         revealObserver.observe(element);
       }
     );
 
+    /*
+      ==================================================
+      七、导航栏滚动阴影
+      ==================================================
+    */
+
     function updateNavbarStyle() {
-      
+      /*
+        页面向下滚动超过 25px 后，
+        给导航栏添加阴影。
+      */
       if (window.scrollY > 25) {
         navbar.classList.add("scrolled");
       } else {
@@ -5396,6 +5839,9 @@
       }
     }
 
+    /*
+      页面滚动时执行。
+    */
     window.addEventListener(
       "scroll",
       updateNavbarStyle,
@@ -5404,7 +5850,19 @@
       }
     );
 
+    /*
+      页面打开时先执行一次。
+    */
     updateNavbarStyle();
+
+    /*
+      ==================================================
+      八、窗口尺寸变化
+      ==================================================
+
+      从手机宽度切换到电脑宽度时，
+      自动恢复导航菜单状态。
+    */
 
     window.addEventListener(
       "resize",
@@ -5423,13 +5881,18 @@
         }
       }
     );
+  
 
-    
+    /* ==================================================
+       九、正式官网增强交互
+       ================================================== */
 
+    /* 页面首屏分层入场 */
     window.requestAnimationFrame(function () {
       document.body.classList.add("page-ready");
     });
 
+    /* 当前导航栏目高亮 */
     const sectionLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
     const trackedSections = sectionLinks
       .map(function (link) { return document.querySelector(link.getAttribute('href')); })
@@ -5449,6 +5912,7 @@
 
     trackedSections.forEach(function (section) { sectionObserver.observe(section); });
 
+    /* 核心数值递增动画 */
     const counters = document.querySelectorAll('.count-up');
     const counterObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -5473,6 +5937,7 @@
 
     counters.forEach(function (counter) { counterObserver.observe(counter); });
 
+    /* 成长路线在进入视口时点亮连接线 */
     const journeyTrack = document.querySelector('.journey-track');
     if (journeyTrack) {
       const journeyObserver = new IntersectionObserver(function (entries) {
@@ -5483,6 +5948,7 @@
       journeyObserver.observe(journeyTrack);
     }
 
+    /* 克制的卡片微倾斜，仅桌面鼠标设备启用 */
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       document.querySelectorAll('.feature-card, .journey-step, .news-card').forEach(function (card) {
         card.classList.add('interactive-card');
@@ -5498,7 +5964,10 @@
       });
     }
 
-    
+
+    /* ==================================================
+       十、左上角 Logo 点击放大预览
+       ================================================== */
     const logoPreviewTrigger = document.getElementById('logoPreviewTrigger');
     const logoLightbox = document.getElementById('logoLightbox');
     const logoLightboxImage = document.getElementById('logoLightboxImage');
@@ -5547,53 +6016,26 @@
       }
     });
 
-    
 
+    /*
+      ==================================================
+      十三、Once Again 字标闪电动画控制
+      ==================================================
 
-    const sceneTeaser = document.getElementById('sceneTeaser');
-    const sceneTeaserClose = document.getElementById('sceneTeaserClose');
+      这一段 JavaScript 负责：
+      1. 自动创建闪电、扫描光和火花粒子。
+      2. 页面首次打开时播放一次。
+      3. 鼠标悬停、点击、键盘操作时重新播放。
+      4. 限制过于频繁的触发，避免连续移动鼠标造成卡顿。
+    */
 
-    if (sceneTeaserClose && sceneTeaser) {
-      sceneTeaserClose.addEventListener('click', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        sceneTeaser.classList.add('is-closing');
-        window.setTimeout(function () { sceneTeaser.remove(); }, 280);
-      });
-    }
-
-
-
-    if (sceneTeaser && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      sceneTeaser.addEventListener('mousemove', function (event) {
-        const rect = sceneTeaser.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width - 0.5;
-        const y = (event.clientY - rect.top) / rect.height - 0.5;
-        sceneTeaser.style.setProperty('--teaser-tilt-x', (-y * 3.8).toFixed(2) + 'deg');
-        sceneTeaser.style.setProperty('--teaser-tilt-y', (x * 5.2).toFixed(2) + 'deg');
-      });
-      sceneTeaser.addEventListener('mouseleave', function () {
-        sceneTeaser.style.setProperty('--teaser-tilt-x', '0deg');
-        sceneTeaser.style.setProperty('--teaser-tilt-y', '0deg');
-      });
-    }
-
-    if (sceneTeaser) {
-      sceneTeaser.addEventListener('pointerdown', function (event) {
-        if (event.target.closest('.scene-teaser-close')) return;
-        const rect = sceneTeaser.getBoundingClientRect();
-        const ripple = document.createElement('span');
-        ripple.className = 'scene-teaser-click-ripple';
-        ripple.style.left = (event.clientX - rect.left) + 'px';
-        ripple.style.top = (event.clientY - rect.top) + 'px';
-        sceneTeaser.appendChild(ripple);
-        window.setTimeout(function () { ripple.remove(); }, 700);
-      });
-    }
     const onceAgainWordmark = document.querySelector(".oa-wordmark");
 
     if (onceAgainWordmark) {
-      
+      /*
+        让原本只是视觉元素的字标具备按钮语义与键盘焦点。
+        tabindex="0" 表示可以使用 Tab 键选中。
+      */
       onceAgainWordmark.setAttribute("role", "button");
       onceAgainWordmark.setAttribute("tabindex", "0");
       onceAgainWordmark.setAttribute(
@@ -5605,34 +6047,45 @@
         "悬停或点击可重新播放闪电动画"
       );
 
+      /* 创建整个闪电效果的容器。 */
       const electricLayer = document.createElement("span");
       electricLayer.className = "oa-electric-layer";
       electricLayer.setAttribute("aria-hidden", "true");
 
+      /* 创建六道不同位置的闪电。 */
       for (let boltIndex = 0; boltIndex < 6; boltIndex += 1) {
         const bolt = document.createElement("span");
         bolt.className = "oa-electric-bolt";
         electricLayer.appendChild(bolt);
       }
 
+      /* 创建横向扫描高光。 */
       const electricScan = document.createElement("span");
       electricScan.className = "oa-electric-scan";
       electricLayer.appendChild(electricScan);
 
+      /*
+        创建 18 个火花粒子。
+        修改 sparkCount 可以控制粒子数量：
+        数字越大越华丽，但低性能设备负担也会稍高。
+      */
       const sparkCount = 18;
 
       for (let sparkIndex = 0; sparkIndex < sparkCount; sparkIndex += 1) {
         const spark = document.createElement("span");
         spark.className = "oa-electric-spark";
 
+        /* 随机决定粒子从字标四周的哪个位置出现。 */
         const startX = 4 + Math.random() * 92;
         const startY = 8 + Math.random() * 84;
 
+        /* 随机决定粒子的飞行方向和距离。 */
         const angle = Math.random() * Math.PI * 2;
         const distance = 24 + Math.random() * 58;
         const moveX = Math.cos(angle) * distance;
         const moveY = Math.sin(angle) * distance;
 
+        /* 随机设置大小、延迟、时长与颜色。 */
         const size = 2.5 + Math.random() * 4.5;
         const delay = 80 + Math.random() * 360;
         const duration = 380 + Math.random() * 380;
@@ -5653,6 +6106,10 @@
 
       onceAgainWordmark.appendChild(electricLayer);
 
+      /*
+        记录上一次播放时间。
+        最小间隔用于防止 mouseenter 在极短时间内被重复触发。
+      */
       let lastElectricPlayTime = 0;
       const electricReplayGap = 260;
 
@@ -5668,25 +6125,37 @@
 
         lastElectricPlayTime = currentTime;
 
+        /*
+          先移除动画类，再强制浏览器重新计算布局，
+          最后重新添加动画类，动画才能从第一帧重新播放。
+        */
         onceAgainWordmark.classList.remove("oa-electric-active");
         void onceAgainWordmark.offsetWidth;
         onceAgainWordmark.classList.add("oa-electric-active");
       }
 
+      /* 页面开场动画完成一部分后，再播放闪电字标。 */
       window.setTimeout(function () {
         playOnceAgainElectricAnimation(true);
       }, 720);
 
+      /* 鼠标每次重新进入字标时播放。 */
       onceAgainWordmark.addEventListener("mouseenter", function () {
         playOnceAgainElectricAnimation();
       });
 
+      /* 点击时强制立即重播，即使刚刚播放过也允许再次触发。 */
       onceAgainWordmark.addEventListener("click", function (event) {
         event.preventDefault();
         event.stopPropagation();
         playOnceAgainElectricAnimation(true);
       });
 
+      /*
+        键盘选中字标后：
+        - Enter 键播放。
+        - 空格键播放。
+      */
       onceAgainWordmark.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
@@ -5694,6 +6163,7 @@
         }
       });
 
+      /* 动画结束后移除类，让元素恢复到普通静止状态。 */
       onceAgainWordmark.addEventListener("animationend", function (event) {
         if (event.animationName === "oaElectricLogo") {
           onceAgainWordmark.classList.remove("oa-electric-active");
@@ -5701,110 +6171,201 @@
       });
     }
 
+
+  
+
+    /* ==================================================
+       贴边浮窗：拖动、吸附、展开
+       ================================================== */
+    (function setupOaEdgeDock() {
+      const dock = document.getElementById("oaEdgeDock");
+      const grip = document.getElementById("oaEdgeGrip");
+      if (!dock || !grip) return;
+
+      const sideKey = "once-again-edge-dock-side";
+      const yKey = "once-again-edge-dock-y";
+      const savedSide = localStorage.getItem(sideKey);
+      const savedY = Number.parseFloat(localStorage.getItem(yKey));
+
+      function clampTop(value) {
+        const margin = 12;
+        const max = Math.max(margin, window.innerHeight - dock.offsetHeight - margin);
+        return Math.min(Math.max(value, margin), max);
+      }
+
+      function applySavedPosition() {
+        dock.dataset.side = savedSide === "left" ? "left" : "right";
+        const fallback = Math.max(96, Math.min(window.innerHeight * 0.38, window.innerHeight - dock.offsetHeight - 20));
+        dock.style.top = clampTop(Number.isFinite(savedY) ? savedY : fallback) + "px";
+      }
+
+      applySavedPosition();
+
+      let dragging = false;
+      let startPointerX = 0;
+      let startPointerY = 0;
+      let startTop = 0;
+      let startLeft = 0;
+      let moved = false;
+
+      function beginDrag(event) {
+        if (event.button !== undefined && event.button !== 0) return;
+        const rect = dock.getBoundingClientRect();
+        dragging = true;
+        moved = false;
+        startPointerX = event.clientX;
+        startPointerY = event.clientY;
+        startTop = rect.top;
+        startLeft = rect.left;
+
+        /* 拖动时解除贴边定位，让浮窗可以真正横向移动到另一侧。 */
+        dock.style.left = rect.left + "px";
+        dock.style.right = "auto";
+        dock.style.top = rect.top + "px";
+        dock.classList.add("oa-dragging", "oa-open");
+        grip.setPointerCapture?.(event.pointerId);
+        event.preventDefault();
+      }
+
+      function moveDrag(event) {
+        if (!dragging) return;
+        const dx = event.clientX - startPointerX;
+        const dy = event.clientY - startPointerY;
+        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+
+        const maxLeft = Math.max(0, window.innerWidth - dock.offsetWidth);
+        const nextLeft = Math.min(Math.max(startLeft + dx, 0), maxLeft);
+        dock.style.left = nextLeft + "px";
+        dock.style.top = clampTop(startTop + dy) + "px";
+      }
+
+      function endDrag(event) {
+        if (!dragging) return;
+        dragging = false;
+        grip.releasePointerCapture?.(event.pointerId);
+
+        const rect = dock.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const side = centerX < window.innerWidth / 2 ? "left" : "right";
+        const finalTop = clampTop(rect.top);
+
+        dock.dataset.side = side;
+        dock.style.left = "";
+        dock.style.right = "";
+        dock.style.top = finalTop + "px";
+        dock.classList.remove("oa-dragging");
+
+        localStorage.setItem(sideKey, side);
+        localStorage.setItem(yKey, String(finalTop));
+
+        if (!moved) {
+          dock.classList.toggle("oa-open");
+        } else {
+          window.setTimeout(function () {
+            dock.classList.remove("oa-open");
+          }, 260);
+        }
+      }
+
+      grip.addEventListener("pointerdown", beginDrag);
+      window.addEventListener("pointermove", moveDrag, { passive: true });
+      window.addEventListener("pointerup", endDrag);
+      window.addEventListener("pointercancel", endDrag);
+
+      grip.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          dock.classList.toggle("oa-open");
+        }
+      });
+
+      window.addEventListener("resize", function () {
+        const currentTop = Number.parseFloat(dock.style.top) || 96;
+        dock.style.top = clampTop(currentTop) + "px";
+      });
+    })();
+
+    /* ==================================================
+       右下角弹窗：进入 scene1.html / 独立关闭
+       ================================================== */
+    (function setupOaSceneTeaser() {
+      const teaser = document.getElementById("oaSceneTeaser");
+      const closeButton = document.getElementById("oaSceneTeaserClose");
+      if (!teaser || !closeButton) return;
+
+      function enterScene() {
+        window.location.href = "scene1.html";
+      }
+
+      teaser.addEventListener("click", function (event) {
+        if (event.target.closest("#oaSceneTeaserClose")) return;
+        enterScene();
+      });
+
+      teaser.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          enterScene();
+        }
+      });
+
+      closeButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        teaser.classList.add("oa-closing");
+        window.setTimeout(function () {
+          teaser.remove();
+        }, 300);
+      });
+    })();
+
+
   </script>
 
 
-<script>
+<script id="oa-theme-link-sync">
 (function () {
-  'use strict';
-  const canvas = document.getElementById('ambientParticles');
-  if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const ctx = canvas.getContext('2d', { alpha: true });
-  if (!ctx) return;
+  const root = document.documentElement;
+  const internalPages = new Set(['index.html', 'jieshao.html', 'scene1.html']);
 
-  let width = 0, height = 0, dpr = 1;
-  let particles = [];
-  let raf = 0, resizeTimer = 0, last = 0;
-  const targetInterval = 1000 / 30;
-
-  function isLight() {
-    return document.documentElement.getAttribute('data-theme') === 'light';
+  function currentTheme() {
+    return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
   }
 
-  function colors() {
-    return isLight()
-      ? ['rgba(28,160,99,.34)', 'rgba(255,90,165,.22)', 'rgba(67,138,240,.20)']
-      : ['rgba(112,239,173,.42)', 'rgba(255,90,165,.28)', 'rgba(100,170,255,.27)'];
+  function saveTheme(theme) {
+    try {
+      localStorage.setItem('once-again-theme', theme);
+      localStorage.setItem('website-theme', theme);
+      localStorage.setItem('sponsor-theme', theme);
+    } catch (e) {}
   }
 
-  function countForViewport() {
-    const byArea = Math.round((innerWidth * innerHeight) / 50000);
-    return Math.max(12, Math.min(innerWidth < 700 ? 20 : 34, byArea));
+  function syncThemeState() {
+    saveTheme(currentTheme());
   }
 
-  function makeParticle(randomY) {
-    const palette = colors();
-    return {
-      x: Math.random() * width,
-      y: randomY ? Math.random() * height : height + 12,
-      radius: 0.9 + Math.random() * 1.5,
-      vx: (Math.random() - .5) * .12,
-      vy: -.06 - Math.random() * .13,
-      alpha: .22 + Math.random() * .42,
-      phase: Math.random() * Math.PI * 2,
-      color: palette[(Math.random() * palette.length) | 0]
-    };
-  }
+  document.addEventListener('click', function (event) {
+    const link = event.target.closest && event.target.closest('a[href]');
+    if (!link) return;
+    try {
+      const url = new URL(link.getAttribute('href'), location.href);
+      const page = url.pathname.split('/').pop();
+      if (!internalPages.has(page)) return;
+      const theme = currentTheme();
+      saveTheme(theme);
+      url.searchParams.set('theme', theme);
+      link.href = url.href;
+    } catch (e) {}
+  }, true);
 
-  function resize() {
-    width = Math.max(1, window.innerWidth);
-    height = Math.max(1, window.innerHeight);
-    dpr = Math.min(window.devicePixelRatio || 1, 1.25);
-    canvas.width = Math.round(width * dpr);
-    canvas.height = Math.round(height * dpr);
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    particles = Array.from({ length: countForViewport() }, () => makeParticle(true));
-  }
-
-  function render(time) {
-    raf = requestAnimationFrame(render);
-    if (document.hidden || time - last < targetInterval) return;
-    last = time;
-    ctx.clearRect(0, 0, width, height);
-
-    for (let i = 0; i < particles.length; i++) {
-      let p = particles[i];
-      p.phase += .01;
-      p.x += p.vx + Math.sin(p.phase) * .015;
-      p.y += p.vy;
-      if (p.y < -14 || p.x < -18 || p.x > width + 18) {
-        p = particles[i] = makeParticle(false);
-      }
-      ctx.globalAlpha = p.alpha * (.82 + Math.sin(p.phase) * .18);
-      ctx.fillStyle = p.color;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-  }
-
-  function scheduleResize() {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resize, 180);
-  }
-
-  const themeObserver = new MutationObserver(function () {
-    const palette = colors();
-    particles.forEach(function (p) {
-      p.color = palette[(Math.random() * palette.length) | 0];
+  const themeButton = document.getElementById('themeToggle');
+  if (themeButton) {
+    themeButton.addEventListener('click', function () {
+      setTimeout(syncThemeState, 0);
     });
-  });
-  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
-  window.addEventListener('resize', scheduleResize, { passive: true });
-  document.addEventListener('visibilitychange', function () { if (!document.hidden) last = performance.now(); });
-  window.addEventListener('pagehide', function () {
-    cancelAnimationFrame(raf);
-    clearTimeout(resizeTimer);
-    themeObserver.disconnect();
-  }, { once: true });
-
-  resize();
-  raf = requestAnimationFrame(render);
+  }
 })();
 </script>
+
 </body>
 </html>
