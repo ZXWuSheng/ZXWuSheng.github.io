@@ -4743,14 +4743,15 @@
           <div class="hero-actions">
 
             <!--
-              点击后复制服务器地址。
+              服务器地址暂未公开。
             -->
             <button
               class="button button-primary"
               type="button"
-              onclick="copyServerAddress()"
+              disabled
+              aria-disabled="true"
             >
-              复制服务器地址
+              敬请期待
             </button>
 
             <!--
@@ -4766,18 +4767,11 @@
           </div>
 
           <!--
-            重要：
-            把 zxwusheng.vip 修改成你的服务器地址。
-
-            例如：
-            mc.example.cn
-
-            或者：
-            123.123.123.123:25565
+            服务器地址暂未公开，正式开放后公布。
           -->
           <p class="hero-server-address">
             服务器地址：
-            <strong>zxwusheng.vip</strong>
+            <strong>敬请期待</strong>
           </p>
 
         </div>
@@ -4852,7 +4846,7 @@
 
               <div class="card-info-item">
                 <span>开放时间</span>
-                <strong>全天开放</strong>
+                <strong>筹备中</strong>
               </div>
 
             </div>
@@ -4879,13 +4873,13 @@
         </article>
 
         <article class="stat-card metric-card reveal" style="--delay: 90ms;">
-          <strong><span class="count-up" data-count="10">0</span></strong>
-          <span>升级券暂定兑换价格</span>
+          <strong>丰富</strong>
+          <span>可兑换的道具类型与用途</span>
         </article>
 
         <article class="stat-card metric-card reveal" style="--delay: 180ms;">
-          <strong><span class="count-up" data-count="50">0</span></strong>
-          <span>传送卷轴暂定代币价格</span>
+          <strong>解锁</strong>
+          <span>随等级提升开放更强力道具</span>
         </article>
 
         <article class="stat-card metric-card reveal" style="--delay: 270ms;">
@@ -4914,7 +4908,7 @@
           </h2>
 
           <p>
-            首版玩法围绕“进入野外 → 击杀怪物 → 获得代币 → 返回安全区兑换 → 属性成长”展开，
+            核心玩法围绕“进入野外 → 击杀怪物 → 获得代币 → 返回安全区兑换 → 持续成长”展开，
             让原版生存拥有清晰、可持续的长期目标。
           </p>
         </div>
@@ -4944,8 +4938,9 @@
             <h3>冒险家旅馆</h3>
 
             <p>
-              安全区旅馆提供床位、餐厅、公告与固定兑换商人，
-              是补给、回城、集合以及进行成长兑换的核心据点。
+              安全区旅馆提供床位、餐厅、公告与固定商人，并设置升级券商人与道具兑换商人。
+              升级券商人负责成长类兑换，道具兑换商人则提供回城、增益、特殊技能等多种实用道具；
+              随等级上升，可解锁的强力道具也会越来越多。
             </p>
           </article>
 
@@ -4973,7 +4968,7 @@
 
             <p>
               主世界承担基础成长，下界提高生命与伤害压力，末地作为更高阶挑战，
-              后续可加入精英词条、Boss 与特殊掉落。
+              还会陆续推出精英挑战、Boss 与更多特殊内容。
             </p>
           </article>
 
@@ -4986,8 +4981,8 @@
             <h3>代币与属性成长</h3>
 
             <p>
-              强化怪物可掉落服务器代币。代币可兑换升级券、传送卷轴和补给，
-              首版优先开放生命、攻击与防御三项角色属性。
+              强化怪物可掉落服务器代币。代币可用于兑换成长类、补给类、功能类与特殊类内容，
+              具体可用内容会随着玩家成长逐步解锁。
             </p>
           </article>
 
@@ -4997,11 +4992,11 @@
           >
             <div class="feature-icon">☻</div>
 
-            <h3>导航与安全回城</h3>
+            <h3>多种多样的道具</h3>
 
             <p>
-              指南针持续指向旅馆；传送卷轴可消耗代币回城，
-              但需要读条，并在战斗、受伤或特殊场景中受到限制。
+              各种道具应有尽有：快速回城、药水 Buff 加成、特殊技能等等。
+              道具种类丰富多样，随等级上升，可解锁的强力道具也会越来越多。
             </p>
           </article>
 
@@ -5031,7 +5026,7 @@
             <span class="journey-number">01</span>
             <div class="journey-icon">⌂</div>
             <h3>抵达旅馆</h3>
-            <p>在初始大厅了解规则，领取装备、食物、指南针与基础回城道具。</p>
+            <p>在初始大厅了解规则，领取基础装备与食物，熟悉服务器的核心玩法。</p>
           </article>
 
           <article class="journey-step reveal" style="--delay: 80ms;">
@@ -5052,14 +5047,14 @@
             <span class="journey-number">04</span>
             <div class="journey-icon">◆</div>
             <h3>带回代币</h3>
-            <p>击杀怪物获取服务器代币，并通过受限读条的传送卷轴安全返程。</p>
+            <p>击杀怪物获取服务器代币，在完成一轮冒险后返回安全区进行整备。</p>
           </article>
 
           <article class="journey-step reveal" style="--delay: 320ms;">
             <span class="journey-number">05</span>
             <div class="journey-icon">✦</div>
             <h3>兑换并成长</h3>
-            <p>在旅馆兑换升级券与补给，提升生命、攻击和防御，然后再次出发。</p>
+            <p>在旅馆找到升级券商人与道具兑换商人，使用代币兑换成长类内容与各类实用道具，然后再次出发。</p>
           </article>
         </div>
       </div>
@@ -5075,15 +5070,15 @@
 
         <div class="section-heading reveal-right">
           <span class="eyebrow">
-            Development Plan
+            Coming Soon
           </span>
 
           <h2>
-            Once Again 首版内容规划
+            Once Again 内容预告
           </h2>
 
           <p>
-            首版优先验证核心成长闭环，复杂词条、重生与高阶附魔将在基础玩法稳定后再评估加入。
+            服务器还会陆续推出更多活动、道具、属性成长、排行榜、头衔、精英挑战与 Boss 等内容。
           </p>
         </div>
 
@@ -5093,16 +5088,16 @@
             左侧主要公告。
           -->
           <article class="news-card reveal-left">
-            <time>首版核心循环</time>
+            <time>核心玩法预告</time>
 
             <h3>
               从第一次进入，到形成稳定成长闭环
             </h3>
 
             <p>
-              新玩家将在初始大厅了解玩法并领取基础装备、食物、指南针与传送卷轴。
-              进入野外后，通过挑战强化怪物获取代币，再回到安全区兑换升级券与补给，
-              逐步提升角色属性和个人难度。
+              新玩家将在初始大厅了解玩法并领取基础装备与食物。
+              进入野外后，通过挑战强化怪物获取代币，再回到安全区通过不同商人进行成长与道具兑换，
+              一点一点建立属于自己的冒险节奏。
             </p>
           </article>
 
@@ -5130,14 +5125,14 @@
               class="news-card news-small reveal-right"
               style="--delay: 170ms;"
             >
-              <time>后续扩展</time>
+              <time>还会陆续推出</time>
 
               <h3>
-                排行榜、精英怪与长期目标
+                更多活动、道具与长期目标
               </h3>
 
               <p>
-                核心循环稳定后，将评估排行榜、精英怪词条、Boss、重生机制及外观称号等长期内容。
+                服务器还会陆续推出活动、更多道具与属性内容，以及排行榜、头衔、精英挑战、Boss 等丰富玩法。
               </p>
             </article>
 
@@ -5176,8 +5171,8 @@
             </div>
 
             <p class="join-description">
-              打开 Minecraft，进入多人游戏并添加右侧地址。
-              从冒险家旅馆领取新手物资，走向野外，在一次次探索、战斗与归来中继续成长。
+              服务器目前仍在筹备中，我们正在持续完善玩法、活动、道具系统与各项内容。
+              正式开放时间及服务器地址将在准备完成后公布，敬请期待。
             </p>
           </div>
 
@@ -5186,20 +5181,19 @@
             <span class="join-panel-label">SERVER ADDRESS</span>
 
             <!--
-              服务器地址：
-              修改下面 code 标签中的 zxwusheng.vip 即可。
-              复制按钮会自动读取这里的内容。
+              服务器地址暂未公开，正式开放后公布。
             -->
             <div class="ip-box join-ip-box">
-              <code id="serverAddress">zxwusheng.vip</code>
+              <code id="serverAddress">敬请期待</code>
 
               <button
                 class="copy-button"
                 id="copyButton"
                 type="button"
-                onclick="copyServerAddress()"
+                disabled
+                aria-disabled="true"
               >
-                复制地址
+                开放后公布
               </button>
             </div>
 
@@ -5207,7 +5201,7 @@
             <div class="join-notes join-note-grid">
               <span><b>平台</b> Java 版</span>
               <span><b>版本</b> 26.3</span>
-              <span><b>开放</b> 24 / 7</span>
+              <span><b>开放</b> 筹备中</span>
               <span><b>玩法</b> 动态生存</span>
             </div>
           </div>
@@ -5230,41 +5224,37 @@
           </span>
 
           <h2>
-            加入我们的玩家社区
+            官方社区正在筹备中
           </h2>
 
           <p>
-            遇到问题、发现漏洞或者希望加入交流群，
-            可以通过下面的方式联系我们。
+            社区群聊暂未开放，相关信息会在准备完成后正式公布，敬请期待。
           </p>
         </div>
 
         <div class="contact-grid">
 
           <!--
-            QQ 群卡片。
-
-            把 123456789 修改成真实群号。
-            把 href="#" 修改成真实加群链接。
+            官方社区信息暂未公开。
           -->
           <article
             class="contact-card reveal"
             style="--delay: 0ms;"
           >
-            <span>QQ GROUP</span>
+            <span>COMMUNITY</span>
 
-            <h3>玩家交流群</h3>
+            <h3>官方社区</h3>
 
             <p>
-              QQ 群号：132336319
+              社区暂未开放，相关群聊与联系方式均在筹备中。
             </p>
 
             <a
               href="#"
-              target="_blank"
-              rel="noopener noreferrer"
+              onclick="return false;"
+              aria-disabled="true"
             >
-              加入 QQ 群
+              敬请期待
             </a>
           </article>
 
@@ -5676,7 +5666,7 @@
           ? serverAddressElement
               .textContent
               .replace(/\s+/g, "")
-          : "zxwusheng.vip";
+          : "敬请期待";
 
       try {
         /*
