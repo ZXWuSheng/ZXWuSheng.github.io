@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>团队介绍｜无声无息:Once Again</title>
+<meta name="description" content="无声无息:Once Again 团队介绍。四个人，一个服务器，再认真做一次。">
+<script id="oa-theme-bootstrap">
+(function () {
+  try {
+    const params = new URLSearchParams(location.search);
+    const incoming = params.get('theme');
+    const saved =
+      localStorage.getItem('once-again-theme') ||
+      localStorage.getItem('website-theme') ||
+      localStorage.getItem('sponsor-theme');
+    const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    const theme = (incoming === 'light' || incoming === 'dark') ? incoming : (saved || preferred);
+
+    if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    else document.documentElement.removeAttribute('data-theme');
+
+    if (theme === 'light' || theme === 'dark') {
+      localStorage.setItem('once-again-theme', theme);
+      localStorage.setItem('website-theme', theme);
+      localStorage.setItem('sponsor-theme', theme);
+    }
+  } catch (e) {}
+})();
+</script>
+<script id="oa-avatar-fallback">
+(function(){
+  const providers = [
+    (id,size)=>`https://mc-heads.net/avatar/${id}/${size}`,
+    (id,size)=>`https://crafthead.net/helm/${id}/${size}.png`,
+    (id,size)=>`https://minotar.net/helm/${id}/${size}.png`,
+    (id,size)=>`https://api.mcskin.me/head/${id}?size=${size}`,
+    (id,size)=>`https://api.mcheads.org/head/${id}/${size}`,
+    (id,size)=>`https://api.minecraftapi.net/v3/profile/${id}/avatar?size=${size}&overlay=true`,
+    { type:'littleskin' }
+  ];
+
+  function sourceUrl(index, mcid, size){
+    const provider = providers[index];
+    return typeof provider === 'function' ? provider(encodeURIComponent(mcid), size) : '';
+  }
+
+  function loadLittleSkinHead(img, mcid, size, index){
+    const skin = new Image();
+    skin.crossOrigin = 'anonymous';
+    skin.onload = function(){
+      try{
+        const canvas = document.createElement('canvas');
+        canvas.width = size; canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+        const scale = skin.naturalWidth / 64;
+        if(!scale || skin.naturalHeight < 32 * scale) throw new Error('Invalid skin size');
+        ctx.drawImage(skin, 8*scale, 8*scale, 8*scale, 8*scale, 0, 0, size, size);
+        ctx.drawImage(skin, 40*scale, 8*scale, 8*scale, 8*scale, 0, 0, size, size);
+        img.onerror = function(){ next(img); };
+        img.src = canvas.toDataURL('image/png');
+      }catch(e){
+        img.dataset.avatarSource = String(index);
+        next(img);
+      }
+    };
+    skin.onerror = function(){
+      img.dataset.avatarSource = String(index);
+      next(img);
+    };
+    skin.src = `https://littleskin.cn/skin/${encodeURIComponent(mcid)}.png`;
+  }
+
+  function start(img, mcid, size){
+    if(!img || !mcid) return;
+    img.dataset.mcid = mcid;
+    img.dataset.avatarSize = String(size || 160);
+    img.dataset.avatarSource = '0';
+    img.style.display = 'block';
+    img.src = sourceUrl(0, mcid, size || 160);
+  }
+
+  function next(img){
+    if(!img) return;
+    const mcid = img.dataset.mcid;
+    const size = Number(img.dataset.avatarSize || 160);
+    let index = Number(img.dataset.avatarSource || 0) + 1;
+    if(!mcid || index >= providers.length){
+      img.onerror = null;
+      img.style.display = 'none';
+      return;
+    }
+    img.dataset.avatarSource = String(index);
+    const provider = providers[index];
+    if(provider && provider.type === 'littleskin'){
+      loadLittleSkinHead(img, mcid, size, index);
+      return;
+    }
+    img.src = sourceUrl(index, mcid, size);
+  }
+
+  window.OAAvatarFallback = { start, next };
+})();
+</script>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#050908;
+  --bg2:#09120f;
+  --panel:rgba(13,28,23,.78);
+  --panel-strong:rgba(12,27,22,.94);
+  --panel-soft:rgba(255,255,255,.035);
+  --text:#f5fff9;
+  --muted:#a8bbb1;
+  --soft:#748a7d;
+  --line:rgba(255,255,255,.075);
+  --primary:#70efad;
+  --primary2:#32bd79;
+  --accent:#ffd166;
+  --shadow:0 26px 80px rgba(0,0,0,.34);
+  --control:rgba(8,19,15,.72);
+  --grid:rgba(112,239,173,.035);
+}
+html[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f4f8f5;
+  --bg2:#eaf2ed;
+  --panel:rgba(255,255,255,.78);
+  --panel-strong:rgba(255,255,255,.95);
+  --panel-soft:rgba(19,75,43,.035);
+  --text:#13241b;
+  --muted:#5e7066;
+  --soft:#86968d;
+  --line:rgba(12,55,31,.10);
+  --primary:#1ea464;
+  --primary2:#137345;
+  --accent:#b97700;
+  --shadow:0 24px 70px rgba(33,73,48,.12);
+  --control:rgba(255,255,255,.80);
+  --grid:rgba(30,164,100,.045);
+}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--text);
+  font-family:"Microsoft YaHei","PingFang SC",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 13% 8%,rgba(50,189,121,.16),transparent 27%),
+    radial-gradient(circle at 86% 31%,rgba(112,239,173,.10),transparent 28%),
+    linear-gradient(180deg,var(--bg),var(--bg2) 48%,var(--bg));
+  overflow-x:hidden;
+  transition:background .55s ease,color .35s ease;
+}
+html[data-theme="light"] body{
+  background:
+    radial-gradient(circle at 13% 8%,rgba(30,164,100,.11),transparent 27%),
+    radial-gradient(circle at 86% 31%,rgba(255,209,102,.11),transparent 28%),
+    linear-gradient(180deg,var(--bg),var(--bg2) 48%,var(--bg));
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-3;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;
+  mask-image:linear-gradient(#000,transparent 92%);
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+::selection{background:rgba(112,239,173,.26)}
+.container{width:min(1180px,calc(100% - 40px));margin:auto}
+
+/* 顶部控制 */
+.page-controls{
+  position:fixed;top:18px;left:18px;right:18px;z-index:1000;
+  display:flex;justify-content:space-between;align-items:center;pointer-events:none;
+}
+.control-btn{
+  pointer-events:auto;min-height:48px;border:1px solid var(--line);background:var(--control);color:var(--text);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  box-shadow:0 12px 34px rgba(0,0,0,.16);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:0 17px;border-radius:15px;font-weight:850;
+  transition:transform .28s cubic-bezier(.2,.8,.2,1),border-color .3s,background .3s,box-shadow .3s;
+}
+.control-btn:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--primary) 52%,transparent);box-shadow:0 15px 38px rgba(0,0,0,.20)}
+.control-btn:active{transform:scale(.95)}
+.theme-btn{width:48px;padding:0;border-radius:50%;position:relative;overflow:hidden}
+.theme-btn .sun,.theme-btn .moon{position:absolute;font-size:22px;line-height:1;transition:opacity .3s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+.theme-btn .sun{color:var(--oa-control-accent);opacity:1;transform:scale(1) rotate(0);text-shadow:0 0 14px color-mix(in srgb,var(--oa-control-accent) 45%,transparent)}
+.theme-btn .moon{color:var(--oa-control-accent);opacity:0;transform:scale(.5) rotate(-90deg);text-shadow:none}
+html[data-theme="light"] .theme-btn .sun{opacity:0;transform:scale(.5) rotate(90deg)}
+html[data-theme="light"] .theme-btn .moon{opacity:1;transform:scale(1) rotate(0)}
+
+/* 轻量粒子 */
+.particles{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+.particle{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--primary);opacity:.22;box-shadow:0 0 18px color-mix(in srgb,var(--primary) 55%,transparent);animation:floatParticle var(--d) ease-in-out infinite alternate;will-change:transform}
+@keyframes floatParticle{to{transform:translate3d(var(--x),var(--y),0)}}
+
+/* Hero */
+.hero{min-height:92vh;display:flex;align-items:center;padding:132px 0 78px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.13fr .87fr;gap:72px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--primary);font-weight:950;letter-spacing:.17em;font-size:13px;text-transform:uppercase}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--primary);box-shadow:0 0 12px rgba(112,239,173,.42)}
+.hero h1{margin:18px 0 22px;font-size:clamp(48px,7.4vw,98px);line-height:.98;letter-spacing:-.055em;font-weight:950}
+.hero h1 span{display:block;color:var(--primary)}
+.hero-copy{max-width:700px;color:var(--muted);font-size:clamp(16px,1.8vw,20px);line-height:1.95}
+.hero-copy strong{color:var(--text)}
+.hero-metrics{display:flex;flex-wrap:wrap;gap:13px;margin-top:32px}
+.metric{min-width:140px;padding:15px 17px;border:1px solid var(--line);border-radius:17px;background:var(--panel-soft);backdrop-filter:blur(10px)}
+.metric b{display:block;font-size:26px;line-height:1;color:var(--text)}
+.metric span{display:block;margin-top:7px;color:var(--soft);font-size:12px;font-weight:900;letter-spacing:.11em}
+
+.team-orbit{position:relative;aspect-ratio:1/1;max-width:480px;margin:auto;display:grid;place-items:center;isolation:isolate}
+.team-orbit::before,.team-orbit::after{content:"";position:absolute;border:1px solid var(--line);border-radius:50%;pointer-events:none}
+.team-orbit::before{inset:8%;animation:spin 26s linear infinite}
+.team-orbit::after{inset:23%;border-style:dashed;animation:spinReverse 20s linear infinite}
+.orbit-glow{position:absolute;inset:25%;border-radius:50%;background:radial-gradient(circle,rgba(112,239,173,.22),transparent 68%);filter:blur(5px);animation:orbitGlowPulse 3.6s ease-in-out infinite;pointer-events:none}
+.core{width:134px;height:134px;border-radius:31px;display:grid;place-items:center;text-align:center;background:var(--panel-strong);border:1px solid rgba(112,239,173,.34);box-shadow:var(--shadow),inset 0 0 34px rgba(112,239,173,.08),0 0 30px rgba(112,239,173,.10);z-index:2;transform:rotate(-4deg);transition:transform .65s cubic-bezier(.18,.9,.22,1),box-shadow .45s ease}
+.core strong{display:block;color:var(--primary);font-size:25px;line-height:1.05;white-space:nowrap}
+.core span{display:block;margin-top:9px;color:#ff69b4;font-size:12px;font-weight:950;letter-spacing:.13em;text-shadow:0 0 14px rgba(255,105,180,.30)}
+.orbit-person{--tx:0px;--ty:0px;--rot:0deg;--delay:0s;position:absolute;left:50%;top:50%;width:88px;height:88px;border-radius:24px;background:var(--panel-strong);border:1px solid color-mix(in srgb,var(--person) 42%,var(--line));box-shadow:0 12px 35px rgba(0,0,0,.20),0 0 14px color-mix(in srgb,var(--person) 24%,transparent);padding:7px;z-index:3;cursor:pointer;transform:translate(-50%,-50%) translate(var(--tx),var(--ty)) rotate(var(--rot)) scale(.96);transition:transform 1.08s cubic-bezier(.16,.84,.22,1),border-color .35s ease,box-shadow .35s ease,filter .35s ease;will-change:transform;touch-action:manipulation}
+.orbit-person::before{content:"";position:absolute;inset:-18px;border-radius:38px;background:transparent;z-index:0}
+.orbit-person::after{content:"";position:absolute;inset:-7px;border-radius:29px;border:2px solid color-mix(in srgb,var(--person) 72%,transparent);box-shadow:0 0 18px color-mix(in srgb,var(--person) 70%,transparent),0 0 38px color-mix(in srgb,var(--person) 38%,transparent);opacity:.22;transition:opacity .35s ease,transform .45s ease;pointer-events:none}
+.orbit-person:hover,.orbit-person:focus-visible{border-color:var(--person);box-shadow:0 16px 42px rgba(0,0,0,.25),0 0 24px color-mix(in srgb,var(--person) 72%,transparent),0 0 54px color-mix(in srgb,var(--person) 42%,transparent);filter:saturate(1.18);outline:none}
+.orbit-person:hover::after,.orbit-person:focus-visible::after{opacity:.9;transform:scale(1.08)}
+.orbit-person img{width:100%;height:100%;object-fit:cover;border-radius:18px;image-rendering:pixelated;position:relative;z-index:2}
+.orbit-person .avatar-fallback{position:absolute;inset:7px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--person),color-mix(in srgb,var(--person) 34%,#07130f));color:#fff;font-weight:950;font-size:20px;z-index:1}
+.op1{--person:#70efad;--tx:-42px;--ty:-35px;--rot:-8deg;--delay:-.2s}.op2{--person:#59a9ff;--tx:42px;--ty:-34px;--rot:7deg;--delay:-.9s}.op3{--person:#c98cff;--tx:40px;--ty:38px;--rot:8deg;--delay:-1.6s}.op4{--person:#ffcf66;--tx:-40px;--ty:38px;--rot:-7deg;--delay:-2.3s}
+.team-orbit.is-expanded .op1{--tx:-142px;--ty:-126px;--rot:-10deg}
+.team-orbit.is-expanded .op2{--tx:142px;--ty:-112px;--rot:9deg}
+.team-orbit.is-expanded .op3{--tx:132px;--ty:126px;--rot:10deg}
+.team-orbit.is-expanded .op4{--tx:-138px;--ty:118px;--rot:-9deg}
+.team-orbit.is-expanded .core{transform:rotate(0deg) scale(1.06);box-shadow:var(--shadow),inset 0 0 38px rgba(112,239,173,.10),0 0 40px rgba(112,239,173,.18)}
+.team-orbit.is-floating .orbit-person{animation:orbitMemberFloat 3.25s ease-in-out var(--delay) infinite}
+.team-orbit.is-expanded .orbit-person:hover,.team-orbit.is-expanded .orbit-person:focus-visible{animation-play-state:paused;transform:translate(-50%,-50%) translate(var(--tx),var(--ty)) rotate(var(--rot)) scale(1.10)}
+@keyframes orbitMemberFloat{0%,100%{transform:translate(-50%,-50%) translate(var(--tx),var(--ty)) rotate(var(--rot)) scale(1)}50%{transform:translate(-50%,-50%) translate(var(--tx),calc(var(--ty) - 11px)) rotate(calc(var(--rot) * -0.55)) scale(1.045)}}
+@keyframes orbitGlowPulse{0%,100%{transform:scale(.92);opacity:.55}50%{transform:scale(1.18);opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinReverse{to{transform:rotate(-360deg)}}
+
+/* Section */
+.section{padding:82px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:30px}
+.kicker{color:var(--primary);font-size:13px;letter-spacing:.15em;font-weight:950}
+.section h2{margin:8px 0 0;font-size:clamp(36px,5.8vw,68px);line-height:1.04;letter-spacing:-.045em}
+.section-desc{max-width:450px;color:var(--muted);line-height:1.8}
+
+.team-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.member-card{
+  --member:#70efad;position:relative;overflow:hidden;min-height:350px;padding:28px;border:1px solid var(--line);border-radius:28px;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--member) 7%,var(--panel)),var(--panel));box-shadow:0 14px 46px rgba(0,0,0,.13);
+  cursor:pointer;isolation:isolate;transition:transform .38s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s,background .35s;
+}
+.member-card::before{content:"";position:absolute;width:220px;height:220px;right:-70px;top:-75px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--member) 22%,transparent),transparent 69%);z-index:-1;transition:transform .5s ease}
+.member-card:hover{transform:translateY(-7px);border-color:color-mix(in srgb,var(--member) 45%,transparent);box-shadow:0 24px 68px rgba(0,0,0,.20)}
+.member-card:hover::before{transform:scale(1.18)}
+.member-card.active{border-color:color-mix(in srgb,var(--member) 65%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--member) 15%,transparent),0 25px 70px rgba(0,0,0,.20)}
+.member-card.badnng{--member:#59a9ff}.member-card.ksq{--member:#c98cff}.member-card.wang{--member:#ffcf66}
+.card-top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.member-number{font:900 13px/1 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--member);letter-spacing:.13em}
+.head-wrap{width:92px;height:92px;border-radius:24px;padding:6px;border:1px solid color-mix(in srgb,var(--member) 35%,transparent);background:rgba(255,255,255,.035);position:relative;box-shadow:0 14px 32px rgba(0,0,0,.15)}
+.head-wrap img{width:100%;height:100%;object-fit:cover;border-radius:18px;image-rendering:pixelated;position:relative;z-index:2}
+.head-fallback{position:absolute;inset:6px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--member),color-mix(in srgb,var(--member) 30%,#07130f));color:#fff;font-weight:950}
+.member-role{margin-top:35px;color:var(--member);font-size:13px;font-weight:950;letter-spacing:.13em;text-transform:uppercase}
+.member-name{margin:7px 0 3px;font-size:clamp(28px,4vw,42px);line-height:1.1;letter-spacing:-.03em}
+.mcid{font:750 13px/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--soft)}
+.member-desc{margin:18px 0 0;color:var(--muted);line-height:1.8;max-width:510px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:21px}
+.tag{padding:7px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.025);color:var(--text);font-size:12px;font-weight:800}
+.status{position:absolute;right:28px;bottom:26px;display:flex;align-items:center;gap:7px;color:var(--soft);font:800 11px/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--member);box-shadow:0 0 14px var(--member)}
+
+/* 选中档案 */
+.profile-panel{margin-top:20px;border:1px solid var(--line);border-radius:30px;background:var(--panel-strong);box-shadow:var(--shadow);overflow:hidden;position:relative}
+.profile-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 15%,color-mix(in srgb,var(--profile) 11%,transparent),transparent 34%);pointer-events:none}
+.profile-inner{display:grid;grid-template-columns:260px 1fr;gap:38px;align-items:center;padding:34px;position:relative}
+.profile-avatar{aspect-ratio:1;border-radius:28px;padding:9px;background:rgba(255,255,255,.04);border:1px solid color-mix(in srgb,var(--profile) 38%,transparent);box-shadow:0 22px 45px rgba(0,0,0,.18);position:relative}
+.profile-avatar img{width:100%;height:100%;object-fit:cover;border-radius:21px;image-rendering:pixelated;position:relative;z-index:2}
+.profile-avatar-fallback{position:absolute;inset:9px;border-radius:21px;display:grid;place-items:center;background:linear-gradient(135deg,var(--profile),color-mix(in srgb,var(--profile) 25%,#07130f));font-size:46px;color:#fff;font-weight:950}
+.profile-label{color:var(--profile);font:900 12px/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.15em}
+.profile-title{font-size:clamp(31px,4.6vw,55px);line-height:1.04;margin:9px 0 12px;letter-spacing:-.04em}
+.profile-text{color:var(--muted);font-size:17px;line-height:1.9;max-width:760px}
+.profile-bottom{display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:21px;padding-top:20px;border-top:1px solid var(--line)}
+.profile-stat{min-width:150px}.profile-stat small{display:block;color:var(--soft);font-size:11px;font-weight:900;letter-spacing:.1em}.profile-stat b{display:block;margin-top:5px;font-size:15px}
+
+/* Story */
+.story-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:start}
+.story-index{position:sticky;top:110px;padding:28px;border:1px solid var(--line);border-radius:26px;background:var(--panel);backdrop-filter:blur(12px)}
+.story-index .big{font-size:clamp(62px,9vw,112px);font-weight:950;color:var(--primary);line-height:.85;letter-spacing:-.07em}
+.story-index p{margin:18px 0 0;color:var(--muted);line-height:1.8}
+.story-card{padding:34px;border:1px solid var(--line);border-radius:28px;background:var(--panel);box-shadow:0 16px 44px rgba(0,0,0,.10)}
+.story-card + .story-card{margin-top:16px}
+.story-card h3{margin:0 0 12px;font-size:28px}.story-card p{margin:0;color:var(--muted);line-height:1.9;font-size:17px}
+.story-card strong{color:var(--text)}
+
+.finale{text-align:center;padding:110px 0 120px}
+.finale .micro{color:var(--primary);font-weight:950;letter-spacing:.18em;font-size:12px}
+.finale h2{margin:18px auto 20px;max-width:900px;font-size:clamp(43px,7.3vw,92px);line-height:.98;letter-spacing:-.055em}
+.finale h2 span{color:var(--primary)}
+.finale p{max-width:650px;margin:auto;color:var(--muted);font-size:17px;line-height:1.9}
+.return-home{display:inline-flex;margin-top:30px;align-items:center;gap:10px;padding:13px 20px;border-radius:14px;background:var(--primary);color:#05130c;font-weight:950;box-shadow:0 14px 32px rgba(40,180,110,.20);transition:transform .3s ease,box-shadow .3s ease}
+html[data-theme="light"] .return-home{color:#fff}
+.return-home:hover{transform:translateY(-4px);box-shadow:0 19px 38px rgba(40,180,110,.28)}
+footer{padding:0 0 34px;text-align:center;color:var(--soft);font-size:12px}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.show{opacity:1;transform:none}
+
+@media(max-width:930px){
+  .hero{min-height:auto}.hero-grid{grid-template-columns:1fr;gap:52px}.team-orbit{width:min(470px,86vw)}
+  .section-head{align-items:flex-start;flex-direction:column}.team-grid{grid-template-columns:1fr}
+  .profile-inner{grid-template-columns:190px 1fr}.story-wrap{grid-template-columns:1fr}.story-index{position:relative;top:auto}
+}
+@media(max-width:620px){
+  .container{width:min(100% - 24px,1180px)}.page-controls{top:10px;left:10px;right:10px}.control-btn{min-height:43px;padding:0 13px}.back-text{display:none}.theme-btn{width:43px;padding:0}
+  .hero{padding:110px 0 52px}.hero h1{font-size:clamp(46px,15vw,72px)}.hero-copy{font-size:16px}.metric{flex:1;min-width:125px}
+  .team-orbit{width:min(390px,96vw)}.orbit-person{width:72px;height:72px;border-radius:19px}.orbit-person img,.orbit-person .avatar-fallback{border-radius:14px}.core{width:110px;height:110px;border-radius:26px}
+  .section{padding:60px 0}.member-card{padding:22px;min-height:365px}.head-wrap{width:78px;height:78px;border-radius:20px}.member-role{margin-top:26px}.status{position:static;margin-top:20px}
+  .profile-inner{grid-template-columns:1fr;padding:22px}.profile-avatar{width:170px}.story-card,.story-index{padding:24px}.finale{padding:80px 0 90px}
+}
+
+@media(max-width:620px){
+  .team-orbit .op1{--tx:-108px;--ty:-94px}.team-orbit .op2{--tx:108px;--ty:-88px}.team-orbit .op3{--tx:101px;--ty:99px}.team-orbit .op4{--tx:-104px;--ty:94px}
+  .team-orbit.is-floating .orbit-person{animation:orbitMemberFloat 3.2s ease-in-out var(--delay) infinite}
+  .core strong{font-size:21px}.core span{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}
+}
+
+
+/* ===== 三页面一致性：统一小型页面控制按钮 ===== */
+:root{
+  --oa-control-bg:rgba(8,19,15,.72);
+  --oa-control-border:rgba(112,239,173,.20);
+  --oa-control-shadow:0 12px 34px rgba(0,0,0,.16);
+  --oa-control-accent:#70efad;
+}
+html[data-theme="light"]{
+  --oa-control-bg:rgba(255,255,255,.80);
+  --oa-control-border:rgba(30,164,100,.18);
+  --oa-control-shadow:0 12px 34px rgba(29,67,46,.12);
+  --oa-control-accent:#1ea464;
+}
+.control-btn{
+  min-height:48px;
+  border:1px solid var(--oa-control-border);
+  background:var(--oa-control-bg);
+  color:var(--text);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:var(--oa-control-shadow);
+  border-radius:15px;
+  transition:transform .28s cubic-bezier(.2,.8,.2,1),border-color .3s ease,background .3s ease,box-shadow .3s ease;
+}
+.control-btn:hover{transform:translateY(-3px);border-color:var(--oa-control-accent);box-shadow:0 15px 38px rgba(0,0,0,.20)}
+html[data-theme="light"] .control-btn:hover{box-shadow:0 15px 38px rgba(29,67,46,.14)}
+.control-btn:active{transform:scale(.95)}
+.theme-btn{width:48px;height:48px;min-width:48px;min-height:48px;padding:0;border-radius:50%;position:relative;overflow:hidden}
+.theme-btn .sun,.theme-btn .moon{position:absolute;inset:0;display:grid;place-items:center;font-size:22px;line-height:1;transition:opacity .3s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+.theme-btn .sun{color:var(--oa-control-accent);opacity:1;transform:scale(1) rotate(0);text-shadow:0 0 14px color-mix(in srgb,var(--oa-control-accent) 45%,transparent)}
+.theme-btn .moon{color:var(--oa-control-accent);opacity:0;transform:scale(.5) rotate(-90deg);text-shadow:none}
+html[data-theme="light"] .theme-btn .sun{opacity:0;transform:scale(.5) rotate(90deg)}
+html[data-theme="light"] .theme-btn .moon{opacity:1;transform:scale(1) rotate(0)}
+@media(max-width:760px){.control-btn{min-height:43px}.theme-btn{width:43px;height:43px;min-width:43px;min-height:43px}}
+
+
+
+/* ===== 右下角赞助场景入口（与首页风格统一） ===== */
+@property --scene-ring-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+.scene-teaser{
+  --scene-ring-angle:0deg;
+  --scene-teaser-bg:rgba(7,20,15,.92);
+  --scene-teaser-text:#f5fff9;
+  --scene-teaser-muted:#a8bbb1;
+  --scene-teaser-line:rgba(255,255,255,.08);
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:920;
+  width:min(334px,calc(100vw - 28px));
+  padding:2px;
+  border-radius:26px;
+  background:conic-gradient(from var(--scene-ring-angle),#ff42c7,#8d63ff,#4ca7ff,#42e8d8,#70efad,#ffe266,#ff42c7);
+  box-shadow:0 18px 54px rgba(0,0,0,.28),0 0 20px rgba(112,239,173,.12);
+  animation:sceneRingOrbit 12s linear infinite,sceneTeaserBreath 5.2s ease-in-out infinite,sceneTeaserEnter .7s cubic-bezier(.2,.8,.2,1) both;
+  isolation:isolate;
+  transform-origin:100% 100%;
+}
+.scene-teaser::before{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  z-index:-1;
+  border-radius:32px;
+  background:conic-gradient(from var(--scene-ring-angle),rgba(255,66,199,.72),rgba(141,99,255,.68),rgba(76,167,255,.64),rgba(66,232,216,.58),rgba(112,239,173,.62),rgba(255,226,102,.60),rgba(255,66,199,.72));
+  filter:blur(16px);
+  opacity:.38;
+  pointer-events:none;
+}
+.scene-teaser::after{
+  content:"";
+  position:absolute;
+  inset:2px;
+  z-index:0;
+  border-radius:24px;
+  background:var(--scene-teaser-bg);
+  border:1px solid var(--scene-teaser-line);
+  backdrop-filter:blur(20px) saturate(125%);
+  -webkit-backdrop-filter:blur(20px) saturate(125%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.scene-teaser-main{
+  position:relative;
+  z-index:1;
+  display:block;
+  min-height:164px;
+  padding:24px 58px 22px 24px;
+  border-radius:24px;
+  color:var(--scene-teaser-text);
+  cursor:pointer;
+  overflow:hidden;
+}
+.scene-teaser-main::before{
+  content:"";
+  position:absolute;
+  width:150px;
+  height:150px;
+  left:-75px;
+  bottom:-95px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(112,239,173,.18),transparent 67%);
+  pointer-events:none;
+}
+.scene-teaser-kicker{
+  color:#ff5bab;
+  font-size:12px;
+  line-height:1;
+  font-weight:950;
+  letter-spacing:.16em;
+}
+.scene-teaser-title{
+  margin:12px 0 7px;
+  color:var(--scene-teaser-text);
+  font-size:25px;
+  line-height:1.15;
+  letter-spacing:-.025em;
+  font-weight:950;
+}
+.scene-teaser-copy{
+  margin:0;
+  color:var(--scene-teaser-muted);
+  font-size:13px;
+  line-height:1.7;
+}
+.scene-teaser-action{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:14px;
+  color:var(--primary);
+  font-size:13px;
+  font-weight:950;
+  transition:transform .28s cubic-bezier(.2,.8,.2,1),color .25s ease;
+}
+.scene-teaser-main:hover .scene-teaser-action{transform:translateX(4px)}
+.scene-teaser-close{
+  position:absolute;
+  top:14px;
+  right:14px;
+  z-index:4;
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:1px solid var(--scene-teaser-line);
+  border-radius:50%;
+  background:color-mix(in srgb,var(--scene-teaser-bg) 88%,white 12%);
+  color:var(--scene-teaser-text);
+  box-shadow:0 8px 22px rgba(0,0,0,.22);
+  cursor:pointer;
+  font-size:20px;
+  line-height:1;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),background .25s ease,border-color .25s ease;
+}
+.scene-teaser-close:hover{
+  transform:rotate(90deg) scale(1.06);
+  border-color:color-mix(in srgb,var(--primary) 48%,transparent);
+  background:color-mix(in srgb,var(--scene-teaser-bg) 78%,var(--primary) 22%);
+}
+.scene-teaser-close:active{transform:rotate(90deg) scale(.92)}
+.scene-teaser:hover{
+  box-shadow:0 22px 64px rgba(0,0,0,.32),0 0 28px color-mix(in srgb,var(--primary) 20%,transparent);
+}
+.scene-teaser.closing{
+  animation:none;
+  opacity:0;
+  transform:translateY(16px) scale(.96);
+  transition:opacity .26s ease,transform .3s cubic-bezier(.4,0,1,1);
+  pointer-events:none;
+}
+html[data-theme="light"] .scene-teaser{
+  --scene-teaser-bg:rgba(251,254,252,.93);
+  --scene-teaser-text:#13241b;
+  --scene-teaser-muted:#607168;
+  --scene-teaser-line:rgba(19,74,42,.10);
+  box-shadow:0 18px 48px rgba(33,73,48,.15),0 0 18px rgba(30,164,100,.08);
+}
+html[data-theme="light"] .scene-teaser::before{opacity:.26}
+html[data-theme="light"] .scene-teaser-close{box-shadow:0 7px 18px rgba(42,78,55,.14)}
+@keyframes sceneRingOrbit{to{--scene-ring-angle:360deg}}
+@keyframes sceneTeaserBreath{
+  0%,100%{filter:brightness(.96)}
+  50%{filter:brightness(1.06)}
+}
+@keyframes sceneTeaserEnter{
+  from{opacity:0;transform:translateY(22px) scale(.96)}
+  to{opacity:1;transform:none}
+}
+@media(max-width:620px){
+  .scene-teaser{right:12px;bottom:12px;width:min(316px,calc(100vw - 24px));border-radius:23px}
+  .scene-teaser::after{border-radius:21px}
+  .scene-teaser-main{min-height:150px;padding:21px 54px 19px 20px;border-radius:21px}
+  .scene-teaser-title{font-size:22px}
+  .scene-teaser-close{top:12px;right:12px;width:36px;height:36px}
+}
+@media(prefers-reduced-motion:reduce){
+  .scene-teaser,.scene-teaser::before{animation:none!important}
+  .scene-teaser-main:hover .scene-teaser-action{transform:none}
+}
+
+</style>
+</head>
+<body>
+<div class="page-controls" aria-label="页面控制">
+  <a class="control-btn" href="index.html" aria-label="返回首页"><span style="font-size:20px">←</span><span class="back-text">返回首页</span></a>
+  <button class="control-btn theme-btn" id="themeToggle" type="button" aria-label="切换黑白主题" title="切换黑白主题"><span class="sun">☀</span><span class="moon">☾</span></button>
+</div>
+
+<div class="scene-teaser" id="sceneTeaser" aria-label="赞助场景入口">
+  <a class="scene-teaser-main" href="scene1.html" aria-label="进入赞助场景">
+    <div class="scene-teaser-kicker">NEW SCENE</div>
+    <div class="scene-teaser-title">助力服务器复活</div>
+    <p class="scene-teaser-copy">前往另一个场景，查看赞助与支持方式。</p>
+    <span class="scene-teaser-action">进入场景 <span aria-hidden="true">→</span></span>
+  </a>
+  <button class="scene-teaser-close" id="sceneTeaserClose" type="button" aria-label="关闭赞助入口" title="关闭">×</button>
+</div>
+
+<div class="particles" aria-hidden="true">
+  <i class="particle" style="left:7%;top:18%;--x:18px;--y:-24px;--d:8s"></i>
+  <i class="particle" style="left:18%;top:72%;--x:-16px;--y:26px;--d:10s"></i>
+  <i class="particle" style="left:28%;top:36%;--x:22px;--y:15px;--d:9s"></i>
+  <i class="particle" style="left:41%;top:12%;--x:-20px;--y:18px;--d:11s"></i>
+  <i class="particle" style="left:56%;top:62%;--x:17px;--y:-20px;--d:8.5s"></i>
+  <i class="particle" style="left:68%;top:26%;--x:-22px;--y:16px;--d:12s"></i>
+  <i class="particle" style="left:79%;top:78%;--x:20px;--y:18px;--d:9.5s"></i>
+  <i class="particle" style="left:90%;top:42%;--x:-14px;--y:-24px;--d:10.5s"></i>
+  <i class="particle" style="left:12%;top:48%;--x:14px;--y:18px;--d:11.5s"></i>
+  <i class="particle" style="left:51%;top:84%;--x:-18px;--y:-14px;--d:9.2s"></i>
+</div>
+
+<main>
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="reveal show">
+      <div class="eyebrow">MEET THE TEAM / ONCE AGAIN</div>
+      <h1>我们只有四个人。<span>但想把这件事认真做完。</span></h1>
+      <p class="hero-copy">没有庞大的工作室，也没有一长串头衔。<strong>无声无息: Once Again</strong> 目前由四个人共同推进：有人负责方向，有人负责把玩法落地，有人负责底层逻辑，也有人负责……在路边值守。</p>
+      <div class="hero-metrics">
+        <div class="metric"><b>04</b><span>PEOPLE / 成员</span></div>
+        <div class="metric"><b>01</b><span>SERVER / 项目</span></div>
+        <div class="metric"><b>∞</b><span>TODO / 想做的事</span></div>
+      </div>
+    </div>
+
+    <div class="team-orbit reveal show" aria-label="团队成员轨道图">
+      <div class="orbit-glow"></div>
+      <div class="core"><div><strong>无声无息</strong><span>ONCE AGAIN</span></div></div>
+      <div class="orbit-person op1" data-id="owner" tabindex="0" role="button" aria-label="查看在下无声的成员档案" title="在下无声 / ZX_Wu_Sheng"><span class="avatar-fallback">无声</span><img src="https://mc-heads.net/avatar/ZX_Wu_Sheng/160" data-mcid="ZX_Wu_Sheng" data-avatar-size="160" data-avatar-source="0" alt="ZX_Wu_Sheng 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div>
+      <div class="orbit-person op2" data-id="badnng" tabindex="0" role="button" aria-label="查看 Badnng 的成员档案" title="Badnng"><span class="avatar-fallback">NNG</span><img src="https://mc-heads.net/avatar/Badnng/160" data-mcid="Badnng" data-avatar-size="160" data-avatar-source="0" alt="Badnng 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div>
+      <div class="orbit-person op3" data-id="ksq" tabindex="0" role="button" aria-label="查看 KsqsnK 的成员档案" title="KsqsnK"><span class="avatar-fallback">KS</span><img src="https://mc-heads.net/avatar/KsqsnK/160" data-mcid="KsqsnK" data-avatar-size="160" data-avatar-source="0" alt="KsqsnK 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div>
+      <div class="orbit-person op4" data-id="wang" tabindex="0" role="button" aria-label="查看王美丽的成员档案" title="王美丽 / Wangmeili"><span class="avatar-fallback">王</span><img src="https://mc-heads.net/avatar/Wangmeili/160" data-mcid="Wangmeili" data-avatar-size="160" data-avatar-source="0" alt="Wangmeili 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="team">
+  <div class="container">
+    <div class="section-head reveal">
+      <div><div class="kicker">TEAM ROSTER / 04 PLAYERS</div><h2>四个人，四种职责。</h2></div>
+      <p class="section-desc">把“服主、开发、安保”这些简单标签拆开一点，你会更清楚服务器背后到底是谁在负责什么。</p>
+    </div>
+
+    <div class="team-grid">
+      <article class="member-card active reveal" data-id="owner" tabindex="0" role="button" aria-label="查看在下无声的成员档案">
+        <div class="card-top"><span class="member-number">PLAYER / 01</span><div class="head-wrap"><span class="head-fallback">无声</span><img src="https://mc-heads.net/avatar/ZX_Wu_Sheng/160" data-mcid="ZX_Wu_Sheng" data-avatar-size="160" data-avatar-source="0" alt="ZX_Wu_Sheng 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div></div>
+        <div class="member-role">SERVER OWNER · PROJECT LEAD</div>
+        <h3 class="member-name">在下无声</h3>
+        <div class="mcid">MCID / ZX_Wu_Sheng</div>
+        <p class="member-desc">服主与项目主理人。负责服务器主要资金投入、整体方向、玩法策划与关键决策；一句话概括，就是负责“这个项目到底要做成什么样”。</p>
+        <div class="tags"><span class="tag">资金投入</span><span class="tag">整体策划</span><span class="tag">项目决策</span></div>
+        <div class="status">ONLINE · PLANNING</div>
+      </article>
+
+      <article class="member-card badnng reveal" data-id="badnng" tabindex="0" role="button" aria-label="查看 Badnng 的成员档案">
+        <div class="card-top"><span class="member-number">PLAYER / 02</span><div class="head-wrap"><span class="head-fallback">NNG</span><img src="https://mc-heads.net/avatar/Badnng/160" data-mcid="Badnng" data-avatar-size="160" data-avatar-source="0" alt="Badnng 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div></div>
+        <div class="member-role">MOD & GAMEPLAY DEVELOPER</div>
+        <h3 class="member-name">Badnng</h3>
+        <div class="mcid">MCID / Badnng</div>
+        <p class="member-desc">模组与玩法开发。主要负责模组移植、兼容性修改，以及主题玩法和内容系统的开发，把“想法”真正接进可以玩的游戏体验里。</p>
+        <div class="tags"><span class="tag">模组移植</span><span class="tag">兼容修改</span><span class="tag">主题玩法</span></div>
+        <div class="status">BUILDING · GAMEPLAY</div>
+      </article>
+
+      <article class="member-card ksq reveal" data-id="ksq" tabindex="0" role="button" aria-label="查看 KsqsnK 的成员档案">
+        <div class="card-top"><span class="member-number">PLAYER / 03</span><div class="head-wrap"><span class="head-fallback">KS</span><img src="https://mc-heads.net/avatar/KsqsnK/160" data-mcid="KsqsnK" data-avatar-size="160" data-avatar-source="0" alt="KsqsnK 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div></div>
+        <div class="member-role">CORE SYSTEMS DEVELOPER</div>
+        <h3 class="member-name">KsqsnK</h3>
+        <div class="mcid">MCID / KsqsnK</div>
+        <p class="member-desc">核心系统开发。负责服务器主要代码逻辑、局内指令与交互流程，把规则、事件和玩法条件写成真正能稳定运行的系统。</p>
+        <div class="tags"><span class="tag">核心逻辑</span><span class="tag">指令开发</span><span class="tag">局内交互</span></div>
+        <div class="status">COMPILING · CORE LOGIC</div>
+      </article>
+
+      <article class="member-card wang reveal" data-id="wang" tabindex="0" role="button" aria-label="查看王美丽的成员档案">
+        <div class="card-top"><span class="member-number">PLAYER / 04</span><div class="head-wrap"><span class="head-fallback">王</span><img src="https://mc-heads.net/avatar/Wangmeili/160" data-mcid="Wangmeili" data-avatar-size="160" data-avatar-source="0" alt="Wangmeili 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div></div>
+        <div class="member-role">??? · SECURITY / ATMOSPHERE UNIT</div>
+        <h3 class="member-name">王美丽</h3>
+        <div class="mcid">MCID / Wangmeili</div>
+        <p class="member-desc">安保兼气氛组。主要负责挂机值守、承受团队吐槽、充当服务器吉祥物与路边巡逻单位；必要时开启“当狗模式”，哪里需要哪里出现。</p>
+        <div class="tags"><span class="tag">挂机值守</span><span class="tag">压力承受</span><span class="tag">路边安保</span></div>
+        <div class="status">AFK · SECURITY</div>
+      </article>
+    </div>
+
+    <section class="profile-panel reveal" id="profilePanel" style="--profile:#70efad" aria-live="polite">
+      <div class="profile-inner">
+        <div class="profile-avatar"><span class="profile-avatar-fallback" id="profileFallback">无声</span><img id="profileAvatar" src="https://mc-heads.net/avatar/ZX_Wu_Sheng/240" data-mcid="ZX_Wu_Sheng" data-avatar-size="240" data-avatar-source="0" alt="在下无声的 Minecraft 头像" onerror="OAAvatarFallback.next(this)"></div>
+        <div>
+          <div class="profile-label" id="profileLabel">SELECTED PROFILE / PLAYER 01</div>
+          <h3 class="profile-title" id="profileTitle">在下无声 · 项目主理人</h3>
+          <p class="profile-text" id="profileText">负责服务器的主要资金投入、整体策划与方向决策。他更像项目的“总控台”：决定我们往哪里走、优先做什么，以及什么时候该把一个过大的脑洞先放回抽屉里。</p>
+          <div class="profile-bottom">
+            <div class="profile-stat"><small>MCID</small><b id="profileMcid">ZX_Wu_Sheng</b></div>
+            <div class="profile-stat"><small>FOCUS</small><b id="profileFocus">资金 / 策划 / 决策</b></div>
+            <div class="profile-stat"><small>STATUS</small><b id="profileStatus">ONLINE · PLANNING</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container story-wrap">
+    <aside class="story-index reveal"><div class="big">04→01</div><p>四个人，不同分工，最后都指向同一个东西：<strong>把服务器真的做出来。</strong></p></aside>
+    <div>
+      <article class="story-card reveal"><h3>没有“巨大团队”这回事</h3><p>我们现在就是四个人。有人出钱和定方向，有人移植模组和做玩法，有人写核心逻辑和局内指令，还有一个负责挂机、挨骂以及维持某种非常重要但无法量化的团队气氛。</p></article>
+      <article class="story-card reveal"><h3>为什么叫 Once Again？</h3><p>因为有些东西停下来，不代表一定要永远停在那里。我们更愿意把这次当作一次重新出发：<strong>不靠夸张的承诺，先把每一件能做好的事做好。</strong></p></article>
+      <article class="story-card reveal"><h3>我们想留下什么？</h3><p>不是“看起来很大”的项目介绍，而是一个真正有人在维护、有人在打磨、有人会为一个细节吵半天的服务器。哪怕团队不大，也希望你进入游戏时能感受到它背后有人认真做过。</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="finale">
+  <div class="container reveal">
+    <div class="micro">THIS IS NOT A COMPANY.</div>
+    <h2>只是四个人，<br>在做一件<span>喜欢的事。</span></h2>
+    <p>无声无息: Once Again。四个人，一个服务器，一点一点把它重新做起来。</p>
+    <a class="return-home" href="index.html">← 返回主页</a>
+  </div>
+</section>
+</main>
+<footer>无声无息: Once Again · TEAM PAGE</footer>
+
+<script>
+const $ = (s, root=document) => root.querySelector(s);
+const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+
+// 主题切换
+const themeToggle = $('#themeToggle');
+function isLight(){ return document.documentElement.getAttribute('data-theme') === 'light'; }
+themeToggle.addEventListener('click',()=>{
+  if(isLight()) document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme','light');
+  try{ const theme=isLight()?'light':'dark'; localStorage.setItem('once-again-theme',theme); localStorage.setItem('website-theme',theme); localStorage.setItem('sponsor-theme',theme); }catch(e){}
+});
+
+// 进入视口动画
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduceMotion){ $$('.reveal').forEach(el=>el.classList.add('show')); }
+else{
+  const io = new IntersectionObserver(entries=>entries.forEach(entry=>{
+    if(entry.isIntersecting){ entry.target.classList.add('show'); io.unobserve(entry.target); }
+  }),{threshold:.12});
+  $$('.reveal:not(.show)').forEach(el=>io.observe(el));
+}
+
+// 成员档案
+const members = {
+  owner:{
+    color:'#70efad', number:'01', name:'在下无声', title:'项目主理人', mcid:'ZX_Wu_Sheng', fallback:'无声',
+    focus:'资金 / 策划 / 决策', status:'ONLINE · PLANNING',
+    text:'负责服务器的主要资金投入、整体策划与方向决策。他更像项目的“总控台”：决定我们往哪里走、优先做什么，以及什么时候该把一个过大的脑洞先放回抽屉里。'
+  },
+  badnng:{
+    color:'#59a9ff', number:'02', name:'Badnng', title:'模组与玩法开发', mcid:'Badnng', fallback:'NNG',
+    focus:'模组移植 / 兼容 / 玩法', status:'BUILDING · GAMEPLAY',
+    text:'负责模组移植、兼容性修改、主题玩法与内容系统开发。很多“这个玩法要是能这样就好了”的想法，最后都需要在这里变成真正能加载、能运行、能玩的东西。'
+  },
+  ksq:{
+    color:'#c98cff', number:'03', name:'KsqsnK', title:'核心系统开发', mcid:'KsqsnK', fallback:'KS',
+    focus:'代码逻辑 / 指令 / 交互', status:'COMPILING · CORE LOGIC',
+    text:'负责服务器的主要代码逻辑、局内指令与交互流程。玩法规则、事件触发、条件判断和各种幕后系统，很多都从这里开始写成服务器真正能理解的逻辑。'
+  },
+  wang:{
+    color:'#ffcf66', number:'04', name:'王美丽', title:'??? / 安保兼气氛组', mcid:'Wangmeili', fallback:'王',
+    focus:'挂机 / 值守 / 气氛', status:'AFK · SECURITY',
+    text:'长期负责挂机值守、承受团队吐槽、充当服务器吉祥物与路边安保单位。工作范围不明、职责边界不明，但只要看到他在那儿，某种意义上就说明安保系统仍在运行。'
+  }
+};
+function selectMember(id){
+  const m = members[id]; if(!m) return;
+  $$('.member-card').forEach(c=>c.classList.toggle('active',c.dataset.id===id));
+  const panel = $('#profilePanel'); panel.style.setProperty('--profile',m.color);
+  $('#profileLabel').textContent = `SELECTED PROFILE / PLAYER ${m.number}`;
+  $('#profileTitle').textContent = `${m.name} · ${m.title}`;
+  $('#profileText').textContent = m.text;
+  $('#profileMcid').textContent = m.mcid;
+  $('#profileFocus').textContent = m.focus;
+  $('#profileStatus').textContent = m.status;
+  $('#profileFallback').textContent = m.fallback;
+  const img = $('#profileAvatar');
+  img.alt = `${m.name} 的 Minecraft 头像`;
+  OAAvatarFallback.start(img, m.mcid, 240);
+}
+$$('.member-card').forEach(card=>{
+  card.addEventListener('click',()=>selectMember(card.dataset.id));
+  card.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();selectMember(card.dataset.id);} });
+});
+
+// 首屏头像与下方成员卡片联动：选择成员后滚动到详细档案。
+function selectOrbitMember(id){
+  selectMember(id);
+  const panel = $('#profilePanel');
+  if(panel) window.setTimeout(()=>panel.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'center'}),80);
+}
+const teamOrbit = $('.team-orbit');
+if(teamOrbit){
+  let expandTimer = 0;
+  let floatTimer = 0;
+  let collapseTimer = 0;
+  const openOrbit = ()=>{
+    clearTimeout(collapseTimer);
+    clearTimeout(expandTimer);
+    clearTimeout(floatTimer);
+    // 留一点进入延迟，避免鼠标擦过区域时四个头像突然炸开。
+    expandTimer = window.setTimeout(()=>{
+      teamOrbit.classList.add('is-expanded');
+      // 等散开过渡基本完成后再开始漂浮，避免 animation 抢掉 transition。
+      floatTimer = window.setTimeout(()=>teamOrbit.classList.add('is-floating'), 980);
+    }, 120);
+  };
+  const closeOrbit = ()=>{
+    clearTimeout(expandTimer);
+    clearTimeout(floatTimer);
+    // 给鼠标从中心移动到头像留出容错时间，短暂越界不会立刻收回。
+    collapseTimer = window.setTimeout(()=>{
+      if(teamOrbit.matches(':hover') || teamOrbit.matches(':focus-within')) return;
+      teamOrbit.classList.remove('is-floating');
+      teamOrbit.classList.remove('is-expanded');
+    }, 520);
+  };
+  teamOrbit.addEventListener('pointerenter', openOrbit);
+  teamOrbit.addEventListener('pointerleave', closeOrbit);
+  teamOrbit.addEventListener('focusin', openOrbit);
+  teamOrbit.addEventListener('focusout', closeOrbit);
+  // 触屏设备没有 hover：默认展开，确保头像始终可点。
+  if(window.matchMedia('(hover: none), (pointer: coarse)').matches){
+    teamOrbit.classList.add('is-expanded');
+    window.setTimeout(()=>teamOrbit.classList.add('is-floating'), 1050);
+  }
+}
+$$('.orbit-person').forEach(person=>{
+  person.addEventListener('click',()=>selectOrbitMember(person.dataset.id));
+  person.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();selectOrbitMember(person.dataset.id);} });
+});
+</script>
+
+<script>
+/* 在 file:// 本地预览和正式站点中，都把当前主题带到相互跳转的页面。 */
+(function(){
+  function currentTheme(){
+    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  }
+
+  document.addEventListener('click', function(event){
+    const anchor = event.target.closest && event.target.closest('a[href]');
+    if(!anchor) return;
+
+    const raw = anchor.getAttribute('href');
+    if(!raw || raw.startsWith('#') || /^(mailto:|tel:|javascript:)/i.test(raw)) return;
+
+    let url;
+    try{ url = new URL(raw, location.href); }catch(e){ return; }
+    if(url.origin !== location.origin && location.protocol !== 'file:') return;
+
+    const file = (url.pathname.split('/').pop() || '').toLowerCase();
+    if(!['index.html','scene1.html','jieshao.html'].includes(file)) return;
+
+    url.searchParams.set('theme', currentTheme());
+    anchor.href = url.href;
+  }, true);
+})();
+</script>
+
+
+<script id="oa-theme-link-sync">
+(function () {
+  const root = document.documentElement;
+  const internalPages = new Set(['index.html', 'jieshao.html', 'scene1.html']);
+
+  function currentTheme() {
+    return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  }
+
+  function saveTheme(theme) {
+    try {
+      localStorage.setItem('once-again-theme', theme);
+      localStorage.setItem('website-theme', theme);
+      localStorage.setItem('sponsor-theme', theme);
+    } catch (e) {}
+  }
+
+  function syncThemeState() {
+    saveTheme(currentTheme());
+  }
+
+  document.addEventListener('click', function (event) {
+    const link = event.target.closest && event.target.closest('a[href]');
+    if (!link) return;
+    try {
+      const url = new URL(link.getAttribute('href'), location.href);
+      const page = url.pathname.split('/').pop();
+      if (!internalPages.has(page)) return;
+      const theme = currentTheme();
+      saveTheme(theme);
+      url.searchParams.set('theme', theme);
+      link.href = url.href;
+    } catch (e) {}
+  }, true);
+
+  const themeButton = document.getElementById('themeToggle');
+  if (themeButton) {
+    themeButton.addEventListener('click', function () {
+      setTimeout(syncThemeState, 0);
+    });
+  }
+})();
+</script>
+
+
+
+<script id="scene-teaser-script">
+(function(){
+  const teaser = document.getElementById('sceneTeaser');
+  const close = document.getElementById('sceneTeaserClose');
+  if(!teaser || !close) return;
+  close.addEventListener('click', function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    teaser.classList.add('closing');
+    window.setTimeout(function(){ teaser.hidden = true; }, 310);
+  });
+})();
+</script>
+
+</body>
+</html>
