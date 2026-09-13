@@ -652,9 +652,35 @@ body.lightbox-open {
 
 .oa-scene-teaser::before,
 .oa-scene-teaser-inner::after {
-  display: none !important;
-  content: none !important;
-  filter: none !important;
+  pointer-events: none !important;
+}
+
+.oa-scene-teaser::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: -9px !important;
+  z-index: -1 !important;
+  border-radius: 8px !important;
+  background:
+    radial-gradient(circle at 18% 50%, color-mix(in srgb, var(--site-nav-highlight) 48%, transparent), transparent 58%),
+    radial-gradient(circle at 82% 50%, color-mix(in srgb, #5e8cff 28%, transparent), transparent 62%) !important;
+  filter: blur(10px) !important;
+  opacity: .72 !important;
+}
+
+.oa-scene-teaser-inner::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  width: 150px !important;
+  height: 150px !important;
+  right: -78px !important;
+  bottom: -88px !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, color-mix(in srgb, var(--site-nav-highlight) 22%, transparent), transparent 68%) !important;
+  opacity: .8 !important;
+  filter: blur(1px) !important;
 }
 
 .oa-scene-teaser-inner {
