@@ -26,92 +26,9 @@
   }
 
   function initializeTouchFollow() {
-    if (document.querySelector('.oa-touch-follow')) return;
-
-    const touchFollow = document.createElement('span');
-    touchFollow.className = 'oa-touch-follow';
-    touchFollow.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(touchFollow);
-
-    const swipeHint = document.createElement('span');
-    swipeHint.className = 'oa-mobile-swipe-hint';
-    swipeHint.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(swipeHint);
-
-    const touchState = {
-      clientX: window.innerWidth / 2,
-      clientY: window.innerHeight / 2,
-      frame: 0,
-      releaseTimer: 0,
-      hintTimer: 0
-    };
-
-    function renderTouchPosition() {
-      touchState.frame = 0;
-      touchFollow.style.setProperty('--oa-touch-x', touchState.clientX.toFixed(2) + 'px');
-      touchFollow.style.setProperty('--oa-touch-y', touchState.clientY.toFixed(2) + 'px');
-    }
-
-    function queueTouchPosition(event, immediate) {
-      touchState.clientX = event.clientX;
-      touchState.clientY = event.clientY;
-
-      if (immediate) {
-        if (touchState.frame) cancelAnimationFrame(touchState.frame);
-        renderTouchPosition();
-      } else if (!touchState.frame) {
-        touchState.frame = requestAnimationFrame(renderTouchPosition);
-      }
-    }
-
-    function dismissSwipeHint() {
-      window.clearTimeout(touchState.hintTimer);
-      swipeHint.classList.remove('is-visible');
-      swipeHint.classList.add('is-dismissed');
-    }
-
-    function dismissVisibleSwipeHint() {
-      if (swipeHint.classList.contains('is-visible')) {
-        dismissSwipeHint();
-      }
-    }
-
-    function beginTouch(event) {
-      if (!isTouchPointer(event)) return;
-      window.clearTimeout(touchState.releaseTimer);
-      queueTouchPosition(event, true);
-      document.documentElement.classList.add('oa-touch-following');
-      touchFollow.classList.add('is-active');
-      dismissSwipeHint();
-    }
-
-    function moveTouch(event) {
-      if (!isTouchPointer(event)) return;
-      queueTouchPosition(event, false);
-    }
-
-    function endTouch(event) {
-      if (!isTouchPointer(event)) return;
-      queueTouchPosition(event, false);
-      touchFollow.classList.add('is-releasing');
-      touchState.releaseTimer = window.setTimeout(function () {
-        touchFollow.classList.remove('is-active', 'is-releasing');
-        document.documentElement.classList.remove('oa-touch-following');
-      }, 220);
-    }
-
-    window.addEventListener('pointerdown', beginTouch, { passive: true, capture: true });
-    window.addEventListener('pointermove', moveTouch, { passive: true, capture: true });
-    window.addEventListener('pointerup', endTouch, { passive: true, capture: true });
-    window.addEventListener('pointercancel', endTouch, { passive: true, capture: true });
-    window.addEventListener('scroll', dismissVisibleSwipeHint, { passive: true });
-
-    touchState.hintTimer = window.setTimeout(function () {
-      if (!swipeHint.classList.contains('is-dismissed')) {
-        swipeHint.classList.add('is-visible');
-        touchState.hintTimer = window.setTimeout(dismissSwipeHint, 4600);
-      }
-    }, 850);
+    // Touch pointers use the browser's native feedback. The custom follower
+    // was viewport-offset and could appear away from the actual tap target.
+    return;
   }
 
   function initializeGlobalPointerFollow() {

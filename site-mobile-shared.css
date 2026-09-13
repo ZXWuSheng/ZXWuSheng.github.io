@@ -1,5 +1,90 @@
+/* Shared visual system for the Once Again server pages. */
+:root {
+  --oa-ink: #172218;
+  --oa-forest: #2f6f3d;
+  --oa-leaf: #69b957;
+  --oa-paper: #f0ecd8;
+  --oa-grid-line: rgba(44, 82, 48, .10);
+}
+
+body {
+  text-rendering: optimizeLegibility;
+}
+
+body.page-home,
+body.page-team,
+body.page-sponsor {
+  background-image:
+    linear-gradient(var(--oa-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--oa-grid-line) 1px, transparent 1px),
+    linear-gradient(
+      180deg,
+      var(--mc-bg, var(--bg, #d9dccb)),
+      var(--mc-bg-2, var(--bg2, #c9cfba))
+    );
+  background-size: 28px 28px, 28px 28px, auto;
+}
+
+.navbar {
+  box-shadow: 0 4px 0 rgba(20, 38, 23, .20) !important;
+}
+
+.navbar .nav-inner,
+.site-navbar .site-nav-inner {
+  min-height: 78px !important;
+}
+
+.navbar .logo-name,
+.site-navbar .site-brand span {
+  letter-spacing: .02em !important;
+}
+
+.server-card,
+.member-card,
+.profile-panel,
+.story-card,
+.story-index,
+.pay-card,
+.info-card,
+.thanks {
+  border-radius: 4px !important;
+  box-shadow: 6px 6px 0 rgba(35, 52, 37, .22) !important;
+}
+
+.hero-title,
+.hero h1,
+.finale h2 {
+  text-wrap: balance;
+}
+
+.hero-description,
+.hero-copy,
+.section-desc,
+.member-desc,
+.profile-text,
+.story-card p,
+.intro,
+.info-card p {
+  text-wrap: pretty;
+}
+
 /* Shared mobile layout contract for every Once Again page. */
 @media (max-width: 700px) {
+  html,
+  body,
+  a,
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none !important;
+  }
+
   html {
     scroll-padding-top: 82px;
   }
@@ -87,127 +172,9 @@
   }
 
   .oa-global-pointer-light,
-  .oa-card-pointer-light {
-    display: none !important;
-  }
-
-  html.oa-touch-following .oa-pointer-card.oa-pointer-active > .oa-card-pointer-light {
-    display: block !important;
-    opacity: .82 !important;
-  }
-
-  .oa-touch-follow {
-    --oa-touch-x: 50vw;
-    --oa-touch-y: 50vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 5200;
-    width: 26px;
-    height: 26px;
-    border: 2px solid var(--site-nav-highlight, #62d47f);
-    border-radius: 2px;
-    outline: 2px solid var(--site-nav-edge, #0a140d);
-    background: color-mix(in srgb, var(--site-nav-panel, #142018) 84%, transparent);
-    box-shadow: 4px 4px 0 rgba(0, 0, 0, .34);
-    opacity: 0;
-    pointer-events: none;
-    transform: translate3d(
-      calc(var(--oa-touch-x) - 13px),
-      calc(var(--oa-touch-y) - 48px),
-      0
-    ) scale(.72);
-    transition: opacity .12s ease, transform .08s linear;
-    will-change: transform, opacity;
-  }
-
-  .oa-touch-follow::before {
-    content: "";
-    position: absolute;
-    top: 7px;
-    left: 7px;
-    width: 8px;
-    height: 8px;
-    background: var(--site-nav-highlight, #62d47f);
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, .28);
-  }
-
-  .oa-touch-follow::after {
-    content: "";
-    position: absolute;
-    top: 28px;
-    left: 9px;
-    width: 4px;
-    height: 4px;
-    background: var(--site-nav-highlight, #62d47f);
-    box-shadow: 0 7px 0 color-mix(in srgb, var(--site-nav-highlight, #62d47f) 72%, transparent);
-  }
-
-  .oa-touch-follow.is-active {
-    opacity: .92;
-    transform: translate3d(
-      calc(var(--oa-touch-x) - 13px),
-      calc(var(--oa-touch-y) - 48px),
-      0
-    ) scale(1);
-  }
-
-  .oa-touch-follow.is-releasing {
-    opacity: 0;
-    transform: translate3d(
-      calc(var(--oa-touch-x) - 13px),
-      calc(var(--oa-touch-y) - 54px),
-      0
-    ) scale(.78);
-  }
-
+  .oa-card-pointer-light,
+  .oa-touch-follow,
   .oa-mobile-swipe-hint {
-    position: fixed;
-    left: 50%;
-    bottom: max(22px, env(safe-area-inset-bottom));
-    z-index: 5100;
-    width: 36px;
-    height: 60px;
-    opacity: 0;
-    pointer-events: none;
-    transform: translate3d(-50%, 12px, 0);
-  }
-
-  body:has(.oa-scene-teaser) .oa-mobile-swipe-hint {
-    bottom: max(80px, calc(env(safe-area-inset-bottom) + 70px));
-  }
-
-  .oa-mobile-swipe-hint::before {
-    content: "";
-    position: absolute;
-    left: 10px;
-    bottom: 5px;
-    width: 12px;
-    height: 28px;
-    border: 2px solid var(--site-nav-highlight, #62d47f);
-    border-radius: 8px 8px 3px 3px;
-    outline: 2px solid var(--site-nav-edge, #0a140d);
-    background: var(--site-nav-panel, #142018);
-    box-shadow: 4px 4px 0 rgba(0, 0, 0, .30);
-  }
-
-  .oa-mobile-swipe-hint::after {
-    content: "";
-    position: absolute;
-    top: 5px;
-    left: 11px;
-    width: 10px;
-    height: 10px;
-    border-top: 3px solid var(--site-nav-highlight, #62d47f);
-    border-left: 3px solid var(--site-nav-highlight, #62d47f);
-    transform: rotate(45deg);
-  }
-
-  .oa-mobile-swipe-hint.is-visible {
-    animation: oa-mobile-swipe-hint 1.3s steps(7, end) 3;
-  }
-
-  .oa-mobile-swipe-hint.is-dismissed {
     display: none !important;
   }
 
@@ -469,24 +436,6 @@
   }
 }
 
-@keyframes oa-mobile-swipe-hint {
-  0% {
-    opacity: 0;
-    transform: translate3d(-50%, 12px, 0);
-  }
-  18% {
-    opacity: .9;
-  }
-  72% {
-    opacity: .9;
-    transform: translate3d(-50%, -18px, 0);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(-50%, -26px, 0);
-  }
-}
-
 @media (max-width: 360px) {
   .navbar .logo-name {
     max-width: 96px !important;
@@ -524,12 +473,89 @@
   }
 }
 
-@media (max-width: 700px) and (prefers-reduced-motion: reduce) {
-  .oa-mobile-swipe-hint {
-    display: none !important;
+/* Touch browsers can keep :hover after a tap. Prevent hover transforms from
+   changing geometry on small screens while retaining the visual states. */
+@media (max-width: 700px) and (hover: none) {
+  .navbar .logo:hover .logo-image-wrap,
+  .navbar .nav-links a:hover,
+  .navbar .nav-links a.is-active,
+  .navbar .nav-button:hover,
+  .navbar .menu-button:hover,
+  .navbar .theme-toggle:hover,
+  .button:hover,
+  .copy-button:hover,
+  .control-btn:hover,
+  .return-home:hover,
+  .member-card:hover,
+  .pay-card:hover,
+  .feature-card:hover,
+  .news-card:hover,
+  .contact-card:hover,
+  .journey-step:hover,
+  .oa-float-control:hover,
+  .oa-scene-close:hover {
+    transform: none !important;
   }
 
-  .oa-touch-follow {
-    transition: none !important;
+  .pay-card:hover .qr-frame,
+  .journey-step:hover .journey-icon,
+  .feature-card:hover .feature-icon {
+    transform: none !important;
+  }
+
+  .oa-scene-teaser:hover {
+    transform: translateX(-50%) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .navbar .container,
+  .site-navbar .site-nav-inner {
+    padding-inline: 8px !important;
+  }
+
+  .hero-title,
+  .hero h1 {
+    font-size: clamp(42px, 12.8vw, 66px) !important;
+    line-height: .99 !important;
+    letter-spacing: -.025em !important;
+  }
+
+  .hero-title-brand,
+  .hero-title-brand .oa-server-title-image,
+  .join-brand-title-image {
+    max-width: 100% !important;
+  }
+
+  .hero-content,
+  .hero-visual,
+  .hero-grid,
+  .payment-grid,
+  .team-grid,
+  .story-wrap,
+  .info-grid {
+    min-width: 0 !important;
+  }
+
+  .page-home .hero-content,
+  .page-home .hero-visual {
+    overflow: hidden !important;
+  }
+
+  .oa-scene-teaser {
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    transform: none !important;
+    border-radius: 4px !important;
+  }
+
+  .oa-scene-teaser:hover,
+  .oa-scene-teaser:active {
+    transform: none !important;
+  }
+
+  body:has(.oa-scene-teaser) main {
+    padding-bottom: 84px !important;
   }
 }
