@@ -841,7 +841,7 @@ html[data-theme="light"] .oa-scene-close {
     height: 58px !important;
     padding: 0 !important;
     border: 2px solid var(--site-nav-edge) !important;
-    border-radius: 999px !important;
+    border-radius: 4px !important;
     outline: 2px solid color-mix(in srgb, var(--site-nav-highlight) 72%, var(--site-nav-line)) !important;
     background: var(--site-nav-panel) !important;
     box-shadow:
@@ -879,7 +879,7 @@ html[data-theme="light"] .oa-scene-close {
     min-height: 0 !important;
     padding: 0 46px 0 16px !important;
     gap: 10px !important;
-    border-radius: 999px !important;
+    border-radius: 2px !important;
     background:
       linear-gradient(
         90deg,
