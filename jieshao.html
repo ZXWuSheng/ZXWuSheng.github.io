@@ -811,8 +811,8 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
       <a href="index.html#home">首页</a>
       <a href="index.html#features">核心玩法</a>
       <a href="index.html#news">最新公告</a>
-      <a href="index.html#contact">联系我们</a>
       <a class="nav-team-link" href="jieshao.html#team">团队介绍</a>
+      <a href="ztdh.html#recruit">招募协作者</a>
       <a class="nav-button" href="index.html#join">加入服务器</a>
     </nav>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换到白色主题" title="切换黑白主题">
@@ -1105,7 +1105,7 @@ $$('.orbit-person').forEach(person=>{
     if(url.origin !== location.origin && location.protocol !== 'file:') return;
 
     const file = (url.pathname.split('/').pop() || '').toLowerCase();
-    if(!['index.html','scene1.html','jieshao.html'].includes(file)) return;
+    if(!['index.html','scene1.html','jieshao.html','ztdh.html'].includes(file)) return;
 
     url.searchParams.set('theme', currentTheme());
     anchor.href = url.href;
@@ -1117,7 +1117,7 @@ $$('.orbit-person').forEach(person=>{
 <script id="oa-theme-link-sync">
 (function () {
   const root = document.documentElement;
-  const internalPages = new Set(['index.html', 'jieshao.html', 'scene1.html']);
+  const internalPages = new Set(['index.html', 'jieshao.html', 'scene1.html', 'ztdh.html']);
 
   function currentTheme() {
     return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';

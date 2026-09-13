@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Once Again 招募页面：寻找愿意一起做 Minecraft 内容的模型、动画、Mod、材质与 UI 创作者。">
+  <title>招募协作者｜无声无息:Once Again</title>
+  <script>
+    (() => {
+      try {
+        const incoming = new URLSearchParams(location.search).get('theme');
+        const saved = localStorage.getItem('once-again-theme') || localStorage.getItem('website-theme') || localStorage.getItem('sponsor-theme');
+        const preferred = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        const theme = incoming === 'light' || incoming === 'dark' ? incoming : (saved || preferred);
+        if (theme === 'light') document.documentElement.dataset.theme = 'light';
+        ['once-again-theme', 'website-theme', 'sponsor-theme'].forEach(key => localStorage.setItem(key, theme));
+      } catch (_) {}
+    })();
+  </script>
+  <link rel="icon" type="image/png" href="NEW-logo-ICON.png">
+  <link rel="stylesheet" href="site-nav-shared.css?v=20260913-teaser-glow-v1">
+  <link rel="stylesheet" href="site-mobile-shared.css?v=20260913-frontend-design-v1">
+  <script src="site-card-follow.js?v=20260828-touch-follow-v7" defer></script>
+  <style>
+    :root {
+      --mc-bg: #07100b;
+      --mc-bg-2: #0c1710;
+      --mc-panel: #142018;
+      --mc-panel-2: #1b2b1f;
+      --mc-edge: #050806;
+      --mc-line: #3b5842;
+      --mc-text: #f5f2e8;
+      --mc-muted: #b7c3b9;
+      --mc-highlight: #70b957;
+      --r-bg: var(--mc-bg);
+      --r-bg2: var(--mc-bg-2);
+      --r-panel: var(--mc-panel);
+      --r-panel-hi: var(--mc-panel-2);
+      --r-line: var(--mc-line);
+      --r-text: var(--mc-text);
+      --r-muted: var(--mc-muted);
+      --r-green: var(--mc-highlight);
+      --r-pink: #ff72b4;
+      --r-shadow: 7px 7px 0 rgba(0,0,0,.38);
+    }
+    html[data-theme="light"] {
+      --mc-bg: #d9dccb;
+      --mc-bg-2: #c9cfba;
+      --mc-panel: #ece7cf;
+      --mc-panel-2: #ddd8c0;
+      --mc-edge: #4e4d40;
+      --mc-line: #85846e;
+      --mc-text: #262a23;
+      --mc-muted: #596257;
+      --mc-highlight: #4e9c49;
+      --r-bg: var(--mc-bg);
+      --r-bg2: var(--mc-bg-2);
+      --r-panel: var(--mc-panel);
+      --r-panel-hi: var(--mc-panel-2);
+      --r-line: var(--mc-line);
+      --r-text: var(--mc-text);
+      --r-muted: var(--mc-muted);
+      --r-green: var(--mc-highlight);
+      --r-pink: #b33d76;
+      --r-shadow: 7px 7px 0 rgba(73,75,63,.24);
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--r-bg); scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--r-text);
+      background:
+        linear-gradient(rgba(112,185,87,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(112,185,87,.08) 1px, transparent 1px),
+        linear-gradient(180deg, var(--r-bg), var(--r-bg2) 50%, var(--r-bg));
+      background-size: 32px 32px, 32px 32px, auto;
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      transition: background .35s ease, color .35s ease;
+    }
+    main { overflow: clip; }
+    .mc-pixel { image-rendering: pixelated; }
+    .recruit-wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    .recruit-hero { min-height: 640px; padding: 150px 0 84px; display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 56px; }
+    .hero-title-art { display: block; width: min(520px, 100%); margin: 0 0 26px; filter: drop-shadow(6px 7px 0 rgba(0,0,0,.38)); }
+    .recruit-kicker { display: inline-flex; align-items: center; gap: 9px; color: var(--r-green); font: 900 12px/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .18em; text-transform: uppercase; }
+    .recruit-kicker::before { content: ""; width: 10px; height: 10px; background: var(--r-green); box-shadow: 3px 3px 0 color-mix(in srgb, var(--r-green) 35%, transparent); }
+    .recruit-hero h1 { max-width: 720px; margin: 18px 0 20px; font-size: clamp(48px, 8vw, 92px); line-height: .94; letter-spacing: -.055em; text-wrap: balance; }
+    .recruit-hero h1 em { color: var(--r-green); font-style: normal; }
+    .recruit-lead { max-width: 650px; margin: 0; color: var(--r-muted); font-size: clamp(16px, 2vw, 20px); line-height: 1.8; }
+    .recruit-alert { margin-top: 28px; padding: 16px 18px; border: 2px solid var(--mc-edge); outline: 1px solid var(--r-line); border-left: 8px solid #c99a55; background: var(--r-panel); box-shadow: 6px 6px 0 rgba(0,0,0,.34); color: var(--r-text); line-height: 1.75; }
+    .recruit-alert strong { color: #c99a55; }
+    .recruit-board { position: relative; padding: 22px; border: 3px solid var(--mc-edge); outline: 2px solid var(--r-line); background: var(--r-panel); box-shadow: 8px 8px 0 rgba(0,0,0,.4); transform: rotate(1.2deg); }
+    .mc-statusbar { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; margin: -2px -2px 20px; padding: 10px 12px; border: 2px solid var(--r-line); background: var(--r-panel-hi); font: 900 11px/1 ui-monospace, monospace; letter-spacing: .08em; }
+    .mc-statusbar strong { color: var(--r-green); }
+    .mc-hearts { display: inline-flex; align-items: center; gap: 3px; }
+    .mc-heart-icon { width: 13px; height: 13px; display: block; image-rendering: pixelated; filter: drop-shadow(1px 1px 0 rgba(0,0,0,.3)); }
+    .mc-hotbar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 22px; }
+    .mc-slot { position: relative; display: grid; min-height: 64px; place-items: center; border: 2px solid var(--r-line); background: repeating-linear-gradient(135deg, rgba(255,255,255,.035) 0 4px, transparent 4px 8px), var(--r-bg); box-shadow: inset 0 0 0 2px rgba(0,0,0,.2); color: var(--r-green); font: 900 11px/1 ui-monospace, monospace; text-align: center; }
+    .mc-slot.active { border-color: var(--r-green); box-shadow: inset 0 0 0 2px var(--r-green), 3px 3px 0 rgba(0,0,0,.22); }
+    .mc-slot span { display: block; margin-top: 4px; font-size: 9px; color: var(--r-muted); }
+    .mc-slot-icon { width: 30px; height: 30px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(2px 2px 0 rgba(0,0,0,.28)); }
+    .recruit-board::before { content: "OPEN CALL / 2026"; display: block; padding-bottom: 15px; border-bottom: 2px dashed var(--r-line); color: var(--r-green); font: 900 12px/1 ui-monospace, monospace; letter-spacing: .16em; }
+    .recruit-board h2 { margin: 24px 0 16px; font-size: clamp(28px, 4vw, 46px); line-height: 1; }
+    .recruit-board ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; color: var(--r-muted); line-height: 1.6; }
+    .recruit-board li { display: grid; grid-template-columns: 22px 1fr; gap: 9px; }
+    .recruit-board li::before { content: "✓"; color: var(--r-green); font-weight: 900; }
+    .section-intro { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 30px; }
+    .section-intro h2 { margin: 0; font-size: clamp(34px, 5vw, 58px); letter-spacing: -.045em; line-height: 1; }
+    .section-intro p { max-width: 430px; margin: 0; color: var(--r-muted); line-height: 1.7; }
+    .roles-section, .terms-section, .apply-section { padding: 82px 0; }
+    .roles-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .role-card { position: relative; min-height: 230px; padding: 24px; border: 2px solid var(--mc-edge); outline: 1px solid var(--r-line); background: repeating-linear-gradient(135deg, rgba(255,255,255,.018) 0 4px, transparent 4px 8px), var(--r-panel); box-shadow: 6px 6px 0 rgba(0,0,0,.36); transition: transform .18s cubic-bezier(.16,1,.3,1), border-color .18s ease; will-change: transform; }
+    .role-card:hover { transform: translate(-3px, -3px); border-color: var(--r-green); }
+    .role-card::after { content: attr(data-code); position: absolute; top: 16px; right: 18px; color: var(--r-green); font: 900 11px/1 ui-monospace, monospace; letter-spacing: .12em; }
+    .role-icon { display: grid; width: 58px; height: 58px; place-items: center; margin-bottom: 22px; border: 2px solid var(--mc-edge); outline: 1px solid var(--r-line); background: repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0 4px, transparent 4px 8px), var(--r-panel-hi); box-shadow: 3px 3px 0 rgba(0,0,0,.35); }
+    .role-mc-icon { display: block; width: 46px; height: 46px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(3px 3px 0 rgba(0,0,0,.28)); }
+    .role-card h3 { margin: 0 0 10px; font-size: 25px; }
+    .role-card p { margin: 0; color: var(--r-muted); line-height: 1.7; }
+    .role-card small { display: block; margin-top: 17px; color: var(--r-green); font: 800 11px/1.4 ui-monospace, monospace; letter-spacing: .05em; }
+    .terms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .terms-panel { padding: 26px; border: 2px solid var(--mc-edge); outline: 1px solid var(--r-line); background: var(--r-panel); box-shadow: 6px 6px 0 rgba(0,0,0,.34); }
+    .terms-panel h3 { margin: 0 0 15px; color: var(--r-green); font-size: 24px; }
+    .terms-panel p, .terms-panel li { color: var(--r-muted); line-height: 1.8; }
+    .terms-panel ul { margin: 0; padding-left: 20px; }
+    .terms-panel.warning { border-color: color-mix(in srgb, var(--r-green) 55%, var(--r-line)); }
+    .terms-panel.warning h3 { color: var(--r-green); }
+    .apply-section { padding-bottom: 120px; }
+    .apply-box { display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; padding: 28px; border: 3px solid var(--mc-edge); outline: 2px solid var(--r-green); background: var(--r-panel); box-shadow: 8px 8px 0 rgba(0,0,0,.4); }
+    .apply-box h2 { margin: 0 0 16px; font-size: clamp(32px, 5vw, 56px); line-height: 1; }
+    .apply-box p { color: var(--r-muted); line-height: 1.8; }
+    .apply-template { margin: 20px 0 0; padding: 16px; border: 1px dashed var(--r-line); background: color-mix(in srgb, var(--r-bg) 45%, transparent); color: var(--r-text); font: 14px/1.85 ui-monospace, monospace; white-space: pre-line; }
+    .contact-card { align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; padding: 24px; border: 2px solid var(--mc-edge); outline: 1px solid var(--r-line); background: var(--r-panel-hi); box-shadow: 4px 4px 0 rgba(0,0,0,.28); }
+    .contact-card .label { color: var(--r-green); font: 900 11px/1 ui-monospace, monospace; letter-spacing: .14em; }
+    .contact-name { margin: 18px 0 8px; font-size: 30px; }
+    .contact-id { color: var(--r-text); font: 700 18px/1.8 ui-monospace, monospace; overflow-wrap: anywhere; }
+    .contact-note { margin: 20px 0 0; color: var(--r-muted); line-height: 1.65; }
+    footer { padding: 28px 0 42px; border-top: 1px solid var(--r-line); color: var(--r-muted); text-align: center; font-size: 12px; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .38s ease, transform .42s cubic-bezier(.16,1,.3,1); will-change: opacity, transform; }
+    .reveal.show { opacity: 1; transform: none; }
+    @media (max-width: 800px) {
+      .recruit-wrap { width: min(100% - 28px, 620px); }
+      .recruit-hero, .apply-box { grid-template-columns: 1fr; }
+      .recruit-hero { min-height: auto; padding: 120px 0 58px; gap: 42px; }
+      .recruit-board { transform: none; }
+      .hero-title-art { margin-top: 4px; }
+      .roles-grid, .terms-grid { grid-template-columns: 1fr; }
+      .roles-section, .terms-section, .apply-section { padding: 58px 0; }
+      .section-intro { display: block; }
+      .section-intro p { margin-top: 15px; }
+      .apply-box { padding: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .reveal { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body class="page-recruit">
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a class="logo" href="index.html#home" aria-label="返回 Once Again 首页">
+        <span class="logo-icon logo-image-wrap" id="logoPreviewTrigger" role="button" tabindex="0" aria-label="放大查看 Once Again Logo" title="点击放大查看"><img src="NEW-logo-ICON.png" alt=""></span>
+        <span class="logo-name">无声无息:Once Again</span>
+      </a>
+      <div class="nav-right">
+        <nav class="nav-links" id="navLinks" aria-label="主导航">
+          <a href="index.html#home">首页</a>
+          <a href="index.html#features">核心玩法</a>
+          <a href="index.html#news">最新公告</a>
+          <a href="jieshao.html#team">团队介绍</a>
+          <a class="nav-team-link" href="ztdh.html#recruit">招募协作者</a>
+          <a class="nav-button" href="index.html#join">加入服务器</a>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换到白色主题" title="切换明暗主题">
+          <span class="oa-theme-glyph oa-theme-sun mc-theme-celestial" aria-hidden="true"><svg class="mc-sky-svg" viewBox="0 0 32 32" shape-rendering="crispEdges" focusable="false"><rect x="12" y="0" width="8" height="4" fill="#f8df65"/><rect x="12" y="28" width="8" height="4" fill="#bd8529"/><rect x="0" y="12" width="4" height="8" fill="#d19b31"/><rect x="28" y="12" width="4" height="8" fill="#bd8529"/><rect x="4" y="4" width="4" height="4" fill="#e1b541"/><rect x="24" y="4" width="4" height="4" fill="#d19b31"/><rect x="4" y="24" width="4" height="4" fill="#c58d2b"/><rect x="24" y="24" width="4" height="4" fill="#a97825"/><rect x="8" y="8" width="16" height="16" fill="#e3b83f"/><rect x="12" y="8" width="8" height="4" fill="#fff1a0"/><rect x="8" y="12" width="4" height="8" fill="#f4d968"/><rect x="12" y="12" width="8" height="8" fill="#ffe98a"/><rect x="20" y="16" width="4" height="8" fill="#c9922b"/><rect x="12" y="20" width="8" height="4" fill="#dca735"/></svg></span>
+          <span class="oa-theme-glyph oa-theme-moon mc-theme-celestial" aria-hidden="true"><svg class="mc-sky-svg" viewBox="0 0 32 32" shape-rendering="crispEdges" focusable="false"><rect x="12" y="4" width="12" height="4" fill="#f2f0d5"/><rect x="8" y="8" width="12" height="4" fill="#d8d9c7"/><rect x="4" y="12" width="12" height="8" fill="#c5c8bb"/><rect x="8" y="20" width="12" height="4" fill="#d8d9c7"/><rect x="12" y="24" width="12" height="4" fill="#f0eed3"/><rect x="12" y="8" width="4" height="4" fill="#fffbe2"/><rect x="4" y="12" width="4" height="4" fill="#e4e5d3"/><rect x="8" y="20" width="4" height="4" fill="#b3b7aa"/></svg></span>
+        </button>
+        <button class="menu-button" id="menuButton" type="button" aria-label="打开导航菜单" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="logo-lightbox" id="logoLightbox" aria-hidden="true">
+    <div class="logo-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Once Again Logo 大图预览">
+      <button class="logo-lightbox-close" id="logoLightboxClose" type="button" aria-label="关闭图片预览">×</button>
+      <img class="logo-lightbox-image" id="logoLightboxImage" alt="Once Again Logo 大图预览">
+    </div>
+  </div>
+
+  <div class="oa-scene-teaser" id="oaSceneTeaser" role="button" tabindex="0" aria-label="助力服务器复活，进入赞助场景">
+    <div class="oa-scene-teaser-inner">
+      <button class="oa-scene-close" id="oaSceneTeaserClose" type="button" aria-label="关闭助力服务器复活窗口" title="关闭">×</button>
+      <span class="oa-scene-kicker"><i class="oa-scene-kicker-dot"></i>NEW SCENE</span>
+      <strong class="oa-scene-title">助力服务器复活</strong>
+      <span class="oa-scene-desc">前往另一个场景，查看赞助与支持方式。</span>
+      <span class="oa-scene-enter">进入场景 <span aria-hidden="true">→</span></span>
+    </div>
+  </div>
+
+  <main id="recruit">
+    <section class="recruit-hero recruit-wrap">
+      <div class="reveal show">
+        <img class="hero-title-art mc-pixel" src="新-服务器title.png" alt="Once Again Minecraft Server">
+        <span class="recruit-kicker">OPEN CALL · 招募协作者</span>
+        <h1>一起把<br><em>想法做出来。</em></h1>
+        <p class="recruit-lead">Once Again 想认识一些喜欢 Minecraft、愿意一起做点有趣内容的朋友。我们不追求“看起来很大的团队”，更在意轻松沟通、互相尊重，以及把想法一点点实现。</p>
+        <div class="recruit-alert"><strong>先把合作方式说在前面：</strong>这是一个以兴趣协作为主的小项目，目前没有固定薪酬。服务器、素材或测试产生的必要费用，可能需要根据实际情况一起讨论；我们会提前说明，也欢迎大家量力参与。</div>
+      </div>
+      <aside class="recruit-board reveal show" aria-label="招募重点">
+        <div class="mc-statusbar"><strong>ONCE AGAIN / 招募大厅</strong><span class="mc-hearts" aria-label="三颗生命值"><img class="mc-heart-icon" src="mc-icons/heart.png" alt=""><img class="mc-heart-icon" src="mc-icons/heart.png" alt=""><img class="mc-heart-icon" src="mc-icons/heart.png" alt=""></span></div>
+        <div>目前想找的方向</div>
+        <h2>几个方向<br>期待遇见你</h2>
+        <ul>
+          <li>能交付可用的模型、动画或 Mod 功能</li>
+          <li>愿意看文档、做测试、接受迭代</li>
+          <li>每周能保持稳定的沟通频率</li>
+          <li>把作品质量和玩家体验放在前面</li>
+        </ul>
+        <div class="mc-hotbar" aria-label="当前招募方向">
+          <div class="mc-slot active"><img class="mc-slot-icon" src="mc-icons/blockbench.png" alt=""><span>模型</span></div>
+          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/neoforge.png" alt=""><span>Mod</span></div>
+          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/resin_brick.png" alt=""><span>贴图</span></div>
+          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/painting.png" alt=""><span>UI</span></div>
+          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/spyglass.png" alt=""><span>协作</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="roles-section recruit-wrap">
+      <div class="section-intro reveal"><div><span class="recruit-kicker">ROLE SELECT</span><h2>我们在找谁？</h2></div><p>不要求你“什么都会”。选择一个最擅长的方向，带着作品或想法来聊就好。</p></div>
+      <div class="roles-grid">
+        <article class="role-card reveal" data-code="ROLE / 01"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/blockbench.png" alt="Blockbench 图标" loading="lazy"></div><h3>BB 模型与动画</h3><p>使用 Blockbench 制作生物、道具、方块模型，或为它们设计待机、攻击、交互等动画。</p><small>BLOCKBENCH · GECKOLIB · 动画逻辑</small></article>
+        <article class="role-card reveal" data-code="ROLE / 02"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/neoforge.png" alt="NeoForge 图标" loading="lazy"></div><h3>Mod 开发</h3><p>参与 Fabric / NeoForge 等方向的 Mod 开发，把玩法、系统和接口真正做成能运行的内容。</p><small>JAVA · FABRIC / NEOFORGE · 调试</small></article>
+        <article class="role-card reveal" data-code="ROLE / 03"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/resin_brick.png" alt="材质图标" loading="lazy"></div><h3>材质与贴图</h3><p>绘制方块、物品、生物贴图，建立统一的色板、像素语言和资源包规范。</p><small>像素绘画 · RESOURCE PACK · 视觉规范</small></article>
+        <article class="role-card reveal" data-code="ROLE / 04"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/painting.png" alt="绘图图标" loading="lazy"></div><h3>UI / 平面绘制</h3><p>设计菜单、图标、宣传图和页面素材，让玩家在进入游戏前后都能感受到 Once Again 的气质。</p><small>UI · ICON · 信息层级 · 排版</small></article>
+      </div>
+    </section>
+
+    <section class="terms-section recruit-wrap">
+      <div class="section-intro reveal"><div><span class="recruit-kicker">CO-OP NOTES</span><h2>合作方式说明</h2></div><p>把想法和边界提前说清楚，合作起来会更轻松，也更容易长期坚持。</p></div>
+      <div class="terms-grid">
+        <div class="terms-panel reveal"><h3>我们可以一起做</h3><ul><li>共同确定主题方向、拆分需求并持续反馈</li><li>保留作品署名与项目展示机会</li><li>一起做出真实可玩的 Minecraft 内容</li><li>尊重创作节奏，也允许在尝试中慢慢调整</li></ul></div>
+        <div class="terms-panel warning reveal"><h3>目前的项目状态</h3><ul><li>项目以兴趣协作为主，暂时没有固定薪酬</li><li>必要的素材、服务器或测试费用会提前沟通</li><li>不要求随时在线，会尽量按照彼此的时间安排</li></ul><p>如果你正在寻找稳定收入，可以先把这里当作业余兴趣项目；如果你想积累作品、认识同好，或者把脑海里的点子慢慢做出来，欢迎来聊聊。</p></div>
+      </div>
+    </section>
+
+    <section class="apply-section recruit-wrap" id="apply">
+      <div class="apply-box reveal">
+        <div><span class="recruit-kicker">SEND A SIGNAL</span><h2>带着你的<br>第一份作品来。</h2><p>不需要正式简历，也不用写得像商业邮件。告诉我们你是谁、会什么、做过什么，以及你想在 Once Again 里尝试什么。</p><div class="apply-template">称呼 / 昵称：
+擅长方向：模型 / 动画 / Mod / 材质 / UI
+作品链接或截图：
+每周大致可投入时间：
+想一起做的内容：</div></div>
+        <div class="contact-card"><div><span class="label">CONTACT / 无声</span><div class="contact-name">在下无声</div><div class="contact-id">QQ 1217464544<br>微信 ZX_Wu_Sheng</div><p class="contact-note">加好友时请备注“招募 + 你的方向”。如果暂时没有作品，也可以先说说你的想法和学习进度。</p></div><div class="label">ONCE AGAIN · SEE YOU IN GAME</div></div>
+      </div>
+    </section>
+  </main>
+  <footer>无声无息: Once Again · 协作者招募页面</footer>
+
+  <script>
+    const navbar = document.querySelector('#navbar');
+    const menuButton = document.querySelector('#menuButton');
+    const navLinks = document.querySelector('#navLinks');
+    const themeToggle = document.querySelector('#themeToggle');
+    const isLight = () => document.documentElement.dataset.theme === 'light';
+    const syncTheme = () => { const label = isLight() ? '切换到黑色主题' : '切换到白色主题'; themeToggle.setAttribute('aria-label', label); themeToggle.setAttribute('title', label); };
+    syncTheme();
+    themeToggle.addEventListener('click', () => {
+      if (isLight()) delete document.documentElement.dataset.theme;
+      else document.documentElement.dataset.theme = 'light';
+      try { const theme = isLight() ? 'light' : 'dark'; ['once-again-theme', 'website-theme', 'sponsor-theme'].forEach(key => localStorage.setItem(key, theme)); } catch (_) {}
+      syncTheme();
+    });
+    const syncNav = () => navbar.classList.toggle('scrolled', window.scrollY > 25);
+    window.addEventListener('scroll', syncNav, { passive: true }); syncNav();
+    menuButton.addEventListener('click', () => { const open = navLinks.classList.toggle('open'); menuButton.textContent = open ? '×' : '☰'; menuButton.setAttribute('aria-expanded', String(open)); menuButton.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单'); });
+    navLinks.addEventListener('click', e => { if (e.target.closest('a')) { navLinks.classList.remove('open'); menuButton.textContent = '☰'; menuButton.setAttribute('aria-expanded', 'false'); } });
+    document.querySelectorAll('a[href]').forEach(link => link.addEventListener('click', () => {
+      const url = new URL(link.href, location.href);
+      if (url.origin === location.origin && ['index.html', 'jieshao.html', 'scene1.html', 'ztdh.html'].includes(url.pathname.split('/').pop())) {
+        url.searchParams.set('theme', isLight() ? 'light' : 'dark');
+        link.href = url.href;
+      }
+    }, true));
+    const reveal = new IntersectionObserver(entries => entries.forEach(entry => entry.target.classList.toggle('show', entry.isIntersecting)), { threshold: .16 });
+    document.querySelectorAll('.reveal:not(.show)').forEach(el => reveal.observe(el));
+
+    const logoTrigger = document.querySelector('#logoPreviewTrigger');
+    const lightbox = document.querySelector('#logoLightbox');
+    const lightboxImage = document.querySelector('#logoLightboxImage');
+    const lightboxClose = document.querySelector('#logoLightboxClose');
+    const closeLightbox = () => { lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden', 'true'); };
+    const openLightbox = event => { event.preventDefault(); event.stopPropagation(); lightboxImage.src = logoTrigger.querySelector('img').src; lightbox.classList.add('open'); lightbox.setAttribute('aria-hidden', 'false'); };
+    logoTrigger.addEventListener('click', openLightbox);
+    logoTrigger.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') openLightbox(event); });
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', event => { if (event.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeLightbox(); });
+
+    const teaser = document.querySelector('#oaSceneTeaser');
+    const teaserClose = document.querySelector('#oaSceneTeaserClose');
+    const enterScene = event => { if (event.target.closest('#oaSceneTeaserClose')) return; window.location.href = `scene1.html?theme=${isLight() ? 'light' : 'dark'}`; };
+    teaser.addEventListener('click', enterScene);
+    teaser.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') enterScene(event); });
+    teaserClose.addEventListener('click', event => { event.stopPropagation(); teaser.classList.add('oa-closing'); setTimeout(() => teaser.remove(), 260); });
+  </script>
+</body>
+</html>

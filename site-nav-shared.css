@@ -37,7 +37,7 @@ html[data-theme="light"] {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif !important;
-  transition: top .42s cubic-bezier(.22, 1, .36, 1), width .42s cubic-bezier(.22, 1, .36, 1), border-radius .42s cubic-bezier(.22, 1, .36, 1), box-shadow .32s ease, background-color .32s ease !important;
+  transition: top .34s cubic-bezier(.16, 1, .3, 1), width .34s cubic-bezier(.16, 1, .3, 1), border-radius .34s cubic-bezier(.16, 1, .3, 1), box-shadow .22s ease, background-color .22s ease !important;
 }
 
 .navbar::before {
@@ -68,7 +68,7 @@ html[data-theme="light"] {
   gap: 28px !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
-  transition: min-height .42s cubic-bezier(.22, 1, .36, 1), gap .42s ease !important;
+  transition: min-height .34s cubic-bezier(.16, 1, .3, 1), gap .24s cubic-bezier(.16, 1, .3, 1) !important;
 }
 
 .navbar.scrolled .nav-inner {
@@ -80,6 +80,7 @@ html[data-theme="light"] {
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
+  flex: 0 0 auto !important;
   color: var(--site-nav-text) !important;
   text-decoration: none !important;
   font-weight: 900 !important;
@@ -99,7 +100,8 @@ html[data-theme="light"] {
   background: var(--site-nav-panel-2) !important;
   box-shadow: var(--site-nav-shadow) !important;
   cursor: zoom-in !important;
-  transition: transform .42s cubic-bezier(.22, 1, .36, 1), width .42s ease, height .42s ease, box-shadow .25s ease !important;
+  transition: transform .34s cubic-bezier(.16, 1, .3, 1), box-shadow .2s ease !important;
+  will-change: transform;
 }
 
 .navbar .logo-image-wrap img {
@@ -126,6 +128,7 @@ html[data-theme="light"] {
   color: var(--site-nav-text) !important;
   font-size: 17px !important;
   line-height: 1.25 !important;
+  white-space: nowrap !important;
   text-shadow: none !important;
 }
 
@@ -133,12 +136,15 @@ html[data-theme="light"] {
   display: flex !important;
   align-items: center !important;
   gap: 18px !important;
+  min-width: 0 !important;
 }
 
 .navbar .nav-links {
   display: flex;
   align-items: center !important;
   gap: 25px !important;
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
   color: var(--site-nav-muted) !important;
   font-size: 15px !important;
   line-height: 1.7 !important;
@@ -148,7 +154,19 @@ html[data-theme="light"] {
   position: relative !important;
   color: inherit !important;
   text-decoration: none !important;
-  transition: color .25s ease, transform .25s ease, box-shadow .25s ease !important;
+  transition: color .18s ease, transform .18s cubic-bezier(.16, 1, .3, 1), box-shadow .18s ease !important;
+  white-space: nowrap !important;
+  flex: 0 0 auto !important;
+}
+
+@media (max-width: 1200px) and (min-width: 951px) {
+  .navbar .nav-inner { gap: 16px !important; }
+  .navbar .nav-right { gap: 10px !important; }
+  .navbar .nav-links { gap: 14px !important; font-size: 13px !important; }
+  .navbar .logo { gap: 9px !important; }
+  .navbar .logo-name { font-size: 15px !important; }
+  .navbar .nav-button { padding-inline: 12px !important; }
+  .navbar .theme-toggle { width: 48px !important; min-width: 48px !important; flex-basis: 48px !important; }
 }
 
 .navbar .nav-links a:not(.nav-button)::after {
@@ -160,7 +178,7 @@ html[data-theme="light"] {
   height: 3px !important;
   background: var(--site-nav-highlight) !important;
   transform: translateX(-50%) scaleX(0) !important;
-  transition: transform .28s ease !important;
+  transition: transform .2s cubic-bezier(.16, 1, .3, 1) !important;
 }
 
 .navbar .nav-links a:not(.nav-button):hover,
@@ -259,7 +277,7 @@ html[data-theme="light"] .navbar .theme-toggle {
   display: grid !important;
   place-items: center !important;
   transform: none !important;
-  transition: opacity .18s steps(2, end) !important;
+  transition: opacity .18s ease !important;
 }
 
 .navbar .mc-sky-svg {
@@ -396,7 +414,8 @@ body.lightbox-open {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
-  transition: opacity .28s ease, visibility .28s ease !important;
+  transition: opacity .22s ease, visibility .22s ease !important;
+  will-change: opacity;
 }
 
 .logo-lightbox.open {
@@ -416,7 +435,8 @@ body.lightbox-open {
   box-shadow: 12px 12px 0 rgba(0, 0, 0, .45) !important;
   transform: scale(.82) translateY(24px) !important;
   opacity: 0 !important;
-  transition: transform .42s cubic-bezier(.2, .9, .2, 1.15), opacity .28s ease !important;
+  transition: transform .3s cubic-bezier(.16, 1, .3, 1), opacity .22s ease !important;
+  will-change: transform, opacity;
 }
 
 .logo-lightbox.open .logo-lightbox-dialog {
@@ -451,7 +471,7 @@ body.lightbox-open {
   line-height: 1 !important;
   cursor: pointer !important;
   box-shadow: 3px 3px 0 rgba(0, 0, 0, .32) !important;
-  transition: transform .1s steps(2, end), box-shadow .1s steps(2, end) !important;
+  transition: transform .14s cubic-bezier(.16, 1, .3, 1), box-shadow .14s ease !important;
 }
 
 .logo-lightbox-close:hover {
@@ -500,7 +520,7 @@ body.lightbox-open {
     pointer-events: none !important;
     transform: translateY(-15px) scale(.97) !important;
     transform-origin: top !important;
-    transition: opacity .2s steps(2, end), visibility .2s steps(2, end), transform .24s steps(2, end) !important;
+    transition: opacity .2s ease, visibility .2s ease, transform .24s cubic-bezier(.16, 1, .3, 1) !important;
   }
 
   .navbar .nav-links.open {
@@ -637,7 +657,8 @@ body.lightbox-open {
   opacity: 1 !important;
   animation: none !important;
   transform: none !important;
-  transition: transform .1s steps(2, end), box-shadow .1s steps(2, end), opacity .24s steps(3, end) !important;
+  transition: transform .16s cubic-bezier(.16, 1, .3, 1), box-shadow .16s ease, opacity .22s ease !important;
+  will-change: transform, opacity;
 }
 
 .oa-scene-teaser:hover {
@@ -791,7 +812,7 @@ html[data-theme="light"] .oa-scene-close {
   cursor: pointer !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  transition: transform .1s steps(2, end), box-shadow .1s steps(2, end) !important;
+  transition: transform .14s cubic-bezier(.16, 1, .3, 1), box-shadow .14s ease !important;
 }
 
 .oa-scene-close:hover {
@@ -811,7 +832,7 @@ html[data-theme="light"] .oa-scene-close {
   box-shadow: 8px 8px 0 rgba(0, 0, 0, .24) !important;
   pointer-events: none !important;
   animation: none !important;
-  transition: opacity .24s steps(3, end), transform .28s steps(3, end) !important;
+  transition: opacity .2s ease, transform .24s cubic-bezier(.16, 1, .3, 1) !important;
 }
 
 html[data-theme="light"] .oa-scene-teaser {
@@ -846,16 +867,8 @@ html[data-theme="light"] .oa-scene-close {
 }
 
 @keyframes oa-mobile-teaser-signal {
-  0%,
-  100% {
-    opacity: .55;
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--site-nav-highlight) 18%, transparent);
-  }
-
-  50% {
-    opacity: 1;
-    box-shadow: 0 0 0 5px color-mix(in srgb, var(--site-nav-highlight) 16%, transparent);
-  }
+  0%, 100% { opacity: .62; transform: scale(.86); }
+  50% { opacity: 1; transform: scale(1); }
 }
 
 @media (max-width: 700px) {
@@ -934,7 +947,7 @@ html[data-theme="light"] .oa-scene-close {
     flex: 0 0 8px !important;
     border-radius: 2px !important;
     background: var(--site-nav-highlight) !important;
-    animation: oa-mobile-teaser-signal 1.4s steps(2, end) infinite !important;
+    animation: oa-mobile-teaser-signal 1.6s ease-in-out infinite !important;
   }
 
   .oa-scene-title {

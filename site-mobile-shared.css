@@ -11,6 +11,44 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Shared motion contract: short, composited transitions with one easing curve. */
+:root { --oa-motion-ease: cubic-bezier(.16, 1, .3, 1); }
+.reveal, .reveal-left, .reveal-right, .reveal-smooth { will-change: opacity, transform; }
+.page-home .reveal, .page-home .reveal-left, .page-home .reveal-right {
+  transition-duration: .34s, .4s !important;
+  transition-timing-function: ease, var(--oa-motion-ease) !important;
+}
+.page-team .reveal { transition: opacity .34s ease, transform .4s var(--oa-motion-ease) !important; }
+.page-sponsor .reveal-smooth {
+  filter: none !important;
+  transition: opacity .34s ease, transform .4s var(--oa-motion-ease) !important;
+}
+.role-card, .member-card, .feature-card, .journey-step, .news-card,
+.contact-card, .pay-card, .info-card, .thanks, .oa-float-control {
+  will-change: transform;
+  transition-timing-function: var(--oa-motion-ease) !important;
+}
+.page-team .member-card {
+  transition: transform .2s var(--oa-motion-ease), border-color .2s ease, box-shadow .2s ease !important;
+}
+.page-team .member-card::before,
+.page-team .member-card::after {
+  transition: transform .28s var(--oa-motion-ease), opacity .22s ease !important;
+}
+.page-sponsor .pay-card,
+.page-sponsor .qr-frame {
+  transition: transform .24s var(--oa-motion-ease), box-shadow .24s ease !important;
+}
+.navbar .nav-button,
+.navbar .menu-button,
+.navbar .theme-toggle,
+.button,
+.control-button,
+.control-btn,
+.return-home {
+  transition-timing-function: var(--oa-motion-ease) !important;
+}
+
 body.page-home,
 body.page-team,
 body.page-sponsor {
@@ -433,6 +471,21 @@ body.page-sponsor {
   .page-sponsor .disclaimer {
     margin-top: 22px !important;
     line-height: 1.7 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  .reveal, .reveal-left, .reveal-right, .reveal-smooth {
+    opacity: 1 !important;
+    transform: none !important;
+    translate: none !important;
+    filter: none !important;
+  }
+  .role-card, .member-card, .feature-card, .journey-step, .news-card,
+  .contact-card, .pay-card, .info-card, .thanks, .oa-float-control {
+    transition: none !important;
+    will-change: auto !important;
   }
 }
 
