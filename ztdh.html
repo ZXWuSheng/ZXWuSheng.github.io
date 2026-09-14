@@ -95,7 +95,7 @@
     .mc-statusbar strong { color: var(--r-green); }
     .mc-hearts { display: inline-flex; align-items: center; gap: 3px; }
     .mc-heart-icon { width: 13px; height: 13px; display: block; image-rendering: pixelated; filter: drop-shadow(1px 1px 0 rgba(0,0,0,.3)); }
-    .mc-hotbar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 22px; }
+    .mc-hotbar { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 22px; }
     .mc-slot { position: relative; display: grid; min-height: 64px; place-items: center; border: 2px solid var(--r-line); background: repeating-linear-gradient(135deg, rgba(255,255,255,.035) 0 4px, transparent 4px 8px), var(--r-bg); box-shadow: inset 0 0 0 2px rgba(0,0,0,.2); color: var(--r-green); font: 900 11px/1 ui-monospace, monospace; text-align: center; }
     .mc-slot.active { border-color: var(--r-green); box-shadow: inset 0 0 0 2px var(--r-green), 3px 3px 0 rgba(0,0,0,.22); }
     .mc-slot span { display: block; margin-top: 4px; font-size: 9px; color: var(--r-muted); }
@@ -126,15 +126,31 @@
     .terms-panel.warning { border-color: color-mix(in srgb, var(--r-green) 55%, var(--r-line)); }
     .terms-panel.warning h3 { color: var(--r-green); }
     .apply-section { padding-bottom: 120px; }
-    .apply-box { display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; padding: 28px; border: 3px solid var(--mc-edge); outline: 2px solid var(--r-green); background: var(--r-panel); box-shadow: 8px 8px 0 rgba(0,0,0,.4); }
-    .apply-box h2 { margin: 0 0 16px; font-size: clamp(32px, 5vw, 56px); line-height: 1; }
+    .apply-box { position: relative; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr); gap: 22px; padding: 22px; border: 3px solid var(--mc-edge); outline: 2px solid var(--r-green); background: linear-gradient(135deg, color-mix(in srgb, var(--r-panel) 94%, var(--r-green)), var(--r-panel)); box-shadow: 9px 9px 0 rgba(0,0,0,.42); overflow: hidden; }
+    .apply-box::before { content: ""; position: absolute; pointer-events: none; image-rendering: pixelated; }
+    .apply-box::before { width: 108px; height: 108px; right: 22px; top: -44px; background: repeating-linear-gradient(135deg, transparent 0 9px, rgba(112,185,87,.18) 9px 18px), var(--r-panel-hi); border: 3px solid var(--r-line); transform: rotate(45deg); box-shadow: 5px 5px 0 rgba(0,0,0,.18); }
+    .apply-panel, .contact-card { position: relative; z-index: 1; min-width: 0; }
+    .apply-panel { padding: 20px 22px 30px; border: 2px solid var(--r-line); background: color-mix(in srgb, var(--r-bg) 38%, transparent); }
+    .apply-panel::before { content: "QUEST BOARD / 招募任务"; display: inline-block; margin-bottom: 14px; padding: 7px 10px; border: 2px solid var(--mc-edge); background: var(--r-green); color: #10210f; font: 900 12px/1 ui-monospace, monospace; letter-spacing: .12em; box-shadow: 3px 3px 0 rgba(0,0,0,.28); }
+    .apply-box h2 { margin: 4px 0 13px; color: var(--r-text); font-family: Georgia, "Microsoft YaHei", serif; font-size: clamp(34px, 5vw, 62px); font-weight: 900; letter-spacing: .02em; line-height: 1.04; text-shadow: 3px 3px 0 color-mix(in srgb, var(--r-green) 22%, transparent); }
+    .apply-box h2 em { color: var(--r-green); font-style: normal; }
     .apply-box p { color: var(--r-muted); line-height: 1.8; }
-    .apply-template { margin: 20px 0 0; padding: 16px; border: 1px dashed var(--r-line); background: color-mix(in srgb, var(--r-bg) 45%, transparent); color: var(--r-text); font: 14px/1.85 ui-monospace, monospace; white-space: pre-line; }
-    .contact-card { align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; padding: 24px; border: 2px solid var(--mc-edge); outline: 1px solid var(--r-line); background: var(--r-panel-hi); box-shadow: 4px 4px 0 rgba(0,0,0,.28); }
-    .contact-card .label { color: var(--r-green); font: 900 11px/1 ui-monospace, monospace; letter-spacing: .14em; }
-    .contact-name { margin: 18px 0 8px; font-size: 30px; }
-    .contact-id { color: var(--r-text); font: 700 18px/1.8 ui-monospace, monospace; overflow-wrap: anywhere; }
-    .contact-note { margin: 20px 0 0; color: var(--r-muted); line-height: 1.65; }
+    .apply-template { margin: 20px 0 0; padding: 17px 18px; border: 2px solid var(--r-line); background: color-mix(in srgb, var(--r-bg) 62%, transparent); color: var(--r-text); font: 15px/1.95 ui-monospace, "Microsoft YaHei", monospace; white-space: pre-line; box-shadow: inset 0 0 0 3px rgba(0,0,0,.08); }
+    .contact-card { align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; padding: 23px; border: 3px solid var(--mc-edge); outline: 2px solid var(--r-line); background: var(--r-panel-hi); box-shadow: 5px 5px 0 rgba(0,0,0,.3); }
+    .contact-card::before { content: ""; position: absolute; right: 19px; top: 14px; width: 32px; height: 32px; background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAHlBMVEUAAAD9/6ja4uLg4nfL1ta5ycnS0gCIpKRkkJBVa2uOynhjAAAAAXRSTlMAQObYZgAAAEpJREFUeNpjwA4aoDRHJZTRrj4BwmgVhTA6SkQqQSyOUhcR10qQCkXBZMHwCSARV9NwsL6ZJaKVENVTxaHap7tDGZyVDFAwAdliAFlNENjnSBVaAAAAAElFTkSuQmCC") center / contain no-repeat; image-rendering: pixelated; filter: drop-shadow(2px 2px 0 rgba(0,0,0,.25)); }
+    .contact-card .label { color: var(--r-green); font: 900 12px/1 ui-monospace, monospace; letter-spacing: .14em; }
+    .contact-name { margin: 19px 0 13px; font-family: Georgia, "Microsoft YaHei", serif; font-size: clamp(34px, 4vw, 52px); font-weight: 900; line-height: 1; }
+    .contact-id { display: grid; gap: 8px; color: var(--r-text); font: 700 18px/1.45 ui-monospace, monospace; overflow-wrap: anywhere; }
+    .contact-id span { display: block; padding: 9px 11px; border: 2px solid var(--r-line); background: color-mix(in srgb, var(--r-bg) 50%, transparent); }
+    .contact-note { margin: 20px 0 0; color: var(--r-muted); line-height: 1.7; }
+    .mc-loadout { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; margin-top: 18px; }
+    .mc-loadout-item { display: grid; justify-items: center; gap: 5px; min-width: 0; padding: 7px 4px 6px; border: 2px solid #34372f; background: #777b72; box-shadow: inset 0 0 0 2px #c7c9bd; }
+    .mc-loadout-item img { width: 30px; height: 30px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(2px 2px 0 rgba(0,0,0,.35)); }
+    .mc-loadout-item span { color: #f0f1dc; font: 800 9px/1 ui-monospace, monospace; text-align: center; }
+    .contact-hotbar { display: none !important; }
+    .mc-xp { display: grid; grid-template-columns: auto minmax(120px, 1fr) auto; align-items: center; gap: 9px; margin-top: 14px; color: var(--r-muted); font: 800 10px/1 ui-monospace, monospace; }
+    .mc-xp-track { height: 12px; padding: 2px; border: 2px solid #252920; background: #34382f; box-shadow: inset 0 0 0 1px #777b72; }
+    .mc-xp-fill { display: block; width: 72%; height: 100%; background: #69b84d; box-shadow: inset 0 2px 0 rgba(204,255,152,.65), 0 0 5px rgba(105,184,77,.45); }
     footer { padding: 28px 0 42px; border-top: 1px solid var(--r-line); color: var(--r-muted); text-align: center; font-size: 12px; }
     .reveal { opacity: 0; transform: translateY(18px); transition: opacity .38s ease, transform .42s cubic-bezier(.16,1,.3,1); will-change: opacity, transform; }
     .reveal.show { opacity: 1; transform: none; }
@@ -148,10 +164,16 @@
       .roles-section, .terms-section, .apply-section { padding: 58px 0; }
       .section-intro { display: block; }
       .section-intro p { margin-top: 15px; }
-      .apply-box { padding: 20px; }
+      .apply-box { padding: 14px; gap: 16px; }
+      .apply-panel, .contact-card { padding: 18px; }
+      .apply-box::before { right: -30px; top: -54px; transform: rotate(45deg) scale(.8); }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .reveal { opacity: 1; transform: none; } }
   </style>
+  <script>
+    // Embedded Minecraft music disc icon: keeps the page self-contained and offline-friendly.
+    const musicDiscIcon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC';
+  </script>
 </head>
 <body class="page-recruit">
   <header class="navbar" id="navbar">
@@ -198,20 +220,20 @@
   <main id="recruit">
     <section class="recruit-hero recruit-wrap">
       <div class="reveal show">
-        <img class="hero-title-art mc-pixel" src="新-服务器title.png" alt="Once Again Minecraft Server">
+        <img class="hero-title-art mc-pixel" src="最新服务器title.png" alt="Once Again Minecraft Server">
         <span class="recruit-kicker">OPEN CALL · 招募协作者</span>
         <h1>一起把<br><em>想法做出来。</em></h1>
-        <p class="recruit-lead">Once Again 想认识一些喜欢 Minecraft、愿意一起做点有趣内容的朋友。我们不追求“看起来很大的团队”，更在意轻松沟通、互相尊重，以及把想法一点点实现。</p>
+        <p class="recruit-lead">Once Again 想认识喜欢 Minecraft、愿意一起做内容的朋友。我们更在意轻松沟通、互相尊重，以及把点子一步步变成可以玩的东西。</p>
         <div class="recruit-alert"><strong>先把合作方式说在前面：</strong>这是一个以兴趣协作为主的小项目，目前没有固定薪酬。服务器、素材或测试产生的必要费用，可能需要根据实际情况一起讨论；我们会提前说明，也欢迎大家量力参与。</div>
       </div>
       <aside class="recruit-board reveal show" aria-label="招募重点">
         <div class="mc-statusbar"><strong>ONCE AGAIN / 招募大厅</strong><span class="mc-hearts" aria-label="三颗生命值"><img class="mc-heart-icon" src="mc-icons/heart.png" alt=""><img class="mc-heart-icon" src="mc-icons/heart.png" alt=""><img class="mc-heart-icon" src="mc-icons/heart.png" alt=""></span></div>
-        <div>目前想找的方向</div>
-        <h2>几个方向<br>期待遇见你</h2>
+        <div>目前开放的方向</div>
+        <h2>6 个方向<br>期待遇见你</h2>
         <ul>
-          <li>能交付可用的模型、动画或 Mod 功能</li>
+          <li>有自己擅长的方向，愿意一起协作</li>
           <li>愿意看文档、做测试、接受迭代</li>
-          <li>每周能保持稳定的沟通频率</li>
+          <li>按自己的节奏保持基本沟通</li>
           <li>把作品质量和玩家体验放在前面</li>
         </ul>
         <div class="mc-hotbar" aria-label="当前招募方向">
@@ -219,18 +241,21 @@
           <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/neoforge.png" alt=""><span>Mod</span></div>
           <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/resin_brick.png" alt=""><span>贴图</span></div>
           <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/painting.png" alt=""><span>UI</span></div>
-          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/spyglass.png" alt=""><span>协作</span></div>
+          <div class="mc-slot"><img class="mc-slot-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" data-icon="music-disc" alt="Minecraft 唱片"><span>音乐</span></div>
+          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/bricks.png" alt=""><span>建筑</span></div>
         </div>
       </aside>
     </section>
 
     <section class="roles-section recruit-wrap">
-      <div class="section-intro reveal"><div><span class="recruit-kicker">ROLE SELECT</span><h2>我们在找谁？</h2></div><p>不要求你“什么都会”。选择一个最擅长的方向，带着作品或想法来聊就好。</p></div>
+      <div class="section-intro reveal"><div><span class="recruit-kicker">ROLE SELECT</span><h2>我们在找谁？</h2></div><p>不需要什么都会，挑一个你真正感兴趣、愿意持续投入的方向就好。</p></div>
       <div class="roles-grid">
         <article class="role-card reveal" data-code="ROLE / 01"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/blockbench.png" alt="Blockbench 图标" loading="lazy"></div><h3>BB 模型与动画</h3><p>使用 Blockbench 制作生物、道具、方块模型，或为它们设计待机、攻击、交互等动画。</p><small>BLOCKBENCH · GECKOLIB · 动画逻辑</small></article>
         <article class="role-card reveal" data-code="ROLE / 02"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/neoforge.png" alt="NeoForge 图标" loading="lazy"></div><h3>Mod 开发</h3><p>参与 Fabric / NeoForge 等方向的 Mod 开发，把玩法、系统和接口真正做成能运行的内容。</p><small>JAVA · FABRIC / NEOFORGE · 调试</small></article>
         <article class="role-card reveal" data-code="ROLE / 03"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/resin_brick.png" alt="材质图标" loading="lazy"></div><h3>材质与贴图</h3><p>绘制方块、物品、生物贴图，建立统一的色板、像素语言和资源包规范。</p><small>像素绘画 · RESOURCE PACK · 视觉规范</small></article>
         <article class="role-card reveal" data-code="ROLE / 04"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/painting.png" alt="绘图图标" loading="lazy"></div><h3>UI / 平面绘制</h3><p>设计菜单、图标、宣传图和页面素材，让玩家在进入游戏前后都能感受到 Once Again 的气质。</p><small>UI · ICON · 信息层级 · 排版</small></article>
+        <article class="role-card reveal" data-code="ROLE / 05"><div class="role-icon"><img class="role-mc-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" data-icon="music-disc" alt="Minecraft 唱片图标"></div><h3>音乐制作</h3><p>为类 RPG 服务器打造完整的声音体验：战斗与首领战音乐、任务与剧情主题、区域与场景旋律，以及探索时的环境氛围和关键音效。</p><small>战斗 · 任务 · 场景 · 首领战 · 音效</small></article>
+        <article class="role-card reveal" data-code="ROLE / 06"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/bricks.png" alt="砖块图标" loading="lazy"></div><h3>建筑设计</h3><p>搭建出生点、冒险场景与功能建筑，规划空间动线，让每一次探索都有值得停留的地方。</p><small>建筑 · 场景 · 空间规划</small></article>
       </div>
     </section>
 
@@ -244,18 +269,46 @@
 
     <section class="apply-section recruit-wrap" id="apply">
       <div class="apply-box reveal">
-        <div><span class="recruit-kicker">SEND A SIGNAL</span><h2>带着你的<br>第一份作品来。</h2><p>不需要正式简历，也不用写得像商业邮件。告诉我们你是谁、会什么、做过什么，以及你想在 Once Again 里尝试什么。</p><div class="apply-template">称呼 / 昵称：
-擅长方向：模型 / 动画 / Mod / 材质 / UI
+        <div class="apply-panel">
+          <h2>一起开启<br><em>新的冒险</em></h2>
+          <p>把你擅长的部分带进 Once Again。无论是战斗、任务、音乐，还是一座值得探索的建筑，都可以从一次轻松的交流开始。</p>
+          <div class="apply-template">擅长方向：模型 / 动画 / Mod / 材质 / UI / 音乐 / 建筑
 作品链接或截图：
 每周大致可投入时间：
-想一起做的内容：</div></div>
-        <div class="contact-card"><div><span class="label">CONTACT / 无声</span><div class="contact-name">在下无声</div><div class="contact-id">QQ 1217464544<br>微信 ZX_Wu_Sheng</div><p class="contact-note">加好友时请备注“招募 + 你的方向”。如果暂时没有作品，也可以先说说你的想法和学习进度。</p></div><div class="label">ONCE AGAIN · SEE YOU IN GAME</div></div>
+想一起做的内容：</div>
+        </div>
+        <div class="contact-card">
+          <div>
+            <span class="label">CONTACT / 无声</span>
+            <div class="contact-name">联系无声</div>
+            <div class="contact-id"><span>QQ&nbsp;&nbsp;1217464544</span><span>微信&nbsp;&nbsp;ZX_Wu_Sheng</span></div>
+            <p class="contact-note">加好友时请备注“招募 + 你的方向”。暂时没有作品也没关系，先聊聊你的想法和学习进度。</p>
+            <div class="mc-loadout" aria-label="RPG 招募方向物品栏">
+              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAJFBMVEUAAAAOPzYIJSAz68uk/fArx6weincVY1VoTh5JNhUoHguJZycazUdMAAAAAXRSTlMAQObYZgAAAExJREFUGNN1jsENwDAMAgGndpLuv29/jZFa/+4QwkA/ks5jyPky8cHxwyQAxslZNAaYiux9Zlb4A0XjNcVu1r0hvYacGwB0Rq0OSC4ehwkBE0lygnsAAAAASUVORK5CYII=" alt="钻石剑"><span>战斗</span></div>
+              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEUAAADW1ta3t7eZmZlbW1tlSxdUPhNSLhBEJQoxIQQWEAXuGgy6AAAAAXRSTlMAQObYZgAAAFhJREFUeNpjQAEzJ0Dp0kwoHRo6AUK3hkYC6bLQ0IjQsAkM01MjQoFCnRCZ0A4HhpnqoUDayIBhuVAZkFaewcBVqA6iVzEAhSA0UEi5A0QDhSA0UGgVigsAYf4glv1MND8AAAAASUVORK5CYII=" alt="书"><span>任务</span></div>
+              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4y2NgGBJg+QqP/yBMtuZXr47/v3V3FWmGwGwFafzz5xMYgwwiyhCYrTCNyBhkYHuH5X+ibcWGQWowDIFpxGUzuitQDCFFMywsMFwAEiBkCCw2cIYBPkNgtuLUjMsQEL37YDlhjdgMgWkkSTOyIWRppDsAABifRorVNHrHAAAAAElFTkSuQmCC" alt="地图"><span>场景</span></div>
+              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAt0lEQVQ4y2NgoCX4+r///40nUWBMluZAG+b/uopMYJokQ2CaYRhkCAgTbQhIIUUGwAwBaboANYzkcIB5Ywc5BiBrLtpg9n8VKYYgaz75f+L/yA3hYEOIcglIM8jfW4GKTgPZIM2WE3zghhwgZAiy7UeAbJBm9VJrMA0yYCc0YHEaAIs+mN+RDTjwf+r/7aQagOyFE0AX7SJkADZDQBgUmDuI0YwtJcJSIQiDwoiklAjCIE0wjE0dAJs0FKvHezfcAAAAAElFTkSuQmCC" alt="经验瓶"><span>成长</span></div>
+              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" alt="唱片"><span>音乐</span></div>
+            </div>
+            <div class="mc-xp" aria-label="经验值 72%"><span>LV 12</span><span class="mc-xp-track"><span class="mc-xp-fill"></span></span><span>72%</span></div>
+            <div class="contact-hotbar" aria-hidden="true">
+              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4y2NgGBJg+QqP/yBMtuZXr47/v3V3FWmGwGwFafzz5xMYgwwiyhCYrTCNyBhkYHuH5X+ibcWGQWowDIFpxGUzuitQDCFFMywsMFwAEiBkCCw2cIYBPkNgtuLUjMsQEL37YDlhjdgMgWkkSTOyIWRppDsAABifRorVNHrHAAAAAElFTkSuQmCC" alt=""></i>
+              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEUAAADb/+uv/c2C9q1B84QX3WIAqiwAlSkAexgAUwAALQC5+lfcAAAAAXRSTlMAQObYZgAAAENJREFUeNpjwApmzoTQnCKuE8CMiSpuUWABIRW31AUghmqQWhmUYdaGxgg2a4UyPEpBDIZpFe1WEAPTgTJgsGoVVpsBDRwS6h42ddsAAAAASUVORK5CYII=" alt=""></i>
+              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAbElEQVQ4y2NgGNTgSq7nfxBe6a76n3TNT7//P7N+KRxvPv+GNENAGkA2g/B0czHSDYAZAqJj+w/9JysMKDIAFAbIfJIMgWlG9zdRhuDSTLQhFBuAS2P32gvEBSguBUQbgE0RSZqRDUHHNMlwADOSe7Rn5KNOAAAAAElFTkSuQmCC" alt=""></i>
+              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4y2NgGBJg+QqP/yBMtuZXr47/v3V3FWmGwGwFafzz5xMYgwwiyhCYrTCNyBhkYHuH5X+ibcWGQWowDIFpxGUzuitQDCFFMywsMFwAEiBkCCw2cIYBPkNgtuLUjMsQEL37YDlhjdgMgWkkSTOyIWRppDsAABifRorVNHrHAAAAAElFTkSuQmCC" alt=""></i>
+              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" alt=""></i>
+              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" alt=""></i>
+            </div>
+          </div>
+          <div class="label">ONCE AGAIN · SEE YOU IN GAME</div>
+        </div>
       </div>
     </section>
   </main>
   <footer>无声无息: Once Again · 协作者招募页面</footer>
 
   <script>
+    document.querySelectorAll('[data-icon="music-disc"]').forEach(icon => { icon.src = musicDiscIcon; });
     const navbar = document.querySelector('#navbar');
     const menuButton = document.querySelector('#menuButton');
     const navLinks = document.querySelector('#navLinks');
