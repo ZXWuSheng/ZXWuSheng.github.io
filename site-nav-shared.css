@@ -159,7 +159,7 @@ html[data-theme="light"] {
   flex: 0 0 auto !important;
 }
 
-@media (max-width: 1200px) and (min-width: 951px) {
+@media (max-width: 1200px) and (min-width: 1101px) {
   .navbar .nav-inner { gap: 16px !important; }
   .navbar .nav-right { gap: 10px !important; }
   .navbar .nav-links { gap: 14px !important; font-size: 13px !important; }
@@ -484,7 +484,7 @@ body.lightbox-open {
   box-shadow: 1px 1px 0 rgba(0, 0, 0, .32) !important;
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1100px) {
   .navbar.scrolled {
     top: 8px !important;
     width: calc(100% - 20px) !important;

@@ -1,179 +1,152 @@
 (function () {
-  const standaloneSurfaceClasses = new Set([
-    'intro',
-    'journey-step',
-    'metric',
-    'thanks'
-  ]);
+  const surfaceSelector = [
+    '.intro', '.journey-step', '.metric', '.thanks',
+    '.apply-panel', '.contact-card', '.feature-card', '.info-card',
+    '.join-panel', '.member-card', '.metric-card', '.news-card',
+    '.oa-scene-teaser', '.pay-card', '.player-list-panel', '.profile-panel',
+    '.role-card', '.server-card', '.stat-card', '.story-card', '.terms-panel'
+  ].join(', ');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let stopFollow = null;
 
-  function getFollowSurfaces() {
-    return Array.from(document.querySelectorAll('[class]')).filter(function (element) {
-      return Array.from(element.classList).some(function (className) {
-        return className.endsWith('-card') ||
-          className.endsWith('-panel') ||
-          className.endsWith('-teaser') ||
-          standaloneSurfaceClasses.has(className);
+  function supportsPointer(event) {
+    return event.pointerType === 'mouse' || event.pointerType === 'pen';
+  }
+
+  function startFollow() {
+    const globalLight = document.createElement('span');
+    globalLight.className = 'oa-global-pointer-light';
+    globalLight.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(globalLight);
+
+    const cleanup = [];
+    const pendingCards = new Map();
+    let pointerX = 0;
+    let pointerY = 0;
+    let globalPending = false;
+    let frame = 0;
+
+    function listen(target, type, handler, options) {
+      target.addEventListener(type, handler, options);
+      cleanup.push(function () { target.removeEventListener(type, handler, options); });
+    }
+
+    function render() {
+      frame = 0;
+      // Read every card's geometry before writing styles to avoid layout thrashing.
+      const positions = Array.from(pendingCards, function ([card, point]) {
+        const rect = card.getBoundingClientRect();
+        const scaleX = rect.width ? card.offsetWidth / rect.width : 1;
+        const scaleY = rect.height ? card.offsetHeight / rect.height : 1;
+        return {
+          card,
+          x: Math.max(0, Math.min(card.offsetWidth, (point.x - rect.left) * scaleX)),
+          y: Math.max(0, Math.min(card.offsetHeight, (point.y - rect.top) * scaleY))
+        };
       });
-    });
-  }
+      pendingCards.clear();
 
-  function supportsFollowPointer(event) {
-    return !event.pointerType || event.pointerType === 'mouse' || event.pointerType === 'pen';
-  }
-
-  function isTouchPointer(event) {
-    return event.pointerType === 'touch';
-  }
-
-  function initializeTouchFollow() {
-    // Touch pointers use the browser's native feedback. The custom follower
-    // was viewport-offset and could appear away from the actual tap target.
-    return;
-  }
-
-  function initializeGlobalPointerFollow() {
-    if (document.querySelector('.oa-global-pointer-light')) return;
-
-    const light = document.createElement('span');
-    light.className = 'oa-global-pointer-light';
-    light.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(light);
-
-    const pointerState = {
-      clientX: window.innerWidth / 2,
-      clientY: window.innerHeight / 2,
-      frame: 0
-    };
-
-    function renderPointerPosition() {
-      pointerState.frame = 0;
-      light.style.setProperty('--oa-global-pointer-x', pointerState.clientX.toFixed(2) + 'px');
-      light.style.setProperty('--oa-global-pointer-y', pointerState.clientY.toFixed(2) + 'px');
-    }
-
-    function movePointer(event) {
-      if (!supportsFollowPointer(event)) return;
-      pointerState.clientX = event.clientX;
-      pointerState.clientY = event.clientY;
-      document.documentElement.classList.add('oa-global-pointer-active');
-
-      if (!pointerState.frame) {
-        pointerState.frame = requestAnimationFrame(renderPointerPosition);
+      if (globalPending) {
+        globalLight.style.setProperty('--oa-global-pointer-x', pointerX.toFixed(2) + 'px');
+        globalLight.style.setProperty('--oa-global-pointer-y', pointerY.toFixed(2) + 'px');
+        globalPending = false;
       }
+      positions.forEach(function (position) {
+        position.card.style.setProperty('--oa-pointer-x', position.x.toFixed(2) + 'px');
+        position.card.style.setProperty('--oa-pointer-y', position.y.toFixed(2) + 'px');
+      });
     }
 
-    function hidePointer(event) {
+    function queueFrame() {
+      if (!frame) frame = window.requestAnimationFrame(render);
+    }
+
+    function hideGlobal(event) {
       if (event && event.relatedTarget) return;
       document.documentElement.classList.remove('oa-global-pointer-active');
     }
 
-    window.addEventListener('pointermove', movePointer, { passive: true, capture: true });
-    window.addEventListener('pointercancel', hidePointer, { passive: true });
-    window.addEventListener('blur', hidePointer);
-    document.addEventListener('pointerout', hidePointer, { passive: true });
-  }
+    listen(window, 'pointermove', function (event) {
+      if (!supportsPointer(event)) return;
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      globalPending = true;
+      document.documentElement.classList.add('oa-global-pointer-active');
+      queueFrame();
+    }, { passive: true, capture: true });
+    listen(window, 'pointercancel', hideGlobal, { passive: true });
+    listen(window, 'blur', hideGlobal);
+    listen(document, 'pointerout', hideGlobal, { passive: true });
 
-  function initializeCardFollow() {
-    initializeGlobalPointerFollow();
-    initializeTouchFollow();
-
-    getFollowSurfaces().forEach(function (card) {
-      if (card.querySelector(':scope > .oa-card-pointer-light')) return;
-
+    document.querySelectorAll(surfaceSelector).forEach(function (card) {
       const light = document.createElement('span');
       light.className = 'oa-card-pointer-light';
       light.setAttribute('aria-hidden', 'true');
+      const hadPointerClass = card.classList.contains('oa-pointer-card');
       card.classList.add('oa-pointer-card');
       card.appendChild(light);
 
-      const pointerState = {
-        clientX: 0,
-        clientY: 0,
-        frame: 0,
-        touchReleaseTimer: 0
-      };
-
-      function renderPointerPosition() {
-        pointerState.frame = 0;
-        const rect = card.getBoundingClientRect();
-        const scaleX = rect.width ? card.offsetWidth / rect.width : 1;
-        const scaleY = rect.height ? card.offsetHeight / rect.height : 1;
-        const x = Math.max(0, Math.min(card.offsetWidth, (pointerState.clientX - rect.left) * scaleX));
-        const y = Math.max(0, Math.min(card.offsetHeight, (pointerState.clientY - rect.top) * scaleY));
-        card.style.setProperty('--oa-pointer-x', x.toFixed(2) + 'px');
-        card.style.setProperty('--oa-pointer-y', y.toFixed(2) + 'px');
+      function movePointer(event) {
+        if (!supportsPointer(event)) return;
+        pendingCards.set(card, { x: event.clientX, y: event.clientY });
+        queueFrame();
       }
 
-      function queuePointerPosition(event, immediate) {
-        pointerState.clientX = event.clientX;
-        pointerState.clientY = event.clientY;
-
-        if (immediate) {
-          if (pointerState.frame) cancelAnimationFrame(pointerState.frame);
-          renderPointerPosition();
-          return;
-        }
-
-        if (!pointerState.frame) {
-          pointerState.frame = requestAnimationFrame(renderPointerPosition);
-        }
+      function hideCard() {
+        pendingCards.delete(card);
+        card.classList.remove('oa-pointer-active');
       }
 
-      card.addEventListener('pointerenter', function (event) {
-        if (!supportsFollowPointer(event)) return;
-        queuePointerPosition(event, true);
+      listen(card, 'pointerenter', function (event) {
+        if (!supportsPointer(event)) return;
+        movePointer(event);
         card.classList.add('oa-pointer-active');
       });
-
-      card.addEventListener('pointerdown', function (event) {
-        if (!isTouchPointer(event)) return;
-        window.clearTimeout(pointerState.touchReleaseTimer);
-        queuePointerPosition(event, true);
-        card.classList.add('oa-pointer-active');
-      }, { passive: true });
-
-      card.addEventListener('pointermove', function (event) {
-        if (!supportsFollowPointer(event) && !isTouchPointer(event)) return;
-        queuePointerPosition(event, false);
-      }, { passive: true });
-
-      card.addEventListener('pointerleave', function () {
-        if (pointerState.frame) cancelAnimationFrame(pointerState.frame);
-        pointerState.frame = 0;
-        card.classList.remove('oa-pointer-active');
+      listen(card, 'pointermove', movePointer, { passive: true });
+      listen(card, 'pointerleave', hideCard);
+      listen(card, 'pointercancel', hideCard);
+      listen(window, 'blur', hideCard);
+      cleanup.push(function () {
+        hideCard();
+        light.remove();
+        if (!hadPointerClass) card.classList.remove('oa-pointer-card');
+        card.style.removeProperty('--oa-pointer-x');
+        card.style.removeProperty('--oa-pointer-y');
       });
-
-      card.addEventListener('pointercancel', function () {
-        if (pointerState.frame) cancelAnimationFrame(pointerState.frame);
-        pointerState.frame = 0;
-        card.classList.remove('oa-pointer-active');
-      });
-
-      card.addEventListener('pointerup', function (event) {
-        if (!isTouchPointer(event)) return;
-        pointerState.touchReleaseTimer = window.setTimeout(function () {
-          card.classList.remove('oa-pointer-active');
-        }, 220);
-      }, { passive: true });
     });
 
-    let themeTransitionTimer = 0;
-    const themeObserver = new MutationObserver(function () {
-      document.documentElement.classList.add('oa-card-theme-changing');
-      window.clearTimeout(themeTransitionTimer);
-      themeTransitionTimer = window.setTimeout(function () {
-        document.documentElement.classList.remove('oa-card-theme-changing');
-      }, 140);
-    });
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-theme']
-    });
+    return function () {
+      if (frame) window.cancelAnimationFrame(frame);
+      pendingCards.clear();
+      cleanup.forEach(function (dispose) { dispose(); });
+      globalLight.remove();
+      document.documentElement.classList.remove('oa-global-pointer-active');
+    };
+  }
+
+  function updateFollow() {
+    if (stopFollow) {
+      stopFollow();
+      stopFollow = null;
+    }
+    if (finePointer.matches && !reducedMotion.matches) stopFollow = startFollow();
+  }
+
+  function watchPreference(query) {
+    if (query.addEventListener) query.addEventListener('change', updateFollow);
+    else query.addListener(updateFollow);
+  }
+
+  function initialize() {
+    watchPreference(finePointer);
+    watchPreference(reducedMotion);
+    updateFollow();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeCardFollow, { once: true });
+    document.addEventListener('DOMContentLoaded', initialize, { once: true });
   } else {
-    initializeCardFollow();
+    initialize();
   }
 })();

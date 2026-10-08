@@ -2,25 +2,14 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <script src="site-theme.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Once Again 招募页面：寻找愿意一起做 Minecraft 内容的模型、动画、Mod、材质与 UI 创作者。">
-  <title>招募协作者｜无声无息:Once Again</title>
-  <script>
-    (() => {
-      try {
-        const incoming = new URLSearchParams(location.search).get('theme');
-        const saved = localStorage.getItem('once-again-theme') || localStorage.getItem('website-theme') || localStorage.getItem('sponsor-theme');
-        const preferred = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        const theme = incoming === 'light' || incoming === 'dark' ? incoming : (saved || preferred);
-        if (theme === 'light') document.documentElement.dataset.theme = 'light';
-        ['once-again-theme', 'website-theme', 'sponsor-theme'].forEach(key => localStorage.setItem(key, theme));
-      } catch (_) {}
-    })();
-  </script>
-  <link rel="icon" type="image/png" href="NEW-logo-ICON.png">
-  <link rel="stylesheet" href="site-nav-shared.css?v=20260913-teaser-glow-v1">
-  <link rel="stylesheet" href="site-mobile-shared.css?v=20260913-frontend-design-v1">
-  <script src="site-card-follow.js?v=20260828-touch-follow-v7" defer></script>
+  <meta name="description" content="Once Again 寻找模型动画、Mod 开发、像素材质、UI 设计、音乐和建筑协作者。查看六类岗位、合作说明、报名流程与现有联系方式。">
+  <title>协作者招募｜无声无息:Once Again</title>
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png">
+  <link rel="stylesheet" href="site-nav-shared.css?v=20261008">
+  <link rel="stylesheet" href="site-mobile-shared.css?v=20261008">
+  <script src="site-card-follow.js?v=20261008" defer></script>
   <style>
     :root {
       --mc-bg: #07100b;
@@ -118,6 +107,16 @@
     .role-card h3 { margin: 0 0 10px; font-size: 25px; }
     .role-card p { margin: 0; color: var(--r-muted); line-height: 1.7; }
     .role-card small { display: block; margin-top: 17px; color: var(--r-green); font: 800 11px/1.4 ui-monospace, monospace; letter-spacing: .05em; }
+    .role-card .role-note { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--r-line); font-size: 13px; }
+    .recruit-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .recruit-action { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 14px; border: 2px solid var(--mc-edge); background: var(--r-green); color: #10210f; font-family: inherit; font-size: 14px; font-weight: 800; line-height: 1.4; text-align: center; text-decoration: none; cursor: pointer; box-shadow: 3px 3px 0 rgba(0,0,0,.28); }
+    .recruit-action.secondary { background: var(--r-panel-hi); color: var(--r-text); border-color: var(--r-line); }
+    .recruit-action:focus-visible, .apply-template:focus-visible { outline: 3px solid var(--r-green); outline-offset: 4px; }
+    .application-steps { display: grid; gap: 14px; margin: 20px 0; padding: 0; list-style: none; counter-reset: apply-step; }
+    .application-steps li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; color: var(--r-muted); line-height: 1.7; }
+    .application-steps li::before { counter-increment: apply-step; content: counter(apply-step, decimal-leading-zero); display: grid; place-items: center; width: 34px; height: 34px; border: 2px solid var(--r-line); color: var(--r-green); font: 900 12px/1 ui-monospace, monospace; }
+    .application-steps strong { display: block; color: var(--r-text); }
+    .template-label { display: block; margin-top: 22px; color: var(--r-text); font-weight: 800; }
     .terms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .terms-panel { padding: 26px; border: 2px solid var(--mc-edge); outline: 1px solid var(--r-line); background: var(--r-panel); box-shadow: 6px 6px 0 rgba(0,0,0,.34); }
     .terms-panel h3 { margin: 0 0 15px; color: var(--r-green); font-size: 24px; }
@@ -135,7 +134,7 @@
     .apply-box h2 { margin: 4px 0 13px; color: var(--r-text); font-family: Georgia, "Microsoft YaHei", serif; font-size: clamp(34px, 5vw, 62px); font-weight: 900; letter-spacing: .02em; line-height: 1.04; text-shadow: 3px 3px 0 color-mix(in srgb, var(--r-green) 22%, transparent); }
     .apply-box h2 em { color: var(--r-green); font-style: normal; }
     .apply-box p { color: var(--r-muted); line-height: 1.8; }
-    .apply-template { margin: 20px 0 0; padding: 17px 18px; border: 2px solid var(--r-line); background: color-mix(in srgb, var(--r-bg) 62%, transparent); color: var(--r-text); font: 15px/1.95 ui-monospace, "Microsoft YaHei", monospace; white-space: pre-line; box-shadow: inset 0 0 0 3px rgba(0,0,0,.08); }
+    .apply-template { display: block; width: 100%; min-height: 230px; margin: 10px 0 0; padding: 17px 18px; border: 2px solid var(--r-line); background: color-mix(in srgb, var(--r-bg) 62%, transparent); color: var(--r-text); font: 14px/1.95 ui-monospace, "Microsoft YaHei", monospace; resize: vertical; box-shadow: inset 0 0 0 3px rgba(0,0,0,.08); }
     .contact-card { align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; padding: 23px; border: 3px solid var(--mc-edge); outline: 2px solid var(--r-line); background: var(--r-panel-hi); box-shadow: 5px 5px 0 rgba(0,0,0,.3); }
     .contact-card::before { content: ""; position: absolute; right: 19px; top: 14px; width: 32px; height: 32px; background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAHlBMVEUAAAD9/6ja4uLg4nfL1ta5ycnS0gCIpKRkkJBVa2uOynhjAAAAAXRSTlMAQObYZgAAAEpJREFUeNpjwA4aoDRHJZTRrj4BwmgVhTA6SkQqQSyOUhcR10qQCkXBZMHwCSARV9NwsL6ZJaKVENVTxaHap7tDGZyVDFAwAdliAFlNENjnSBVaAAAAAElFTkSuQmCC") center / contain no-repeat; image-rendering: pixelated; filter: drop-shadow(2px 2px 0 rgba(0,0,0,.25)); }
     .contact-card .label { color: var(--r-green); font: 900 12px/1 ui-monospace, monospace; letter-spacing: .14em; }
@@ -150,7 +149,7 @@
     .contact-hotbar { display: none !important; }
     .mc-xp { display: grid; grid-template-columns: auto minmax(120px, 1fr) auto; align-items: center; gap: 9px; margin-top: 14px; color: var(--r-muted); font: 800 10px/1 ui-monospace, monospace; }
     .mc-xp-track { height: 12px; padding: 2px; border: 2px solid #252920; background: #34382f; box-shadow: inset 0 0 0 1px #777b72; }
-    .mc-xp-fill { display: block; width: 72%; height: 100%; background: #69b84d; box-shadow: inset 0 2px 0 rgba(204,255,152,.65), 0 0 5px rgba(105,184,77,.45); }
+    .mc-xp-fill { display: block; width: 100%; height: 100%; background: #69b84d; box-shadow: inset 0 2px 0 rgba(204,255,152,.65), 0 0 5px rgba(105,184,77,.45); }
     footer { padding: 28px 0 42px; border-top: 1px solid var(--r-line); color: var(--r-muted); text-align: center; font-size: 12px; }
     .reveal { opacity: 0; transform: translateY(18px); transition: opacity .38s ease, transform .42s cubic-bezier(.16,1,.3,1); will-change: opacity, transform; }
     .reveal.show { opacity: 1; transform: none; }
@@ -170,64 +169,78 @@
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .reveal { opacity: 1; transform: none; } }
   </style>
-  <script>
-    // Embedded Minecraft music disc icon: keeps the page self-contained and offline-friendly.
-    const musicDiscIcon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC';
-  </script>
+    <link rel="canonical" href="https://zxwusheng.github.io/ztdh.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="无声无息:Once Again">
+  <meta property="og:title" content="协作者招募｜无声无息:Once Again">
+  <meta property="og:description" content="Once Again 寻找模型动画、Mod 开发、像素材质、UI 设计、音乐和建筑协作者。查看六类岗位、合作说明、报名流程与现有联系方式。">
+  <meta property="og:url" content="https://zxwusheng.github.io/ztdh.html">
+  <meta property="og:image" content="https://zxwusheng.github.io/最新服务器title.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="258">
+  <meta property="og:image:alt" content="Once Again · Without A Sound">
+  <meta name="twitter:card" content="summary_large_image">
+  <script src="site-config.js?v=20261008" defer></script>
+  <script src="site-common.js?v=20261008" defer></script>
 </head>
 <body class="page-recruit">
+  <a class="site-skip-link" href="#main-content">跳到主要内容</a>
   <header class="navbar" id="navbar">
     <div class="container nav-inner">
-      <a class="logo" href="index.html#home" aria-label="返回 Once Again 首页">
-        <span class="logo-icon logo-image-wrap" id="logoPreviewTrigger" role="button" tabindex="0" aria-label="放大查看 Once Again Logo" title="点击放大查看"><img src="NEW-logo-ICON.png" alt=""></span>
-        <span class="logo-name">无声无息:Once Again</span>
-      </a>
+      <div class="logo">
+        <button class="logo-icon logo-image-wrap" id="logoPreviewTrigger" type="button" aria-label="放大查看 Once Again Logo" aria-haspopup="dialog" aria-controls="logoLightbox"><img src="assets/brand/logo-96.png" width="96" height="96" alt="" decoding="async"></button>
+        <a class="logo-name" href="index.html#home" aria-label="Once Again 首页">无声无息:Once Again</a>
+      </div>
       <div class="nav-right">
         <nav class="nav-links" id="navLinks" aria-label="主导航">
           <a href="index.html#home">首页</a>
           <a href="index.html#features">核心玩法</a>
-          <a href="index.html#news">最新公告</a>
-          <a href="jieshao.html#team">团队介绍</a>
-          <a class="nav-team-link" href="ztdh.html#recruit">招募协作者</a>
-          <a class="nav-button" href="index.html#join">加入服务器</a>
+          <a href="index.html#news">动态与规划</a>
+          <a class="nav-team-link" href="jieshao.html#team">团队介绍</a>
+          <a href="ztdh.html#recruit">招募协作者</a>
+          <a href="scene1.html">赞助支持</a>
+          <a class="nav-button" href="index.html#join">开放状态</a>
         </nav>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换到白色主题" title="切换明暗主题">
           <span class="oa-theme-glyph oa-theme-sun mc-theme-celestial" aria-hidden="true"><svg class="mc-sky-svg" viewBox="0 0 32 32" shape-rendering="crispEdges" focusable="false"><rect x="12" y="0" width="8" height="4" fill="#f8df65"/><rect x="12" y="28" width="8" height="4" fill="#bd8529"/><rect x="0" y="12" width="4" height="8" fill="#d19b31"/><rect x="28" y="12" width="4" height="8" fill="#bd8529"/><rect x="4" y="4" width="4" height="4" fill="#e1b541"/><rect x="24" y="4" width="4" height="4" fill="#d19b31"/><rect x="4" y="24" width="4" height="4" fill="#c58d2b"/><rect x="24" y="24" width="4" height="4" fill="#a97825"/><rect x="8" y="8" width="16" height="16" fill="#e3b83f"/><rect x="12" y="8" width="8" height="4" fill="#fff1a0"/><rect x="8" y="12" width="4" height="8" fill="#f4d968"/><rect x="12" y="12" width="8" height="8" fill="#ffe98a"/><rect x="20" y="16" width="4" height="8" fill="#c9922b"/><rect x="12" y="20" width="8" height="4" fill="#dca735"/></svg></span>
           <span class="oa-theme-glyph oa-theme-moon mc-theme-celestial" aria-hidden="true"><svg class="mc-sky-svg" viewBox="0 0 32 32" shape-rendering="crispEdges" focusable="false"><rect x="12" y="4" width="12" height="4" fill="#f2f0d5"/><rect x="8" y="8" width="12" height="4" fill="#d8d9c7"/><rect x="4" y="12" width="12" height="8" fill="#c5c8bb"/><rect x="8" y="20" width="12" height="4" fill="#d8d9c7"/><rect x="12" y="24" width="12" height="4" fill="#f0eed3"/><rect x="12" y="8" width="4" height="4" fill="#fffbe2"/><rect x="4" y="12" width="4" height="4" fill="#e4e5d3"/><rect x="8" y="20" width="4" height="4" fill="#b3b7aa"/></svg></span>
         </button>
-        <button class="menu-button" id="menuButton" type="button" aria-label="打开导航菜单" aria-expanded="false">☰</button>
+        <button class="menu-button" id="menuButton" type="button" aria-label="打开导航菜单" aria-controls="navLinks" aria-expanded="false">☰</button>
       </div>
     </div>
   </header>
-
-  <div class="logo-lightbox" id="logoLightbox" aria-hidden="true">
-    <div class="logo-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Once Again Logo 大图预览">
+  <div class="logo-lightbox" id="logoLightbox" aria-hidden="true" inert>
+    <div class="logo-lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="imagePreviewTitle">
       <button class="logo-lightbox-close" id="logoLightboxClose" type="button" aria-label="关闭图片预览">×</button>
-      <img class="logo-lightbox-image" id="logoLightboxImage" alt="Once Again Logo 大图预览">
+      <h2 class="site-preview-title" id="imagePreviewTitle">图片预览</h2>
+      <img class="logo-lightbox-image" id="logoLightboxImage" alt="图片预览" decoding="async">
+      <a class="site-original-link" id="imageOriginalLink" href="NEW-logo-ICON.png" target="_blank" rel="noopener noreferrer">查看原图（新窗口）</a>
     </div>
   </div>
-
-  <div class="oa-scene-teaser" id="oaSceneTeaser" role="button" tabindex="0" aria-label="助力服务器复活，进入赞助场景">
-    <div class="oa-scene-teaser-inner">
-      <button class="oa-scene-close" id="oaSceneTeaserClose" type="button" aria-label="关闭助力服务器复活窗口" title="关闭">×</button>
+  <aside class="oa-scene-teaser" id="oaSceneTeaser" aria-label="赞助支持入口">
+    <a class="oa-scene-teaser-inner" href="scene1.html">
       <span class="oa-scene-kicker"><i class="oa-scene-kicker-dot"></i>NEW SCENE</span>
       <strong class="oa-scene-title">助力服务器复活</strong>
       <span class="oa-scene-desc">前往另一个场景，查看赞助与支持方式。</span>
       <span class="oa-scene-enter">进入场景 <span aria-hidden="true">→</span></span>
-    </div>
-  </div>
-
-  <main id="recruit">
+    </a>
+    <button class="oa-scene-close" id="oaSceneTeaserClose" type="button" aria-label="关闭赞助支持入口">×</button>
+  </aside>
+  <main id="main-content" tabindex="-1">
+    <p class="container site-note site-script-note">部分交互暂不可用，请使用页脚导航；联系方式可手动选取，收款码可通过原图链接查看。</p>
+    <div id="recruit"></div>
     <section class="recruit-hero recruit-wrap">
       <div class="reveal show">
-        <img class="hero-title-art mc-pixel" src="最新服务器title.png" alt="Once Again Minecraft Server">
+        <img class="hero-title-art mc-pixel" src="最新服务器title.png" alt="Once Again Minecraft Server" width="1024" height="258" decoding="async" fetchpriority="high">
         <span class="recruit-kicker">OPEN CALL · 招募协作者</span>
         <h1>一起把<br><em>想法做出来。</em></h1>
         <p class="recruit-lead">Once Again 想认识喜欢 Minecraft、愿意一起做内容的朋友。我们更在意轻松沟通、互相尊重，以及把点子一步步变成可以玩的东西。</p>
         <div class="recruit-alert"><strong>先把合作方式说在前面：</strong>这是一个以兴趣协作为主的小项目，目前没有固定薪酬。服务器、素材或测试产生的必要费用，可能需要根据实际情况一起讨论；我们会提前说明，也欢迎大家量力参与。</div>
+        <div class="recruit-actions"><a class="recruit-action" href="#apply">查看报名方式</a><a class="recruit-action secondary" href="#roles">选择协作方向</a></div>
       </div>
       <aside class="recruit-board reveal show" aria-label="招募重点">
-        <div class="mc-statusbar"><strong>ONCE AGAIN / 招募大厅</strong><span class="mc-hearts" aria-label="三颗生命值"><img class="mc-heart-icon" src="mc-icons/heart.png" alt=""><img class="mc-heart-icon" src="mc-icons/heart.png" alt=""><img class="mc-heart-icon" src="mc-icons/heart.png" alt=""></span></div>
+        <div class="mc-statusbar"><strong>ONCE AGAIN / 招募大厅</strong><span class="mc-hearts" aria-label="三颗生命值"><img class="mc-heart-icon" src="mc-icons/heart.png" alt="" width="9" height="9" decoding="async"><img class="mc-heart-icon" src="mc-icons/heart.png" alt="" width="9" height="9" decoding="async"><img class="mc-heart-icon" src="mc-icons/heart.png" alt="" width="9" height="9" decoding="async"></span></div>
         <div>目前开放的方向</div>
         <h2>6 个方向<br>期待遇见你</h2>
         <ul>
@@ -237,28 +250,26 @@
           <li>把作品质量和玩家体验放在前面</li>
         </ul>
         <div class="mc-hotbar" aria-label="当前招募方向">
-          <div class="mc-slot active"><img class="mc-slot-icon" src="mc-icons/blockbench.png" alt=""><span>模型</span></div>
-          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/neoforge.png" alt=""><span>Mod</span></div>
-          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/resin_brick.png" alt=""><span>贴图</span></div>
-          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/painting.png" alt=""><span>UI</span></div>
-          <div class="mc-slot"><img class="mc-slot-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" data-icon="music-disc" alt="Minecraft 唱片"><span>音乐</span></div>
-          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/bricks.png" alt=""><span>建筑</span></div>
+          <div class="mc-slot active"><img class="mc-slot-icon" src="mc-icons/blockbench.png" alt="" width="282" height="282" decoding="async"><span>模型</span></div>
+          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/neoforge.png" alt="" width="128" height="128" decoding="async"><span>Mod</span></div>
+          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/resin_brick.png" alt="" width="16" height="16" decoding="async"><span>贴图</span></div>
+          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/painting.png" alt="" width="16" height="16" decoding="async"><span>UI</span></div>
+          <div class="mc-slot"><img class="mc-slot-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" data-icon="music-disc" alt="Minecraft 唱片" decoding="async"><span>音乐</span></div>
+          <div class="mc-slot"><img class="mc-slot-icon" src="mc-icons/bricks.png" alt="" width="16" height="16" decoding="async"><span>建筑</span></div>
         </div>
       </aside>
     </section>
-
-    <section class="roles-section recruit-wrap">
-      <div class="section-intro reveal"><div><span class="recruit-kicker">ROLE SELECT</span><h2>我们在找谁？</h2></div><p>不需要什么都会，挑一个你真正感兴趣、愿意持续投入的方向就好。</p></div>
+    <section class="roles-section recruit-wrap" id="roles" aria-labelledby="roles-title">
+      <div class="section-intro reveal"><div><span class="recruit-kicker">ROLE SELECT</span><h2 id="roles-title">我们在找谁？</h2></div><p>不需要什么都会，挑一个你真正感兴趣、愿意持续投入的方向就好。下面的作品建议用于沟通，不是固定门槛；也可以说明正在学习的内容。</p></div>
       <div class="roles-grid">
-        <article class="role-card reveal" data-code="ROLE / 01"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/blockbench.png" alt="Blockbench 图标" loading="lazy"></div><h3>BB 模型与动画</h3><p>使用 Blockbench 制作生物、道具、方块模型，或为它们设计待机、攻击、交互等动画。</p><small>BLOCKBENCH · GECKOLIB · 动画逻辑</small></article>
-        <article class="role-card reveal" data-code="ROLE / 02"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/neoforge.png" alt="NeoForge 图标" loading="lazy"></div><h3>Mod 开发</h3><p>参与 Fabric / NeoForge 等方向的 Mod 开发，把玩法、系统和接口真正做成能运行的内容。</p><small>JAVA · FABRIC / NEOFORGE · 调试</small></article>
-        <article class="role-card reveal" data-code="ROLE / 03"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/resin_brick.png" alt="材质图标" loading="lazy"></div><h3>材质与贴图</h3><p>绘制方块、物品、生物贴图，建立统一的色板、像素语言和资源包规范。</p><small>像素绘画 · RESOURCE PACK · 视觉规范</small></article>
-        <article class="role-card reveal" data-code="ROLE / 04"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/painting.png" alt="绘图图标" loading="lazy"></div><h3>UI / 平面绘制</h3><p>设计菜单、图标、宣传图和页面素材，让玩家在进入游戏前后都能感受到 Once Again 的气质。</p><small>UI · ICON · 信息层级 · 排版</small></article>
-        <article class="role-card reveal" data-code="ROLE / 05"><div class="role-icon"><img class="role-mc-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" data-icon="music-disc" alt="Minecraft 唱片图标"></div><h3>音乐制作</h3><p>为类 RPG 服务器打造完整的声音体验：战斗与首领战音乐、任务与剧情主题、区域与场景旋律，以及探索时的环境氛围和关键音效。</p><small>战斗 · 任务 · 场景 · 首领战 · 音效</small></article>
-        <article class="role-card reveal" data-code="ROLE / 06"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/bricks.png" alt="砖块图标" loading="lazy"></div><h3>建筑设计</h3><p>搭建出生点、冒险场景与功能建筑，规划空间动线，让每一次探索都有值得停留的地方。</p><small>建筑 · 场景 · 空间规划</small></article>
+        <article class="role-card reveal" data-code="ROLE / 01"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/blockbench.png" alt="Blockbench 图标" loading="lazy" width="282" height="282" decoding="async"></div><h3>BB 模型与动画</h3><p>使用 Blockbench 制作生物、道具、方块模型，或为它们设计待机、攻击、交互等动画。</p><p class="role-note">可附：模型截图、动画演示，或说明你熟悉的 Blockbench 工作流程。</p><small>BLOCKBENCH · GECKOLIB · 动画逻辑</small></article>
+        <article class="role-card reveal" data-code="ROLE / 02"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/neoforge.png" alt="NeoForge 图标" loading="lazy" width="128" height="128" decoding="async"></div><h3>Mod 开发</h3><p>参与 Fabric / NeoForge 等方向的 Mod 开发，把玩法、系统和接口真正做成能运行的内容。</p><p class="role-note">可附：代码仓库、Mod 演示，或说明你熟悉的加载器与调试方式。</p><small>JAVA · FABRIC / NEOFORGE · 调试</small></article>
+        <article class="role-card reveal" data-code="ROLE / 03"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/resin_brick.png" alt="材质图标" loading="lazy" width="16" height="16" decoding="async"></div><h3>材质与贴图</h3><p>绘制方块、物品、生物贴图，建立统一的色板、像素语言和资源包规范。</p><p class="role-note">可附：贴图样例、资源包截图，或说明你的像素绘画与配色思路。</p><small>像素绘画 · RESOURCE PACK · 视觉规范</small></article>
+        <article class="role-card reveal" data-code="ROLE / 04"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/painting.png" alt="绘图图标" loading="lazy" width="16" height="16" decoding="async"></div><h3>UI / 平面绘制</h3><p>设计菜单、图标、宣传图和页面素材，让玩家在进入游戏前后都能感受到 Once Again 的气质。</p><p class="role-note">可附：界面、图标或宣传图样例，并说明你负责的设计部分。</p><small>UI · ICON · 信息层级 · 排版</small></article>
+        <article class="role-card reveal" data-code="ROLE / 05"><div class="role-icon"><img class="role-mc-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" data-icon="music-disc" alt="Minecraft 唱片图标" decoding="async"></div><h3>音乐制作</h3><p>为类 RPG 服务器打造完整的声音体验：战斗与首领战音乐、任务与剧情主题、区域与场景旋律，以及探索时的环境氛围和关键音效。</p><p class="role-note">可附：音乐片段或音效样例，并说明它适合的战斗、剧情或场景。</p><small>战斗 · 任务 · 场景 · 首领战 · 音效</small></article>
+        <article class="role-card reveal" data-code="ROLE / 06"><div class="role-icon"><img class="role-mc-icon" src="mc-icons/bricks.png" alt="砖块图标" loading="lazy" width="16" height="16" decoding="async"></div><h3>建筑设计</h3><p>搭建出生点、冒险场景与功能建筑，规划空间动线，让每一次探索都有值得停留的地方。</p><p class="role-note">可附：建筑截图或场景演示，并说明空间动线与探索思路。</p><small>建筑 · 场景 · 空间规划</small></article>
       </div>
     </section>
-
     <section class="terms-section recruit-wrap">
       <div class="section-intro reveal"><div><span class="recruit-kicker">CO-OP NOTES</span><h2>合作方式说明</h2></div><p>把想法和边界提前说清楚，合作起来会更轻松，也更容易长期坚持。</p></div>
       <div class="terms-grid">
@@ -266,94 +277,60 @@
         <div class="terms-panel warning reveal"><h3>目前的项目状态</h3><ul><li>项目以兴趣协作为主，暂时没有固定薪酬</li><li>必要的素材、服务器或测试费用会提前沟通</li><li>不要求随时在线，会尽量按照彼此的时间安排</li></ul><p>如果你正在寻找稳定收入，可以先把这里当作业余兴趣项目；如果你想积累作品、认识同好，或者把脑海里的点子慢慢做出来，欢迎来聊聊。</p></div>
       </div>
     </section>
-
     <section class="apply-section recruit-wrap" id="apply">
       <div class="apply-box reveal">
         <div class="apply-panel">
           <h2>一起开启<br><em>新的冒险</em></h2>
           <p>把你擅长的部分带进 Once Again。无论是战斗、任务、音乐，还是一座值得探索的建筑，都可以从一次轻松的交流开始。</p>
-          <div class="apply-template">擅长方向：模型 / 动画 / Mod / 材质 / UI / 音乐 / 建筑
-作品链接或截图：
+          <ol class="application-steps" aria-label="报名流程">
+            <li><div><strong>选择一个协作方向</strong>参考上方岗位内容，说明你擅长或正在学习的部分。</div></li>
+            <li><div><strong>整理想交流的内容</strong>可以附作品链接、截图或演示，并说明每周大致可投入时间。暂时没有作品，也可以先聊想法和学习进度。</div></li>
+            <li><div><strong>通过 QQ 或微信联系无声</strong>加好友时备注“招募 + 你的方向”，再一起沟通需求、协作时间、署名与可能涉及的费用。</div></li>
+          </ol>
+          <label class="template-label" for="apply-template">报名信息参考模板</label>
+          <textarea class="apply-template" id="apply-template" readonly rows="7" spellcheck="false">擅长或正在学习的方向：模型 / 动画 / Mod / 材质 / UI / 音乐 / 建筑
+作品链接、截图或演示（如有）：
 每周大致可投入时间：
-想一起做的内容：</div>
+想一起做的内容：
+希望提前沟通的问题：</textarea>
+          <div class="recruit-actions"><button class="recruit-action secondary" type="button" data-copy-target="#apply-template">复制报名模板</button></div>
+          <p class="contact-note">当前通过 QQ / 微信交流报名。模板仅供参考，可按自己的情况修改后发送。</p>
         </div>
         <div class="contact-card">
           <div>
             <span class="label">CONTACT / 无声</span>
             <div class="contact-name">联系无声</div>
             <div class="contact-id"><span>QQ&nbsp;&nbsp;1217464544</span><span>微信&nbsp;&nbsp;ZX_Wu_Sheng</span></div>
+            <div class="recruit-actions"><button class="recruit-action secondary" type="button" data-copy-text="1217464544">复制 QQ 号</button><button class="recruit-action secondary" type="button" data-copy-text="ZX_Wu_Sheng">复制微信号</button></div>
             <p class="contact-note">加好友时请备注“招募 + 你的方向”。暂时没有作品也没关系，先聊聊你的想法和学习进度。</p>
             <div class="mc-loadout" aria-label="RPG 招募方向物品栏">
-              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAJFBMVEUAAAAOPzYIJSAz68uk/fArx6weincVY1VoTh5JNhUoHguJZycazUdMAAAAAXRSTlMAQObYZgAAAExJREFUGNN1jsENwDAMAgGndpLuv29/jZFa/+4QwkA/ks5jyPky8cHxwyQAxslZNAaYiux9Zlb4A0XjNcVu1r0hvYacGwB0Rq0OSC4ehwkBE0lygnsAAAAASUVORK5CYII=" alt="钻石剑"><span>战斗</span></div>
-              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEUAAADW1ta3t7eZmZlbW1tlSxdUPhNSLhBEJQoxIQQWEAXuGgy6AAAAAXRSTlMAQObYZgAAAFhJREFUeNpjQAEzJ0Dp0kwoHRo6AUK3hkYC6bLQ0IjQsAkM01MjQoFCnRCZ0A4HhpnqoUDayIBhuVAZkFaewcBVqA6iVzEAhSA0UEi5A0QDhSA0UGgVigsAYf4glv1MND8AAAAASUVORK5CYII=" alt="书"><span>任务</span></div>
-              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4y2NgGBJg+QqP/yBMtuZXr47/v3V3FWmGwGwFafzz5xMYgwwiyhCYrTCNyBhkYHuH5X+ibcWGQWowDIFpxGUzuitQDCFFMywsMFwAEiBkCCw2cIYBPkNgtuLUjMsQEL37YDlhjdgMgWkkSTOyIWRppDsAABifRorVNHrHAAAAAElFTkSuQmCC" alt="地图"><span>场景</span></div>
-              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAt0lEQVQ4y2NgoCX4+r///40nUWBMluZAG+b/uopMYJokQ2CaYRhkCAgTbQhIIUUGwAwBaboANYzkcIB5Ywc5BiBrLtpg9n8VKYYgaz75f+L/yA3hYEOIcglIM8jfW4GKTgPZIM2WE3zghhwgZAiy7UeAbJBm9VJrMA0yYCc0YHEaAIs+mN+RDTjwf+r/7aQagOyFE0AX7SJkADZDQBgUmDuI0YwtJcJSIQiDwoiklAjCIE0wjE0dAJs0FKvHezfcAAAAAElFTkSuQmCC" alt="经验瓶"><span>成长</span></div>
-              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" alt="唱片"><span>音乐</span></div>
+              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAJFBMVEUAAAAOPzYIJSAz68uk/fArx6weincVY1VoTh5JNhUoHguJZycazUdMAAAAAXRSTlMAQObYZgAAAExJREFUGNN1jsENwDAMAgGndpLuv29/jZFa/+4QwkA/ks5jyPky8cHxwyQAxslZNAaYiux9Zlb4A0XjNcVu1r0hvYacGwB0Rq0OSC4ehwkBE0lygnsAAAAASUVORK5CYII=" alt="钻石剑" decoding="async"><span>战斗</span></div>
+              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEUAAADW1ta3t7eZmZlbW1tlSxdUPhNSLhBEJQoxIQQWEAXuGgy6AAAAAXRSTlMAQObYZgAAAFhJREFUeNpjQAEzJ0Dp0kwoHRo6AUK3hkYC6bLQ0IjQsAkM01MjQoFCnRCZ0A4HhpnqoUDayIBhuVAZkFaewcBVqA6iVzEAhSA0UEi5A0QDhSA0UGgVigsAYf4glv1MND8AAAAASUVORK5CYII=" alt="书" decoding="async"><span>任务</span></div>
+              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4y2NgGBJg+QqP/yBMtuZXr47/v3V3FWmGwGwFafzz5xMYgwwiyhCYrTCNyBhkYHuH5X+ibcWGQWowDIFpxGUzuitQDCFFMywsMFwAEiBkCCw2cIYBPkNgtuLUjMsQEL37YDlhjdgMgWkkSTOyIWRppDsAABifRorVNHrHAAAAAElFTkSuQmCC" alt="地图" decoding="async"><span>场景</span></div>
+              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAt0lEQVQ4y2NgoCX4+r///40nUWBMluZAG+b/uopMYJokQ2CaYRhkCAgTbQhIIUUGwAwBaboANYzkcIB5Ywc5BiBrLtpg9n8VKYYgaz75f+L/yA3hYEOIcglIM8jfW4GKTgPZIM2WE3zghhwgZAiy7UeAbJBm9VJrMA0yYCc0YHEaAIs+mN+RDTjwf+r/7aQagOyFE0AX7SJkADZDQBgUmDuI0YwtJcJSIQiDwoiklAjCIE0wjE0dAJs0FKvHezfcAAAAAElFTkSuQmCC" alt="经验瓶" decoding="async"><span>成长</span></div>
+              <div class="mc-loadout-item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" alt="唱片" decoding="async"><span>音乐</span></div>
             </div>
-            <div class="mc-xp" aria-label="经验值 72%"><span>LV 12</span><span class="mc-xp-track"><span class="mc-xp-fill"></span></span><span>72%</span></div>
-            <div class="contact-hotbar" aria-hidden="true">
-              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4y2NgGBJg+QqP/yBMtuZXr47/v3V3FWmGwGwFafzz5xMYgwwiyhCYrTCNyBhkYHuH5X+ibcWGQWowDIFpxGUzuitQDCFFMywsMFwAEiBkCCw2cIYBPkNgtuLUjMsQEL37YDlhjdgMgWkkSTOyIWRppDsAABifRorVNHrHAAAAAElFTkSuQmCC" alt=""></i>
-              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEUAAADb/+uv/c2C9q1B84QX3WIAqiwAlSkAexgAUwAALQC5+lfcAAAAAXRSTlMAQObYZgAAAENJREFUeNpjwApmzoTQnCKuE8CMiSpuUWABIRW31AUghmqQWhmUYdaGxgg2a4UyPEpBDIZpFe1WEAPTgTJgsGoVVpsBDRwS6h42ddsAAAAASUVORK5CYII=" alt=""></i>
-              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAbElEQVQ4y2NgGNTgSq7nfxBe6a76n3TNT7//P7N+KRxvPv+GNENAGkA2g/B0czHSDYAZAqJj+w/9JysMKDIAFAbIfJIMgWlG9zdRhuDSTLQhFBuAS2P32gvEBSguBUQbgE0RSZqRDUHHNMlwADOSe7Rn5KNOAAAAAElFTkSuQmCC" alt=""></i>
-              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4y2NgGBJg+QqP/yBMtuZXr47/v3V3FWmGwGwFafzz5xMYgwwiyhCYrTCNyBhkYHuH5X+ibcWGQWowDIFpxGUzuitQDCFFMywsMFwAEiBkCCw2cIYBPkNgtuLUjMsQEL37YDlhjdgMgWkkSTOyIWRppDsAABifRorVNHrHAAAAAElFTkSuQmCC" alt=""></i>
-              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" alt=""></i>
-              <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAeElEQVQ4T92Ryw3AIAxDWcEjcPEcrMD23SY9GeWDaK9tJAsk8p6U0No/q/duOU9MgMYYJUfZDppzrlN3L9vCvtmutpKlQSKBfxRI0lRZUgRF4mo3ShCQLPP7HeT9kIx7AGAkVzIgSAFQfwKAKb7ZQ0qBT7LX0HfrBhBUzmu87GZiAAAAAElFTkSuQmCC" alt=""></i>
-            </div>
+            <div class="mc-xp" aria-hidden="true"><span>CO-OP</span><span class="mc-xp-track"><span class="mc-xp-fill"></span></span><span>一起创作</span></div>
+            <p class="contact-note">像素物品栏与经验条为界面装饰，不代表服务器开发进度。</p>
           </div>
           <div class="label">ONCE AGAIN · SEE YOU IN GAME</div>
         </div>
       </div>
     </section>
   </main>
-  <footer>无声无息: Once Again · 协作者招募页面</footer>
-
-  <script>
-    document.querySelectorAll('[data-icon="music-disc"]').forEach(icon => { icon.src = musicDiscIcon; });
-    const navbar = document.querySelector('#navbar');
-    const menuButton = document.querySelector('#menuButton');
-    const navLinks = document.querySelector('#navLinks');
-    const themeToggle = document.querySelector('#themeToggle');
-    const isLight = () => document.documentElement.dataset.theme === 'light';
-    const syncTheme = () => { const label = isLight() ? '切换到黑色主题' : '切换到白色主题'; themeToggle.setAttribute('aria-label', label); themeToggle.setAttribute('title', label); };
-    syncTheme();
-    themeToggle.addEventListener('click', () => {
-      if (isLight()) delete document.documentElement.dataset.theme;
-      else document.documentElement.dataset.theme = 'light';
-      try { const theme = isLight() ? 'light' : 'dark'; ['once-again-theme', 'website-theme', 'sponsor-theme'].forEach(key => localStorage.setItem(key, theme)); } catch (_) {}
-      syncTheme();
-    });
-    const syncNav = () => navbar.classList.toggle('scrolled', window.scrollY > 25);
-    window.addEventListener('scroll', syncNav, { passive: true }); syncNav();
-    menuButton.addEventListener('click', () => { const open = navLinks.classList.toggle('open'); menuButton.textContent = open ? '×' : '☰'; menuButton.setAttribute('aria-expanded', String(open)); menuButton.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单'); });
-    navLinks.addEventListener('click', e => { if (e.target.closest('a')) { navLinks.classList.remove('open'); menuButton.textContent = '☰'; menuButton.setAttribute('aria-expanded', 'false'); } });
-    document.querySelectorAll('a[href]').forEach(link => link.addEventListener('click', () => {
-      const url = new URL(link.href, location.href);
-      if (url.origin === location.origin && ['index.html', 'jieshao.html', 'scene1.html', 'ztdh.html'].includes(url.pathname.split('/').pop())) {
-        url.searchParams.set('theme', isLight() ? 'light' : 'dark');
-        link.href = url.href;
-      }
-    }, true));
-    const reveal = new IntersectionObserver(entries => entries.forEach(entry => entry.target.classList.toggle('show', entry.isIntersecting)), { threshold: .16 });
-    document.querySelectorAll('.reveal:not(.show)').forEach(el => reveal.observe(el));
-
-    const logoTrigger = document.querySelector('#logoPreviewTrigger');
-    const lightbox = document.querySelector('#logoLightbox');
-    const lightboxImage = document.querySelector('#logoLightboxImage');
-    const lightboxClose = document.querySelector('#logoLightboxClose');
-    const closeLightbox = () => { lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden', 'true'); };
-    const openLightbox = event => { event.preventDefault(); event.stopPropagation(); lightboxImage.src = logoTrigger.querySelector('img').src; lightbox.classList.add('open'); lightbox.setAttribute('aria-hidden', 'false'); };
-    logoTrigger.addEventListener('click', openLightbox);
-    logoTrigger.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') openLightbox(event); });
-    lightboxClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', event => { if (event.target === lightbox) closeLightbox(); });
-    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeLightbox(); });
-
-    const teaser = document.querySelector('#oaSceneTeaser');
-    const teaserClose = document.querySelector('#oaSceneTeaserClose');
-    const enterScene = event => { if (event.target.closest('#oaSceneTeaserClose')) return; window.location.href = `scene1.html?theme=${isLight() ? 'light' : 'dark'}`; };
-    teaser.addEventListener('click', enterScene);
-    teaser.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') enterScene(event); });
-    teaserClose.addEventListener('click', event => { event.stopPropagation(); teaser.classList.add('oa-closing'); setTimeout(() => teaser.remove(), 260); });
-  </script>
+  <footer class="site-footer">
+    <div class="container site-footer-inner">
+      <p>© 2026 无声无息:Once Again Minecraft 服务器</p>
+      <nav class="site-footer-links" aria-label="页脚导航">
+        <a href="index.html#home">首页</a><a href="index.html#features">核心玩法</a>
+        <a href="index.html#news">动态与规划</a><a href="jieshao.html#team">团队介绍</a>
+        <a href="ztdh.html#recruit">协作者招募</a><a href="scene1.html">赞助支持</a>
+        <a href="index.html#contact">社区入口</a>
+      </nav>
+      <p class="site-note">本项目与 Mojang / Microsoft 无官方关联。服务器地址与开放时间待公布。</p>
+    </div>
+  </footer>
+    <p class="site-status" id="siteStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+  <textarea class="site-manual-copy" id="manualCopy" aria-label="手动复制内容" readonly hidden></textarea>
 </body>
 </html>

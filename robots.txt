@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /正式版主页-暂不启用.html
+Disallow: /output/
+Disallow: /tmp/
+Disallow: /tools/
+Disallow: /.agents/
+
+Sitemap: https://zxwusheng.github.io/sitemap.xml

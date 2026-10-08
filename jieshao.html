@@ -2,105 +2,49 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+  <script src="site-theme.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>团队介绍｜无声无息:Once Again</title>
-<meta name="description" content="无声无息:Once Again 团队介绍。四个人，一个服务器，再认真做一次。">
-<script id="oa-theme-bootstrap">
-(function () {
-  try {
-    const params = new URLSearchParams(location.search);
-    const incoming = params.get('theme');
-    const saved =
-      localStorage.getItem('website-theme') ||
-      localStorage.getItem('once-again-theme') ||
-      localStorage.getItem('sponsor-theme');
-    const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    const theme = (incoming === 'light' || incoming === 'dark') ? incoming : (saved || preferred);
-
-    if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
-    else document.documentElement.removeAttribute('data-theme');
-
-    if (theme === 'light' || theme === 'dark') {
-      localStorage.setItem('once-again-theme', theme);
-      localStorage.setItem('website-theme', theme);
-      localStorage.setItem('sponsor-theme', theme);
-    }
-  } catch (e) {}
-})();
-</script>
+<meta name="description" content="认识无声无息:Once Again 的四位团队成员，了解项目策划、模组移植、核心开发和团队协作职责。">
 <script id="oa-avatar-fallback">
-(function(){
-  const providers = [
-    (id,size)=>`https://mc-heads.net/avatar/${id}/${size}`,
-    (id,size)=>`https://crafthead.net/helm/${id}/${size}.png`,
-    (id,size)=>`https://minotar.net/helm/${id}/${size}.png`,
-    (id,size)=>`https://api.mcskin.me/head/${id}?size=${size}`,
-    (id,size)=>`https://api.mcheads.org/head/${id}/${size}`,
-    (id,size)=>`https://api.minecraftapi.net/v3/profile/${id}/avatar?size=${size}&overlay=true`,
-    { type:'littleskin' }
-  ];
+(() => {
+  const cachedAvatars = {
+    ZX_Wu_Sheng: 'assets/avatars/ZX_Wu_Sheng.png',
+    Badnng: 'assets/avatars/Badnng.png',
+    KsqsnK: 'assets/avatars/KsqsnK.png',
+    Wangmeili: 'assets/avatars/Wangmeili.png'
+  };
 
-  function sourceUrl(index, mcid, size){
-    const provider = providers[index];
-    return typeof provider === 'function' ? provider(encodeURIComponent(mcid), size) : '';
+  function remoteAvatar(mcid, size) {
+    return `https://mc-heads.net/avatar/${encodeURIComponent(mcid)}/${size}`;
   }
 
-  function loadLittleSkinHead(img, mcid, size, index){
-    const skin = new Image();
-    skin.crossOrigin = 'anonymous';
-    skin.onload = function(){
-      try{
-        const canvas = document.createElement('canvas');
-        canvas.width = size; canvas.height = size;
-        const ctx = canvas.getContext('2d');
-        ctx.imageSmoothingEnabled = false;
-        const scale = skin.naturalWidth / 64;
-        if(!scale || skin.naturalHeight < 32 * scale) throw new Error('Invalid skin size');
-        ctx.drawImage(skin, 8*scale, 8*scale, 8*scale, 8*scale, 0, 0, size, size);
-        ctx.drawImage(skin, 40*scale, 8*scale, 8*scale, 8*scale, 0, 0, size, size);
-        img.onerror = function(){ next(img); };
-        img.src = canvas.toDataURL('image/png');
-      }catch(e){
-        img.dataset.avatarSource = String(index);
-        next(img);
-      }
-    };
-    skin.onerror = function(){
-      img.dataset.avatarSource = String(index);
-      next(img);
-    };
-    skin.src = `https://littleskin.cn/skin/${encodeURIComponent(mcid)}.png`;
-  }
-
-  function start(img, mcid, size){
-    if(!img || !mcid) return;
+  function start(img, mcid, size = 160) {
+    if (!img || !mcid) return;
     img.dataset.mcid = mcid;
-    img.dataset.avatarSize = String(size || 160);
-    img.dataset.avatarSource = '0';
+    img.dataset.avatarSize = String(size);
+    img.dataset.avatarSource = cachedAvatars[mcid] ? '0' : '1';
     img.style.display = 'block';
-    img.src = sourceUrl(0, mcid, size || 160);
+    img.onerror = () => next(img);
+    img.src = cachedAvatars[mcid] || remoteAvatar(mcid, size);
   }
 
-  function next(img){
-    if(!img) return;
+  function next(img) {
+    if (!img) return;
     const mcid = img.dataset.mcid;
-    const size = Number(img.dataset.avatarSize || 160);
-    let index = Number(img.dataset.avatarSource || 0) + 1;
-    if(!mcid || index >= providers.length){
+    if (!mcid || Number(img.dataset.avatarSource || 0) >= 1) {
       img.onerror = null;
       img.style.display = 'none';
       return;
     }
-    img.dataset.avatarSource = String(index);
-    const provider = providers[index];
-    if(provider && provider.type === 'littleskin'){
-      loadLittleSkinHead(img, mcid, size, index);
-      return;
-    }
-    img.src = sourceUrl(index, mcid, size);
+    img.dataset.avatarSource = '1';
+    img.src = remoteAvatar(mcid, Number(img.dataset.avatarSize || 160));
   }
 
   window.OAAvatarFallback = { start, next };
+  document.addEventListener('error', function (event) {
+    if (event.target instanceof HTMLImageElement && event.target.dataset.mcid) next(event.target);
+  }, true);
 })();
 </script>
 <style>
@@ -168,8 +112,6 @@ a{color:inherit;text-decoration:none}
 button{font:inherit}
 ::selection{background:rgba(112,239,173,.26)}
 .container{width:min(1180px,calc(100% - 40px));margin:auto}
-
-/* 顶部控制 */
 .page-controls{
   position:fixed;top:18px;left:18px;right:18px;z-index:1000;
   display:flex;justify-content:space-between;align-items:center;pointer-events:none;
@@ -190,13 +132,9 @@ button{font:inherit}
 .theme-btn .moon{color:var(--oa-control-accent);opacity:0;transform:scale(.5) rotate(-90deg);text-shadow:none}
 html[data-theme="light"] .theme-btn .sun{opacity:0;transform:scale(.5) rotate(90deg)}
 html[data-theme="light"] .theme-btn .moon{opacity:1;transform:scale(1) rotate(0)}
-
-/* 轻量粒子 */
 .particles{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
 .particle{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--primary);opacity:.22;box-shadow:0 0 18px color-mix(in srgb,var(--primary) 55%,transparent);animation:floatParticle var(--d) ease-in-out infinite alternate;will-change:transform}
 @keyframes floatParticle{to{transform:translate3d(var(--x),var(--y),0)}}
-
-/* Hero */
 .hero{min-height:92vh;display:flex;align-items:center;padding:132px 0 78px;position:relative}
 .hero-grid{display:grid;grid-template-columns:1.13fr .87fr;gap:72px;align-items:center}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--primary);font-weight:950;letter-spacing:.17em;font-size:13px;text-transform:uppercase}
@@ -209,7 +147,6 @@ html[data-theme="light"] .theme-btn .moon{opacity:1;transform:scale(1) rotate(0)
 .metric{min-width:140px;padding:15px 17px;border:1px solid var(--line);border-radius:17px;background:var(--panel-soft);backdrop-filter:blur(10px)}
 .metric b{display:block;font-size:26px;line-height:1;color:var(--text)}
 .metric span{display:block;margin-top:7px;color:var(--soft);font-size:12px;font-weight:900;letter-spacing:.11em}
-
 .team-orbit{position:relative;aspect-ratio:1/1;max-width:480px;margin:auto;display:grid;place-items:center;isolation:isolate}
 .team-orbit::before,.team-orbit::after{content:"";position:absolute;border:1px solid var(--line);border-radius:50%;pointer-events:none}
 .team-orbit::before{inset:8%;animation:spin 26s linear infinite}
@@ -237,14 +174,11 @@ html[data-theme="light"] .theme-btn .moon{opacity:1;transform:scale(1) rotate(0)
 @keyframes orbitGlowPulse{0%,100%{transform:scale(.92);opacity:.55}50%{transform:scale(1.18);opacity:1}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes spinReverse{to{transform:rotate(-360deg)}}
-
-/* Section */
 .section{padding:82px 0}
 .section-head{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:30px}
 .kicker{color:var(--primary);font-size:13px;letter-spacing:.15em;font-weight:950}
 .section h2{margin:8px 0 0;font-size:clamp(36px,5.8vw,68px);line-height:1.04;letter-spacing:-.045em}
 .section-desc{max-width:450px;color:var(--muted);line-height:1.8}
-
 .team-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .member-card{
   --member:#70efad;position:relative;overflow:hidden;min-height:350px;padding:28px;border:1px solid var(--line);border-radius:28px;
@@ -269,8 +203,6 @@ html[data-theme="light"] .theme-btn .moon{opacity:1;transform:scale(1) rotate(0)
 .tag{padding:7px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.025);color:var(--text);font-size:12px;font-weight:800}
 .status{position:absolute;right:28px;bottom:26px;display:flex;align-items:center;gap:7px;color:var(--soft);font:800 11px/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em}
 .status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--member);box-shadow:0 0 14px var(--member)}
-
-/* 选中档案 */
 .profile-panel{margin-top:20px;border:1px solid var(--line);border-radius:30px;background:var(--panel-strong);box-shadow:var(--shadow);overflow:hidden;position:relative}
 .profile-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 15%,color-mix(in srgb,var(--profile) 11%,transparent),transparent 34%);pointer-events:none}
 .profile-inner{display:grid;grid-template-columns:260px 1fr;gap:38px;align-items:center;padding:34px;position:relative}
@@ -282,8 +214,6 @@ html[data-theme="light"] .theme-btn .moon{opacity:1;transform:scale(1) rotate(0)
 .profile-text{color:var(--muted);font-size:17px;line-height:1.9;max-width:760px}
 .profile-bottom{display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:21px;padding-top:20px;border-top:1px solid var(--line)}
 .profile-stat{min-width:150px}.profile-stat small{display:block;color:var(--soft);font-size:11px;font-weight:900;letter-spacing:.1em}.profile-stat b{display:block;margin-top:5px;font-size:15px}
-
-/* Story */
 .story-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:start}
 .story-index{position:sticky;top:110px;padding:28px;border:1px solid var(--line);border-radius:26px;background:var(--panel);backdrop-filter:blur(12px)}
 .story-index .big{font-size:clamp(62px,9vw,112px);font-weight:950;color:var(--primary);line-height:.85;letter-spacing:-.07em}
@@ -292,7 +222,6 @@ html[data-theme="light"] .theme-btn .moon{opacity:1;transform:scale(1) rotate(0)
 .story-card + .story-card{margin-top:16px}
 .story-card h3{margin:0 0 12px;font-size:28px}.story-card p{margin:0;color:var(--muted);line-height:1.9;font-size:17px}
 .story-card strong{color:var(--text)}
-
 .finale{text-align:center;padding:110px 0 120px}
 .finale .micro{color:var(--primary);font-weight:950;letter-spacing:.18em;font-size:12px}
 .finale h2{margin:18px auto 20px;max-width:900px;font-size:clamp(43px,7.3vw,92px);line-height:.98;letter-spacing:-.055em}
@@ -302,10 +231,8 @@ html[data-theme="light"] .theme-btn .moon{opacity:1;transform:scale(1) rotate(0)
 html[data-theme="light"] .return-home{color:#fff}
 .return-home:hover{transform:translateY(-4px);box-shadow:0 19px 38px rgba(40,180,110,.28)}
 footer{padding:0 0 34px;text-align:center;color:var(--soft);font-size:12px}
-
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
 .reveal.show{opacity:1;transform:none}
-
 @media(max-width:930px){
   .hero{min-height:auto}.hero-grid{grid-template-columns:1fr;gap:52px}.team-orbit{width:min(470px,86vw)}
   .section-head{align-items:flex-start;flex-direction:column}.team-grid{grid-template-columns:1fr}
@@ -318,7 +245,6 @@ footer{padding:0 0 34px;text-align:center;color:var(--soft);font-size:12px}
   .section{padding:60px 0}.member-card{padding:22px;min-height:365px}.head-wrap{width:78px;height:78px;border-radius:20px}.member-role{margin-top:26px}.status{position:static;margin-top:20px}
   .profile-inner{grid-template-columns:1fr;padding:22px}.profile-avatar{width:170px}.story-card,.story-index{padding:24px}.finale{padding:80px 0 90px}
 }
-
 @media(max-width:620px){
   .team-orbit .op1{--tx:-108px;--ty:-94px}.team-orbit .op2{--tx:108px;--ty:-88px}.team-orbit .op3{--tx:101px;--ty:99px}.team-orbit .op4{--tx:-104px;--ty:94px}
   .team-orbit.is-floating .orbit-person{animation:orbitMemberFloat 3.2s ease-in-out var(--delay) infinite}
@@ -327,9 +253,6 @@ footer{padding:0 0 34px;text-align:center;color:var(--soft);font-size:12px}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}
 }
-
-
-/* ===== 三页面一致性：统一小型页面控制按钮 ===== */
 :root{
   --oa-control-bg:rgba(8,19,15,.72);
   --oa-control-border:rgba(112,239,173,.20);
@@ -363,156 +286,11 @@ html[data-theme="light"] .control-btn:hover{box-shadow:0 15px 38px rgba(29,67,46
 html[data-theme="light"] .theme-btn .sun{opacity:0;transform:scale(.5) rotate(90deg)}
 html[data-theme="light"] .theme-btn .moon{opacity:1;transform:scale(1) rotate(0)}
 @media(max-width:760px){.control-btn{min-height:43px}.theme-btn{width:43px;height:43px;min-width:43px;min-height:43px}}
-
-
-
-/* ===== 右下角赞助场景入口（与首页风格统一） ===== */
 @property --scene-ring-angle {
   syntax: '<angle>';
   inherits: false;
   initial-value: 0deg;
 }
-.scene-teaser{
-  --scene-ring-angle:0deg;
-  --scene-teaser-bg:rgba(7,20,15,.92);
-  --scene-teaser-text:#f5fff9;
-  --scene-teaser-muted:#a8bbb1;
-  --scene-teaser-line:rgba(255,255,255,.08);
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  z-index:920;
-  width:min(334px,calc(100vw - 28px));
-  padding:2px;
-  border-radius:26px;
-  background:conic-gradient(from var(--scene-ring-angle),#ff42c7,#8d63ff,#4ca7ff,#42e8d8,#70efad,#ffe266,#ff42c7);
-  box-shadow:0 18px 54px rgba(0,0,0,.28),0 0 20px rgba(112,239,173,.12);
-  animation:sceneRingOrbit 12s linear infinite,sceneTeaserBreath 5.2s ease-in-out infinite,sceneTeaserEnter .7s cubic-bezier(.2,.8,.2,1) both;
-  isolation:isolate;
-  transform-origin:100% 100%;
-}
-.scene-teaser::before{
-  content:"";
-  position:absolute;
-  inset:-8px;
-  z-index:-1;
-  border-radius:32px;
-  background:conic-gradient(from var(--scene-ring-angle),rgba(255,66,199,.72),rgba(141,99,255,.68),rgba(76,167,255,.64),rgba(66,232,216,.58),rgba(112,239,173,.62),rgba(255,226,102,.60),rgba(255,66,199,.72));
-  filter:blur(16px);
-  opacity:.38;
-  pointer-events:none;
-}
-.scene-teaser::after{
-  content:"";
-  position:absolute;
-  inset:2px;
-  z-index:0;
-  border-radius:24px;
-  background:var(--scene-teaser-bg);
-  border:1px solid var(--scene-teaser-line);
-  backdrop-filter:blur(20px) saturate(125%);
-  -webkit-backdrop-filter:blur(20px) saturate(125%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
-}
-.scene-teaser-main{
-  position:relative;
-  z-index:1;
-  display:block;
-  min-height:164px;
-  padding:24px 58px 22px 24px;
-  border-radius:24px;
-  color:var(--scene-teaser-text);
-  cursor:pointer;
-  overflow:hidden;
-}
-.scene-teaser-main::before{
-  content:"";
-  position:absolute;
-  width:150px;
-  height:150px;
-  left:-75px;
-  bottom:-95px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(112,239,173,.18),transparent 67%);
-  pointer-events:none;
-}
-.scene-teaser-kicker{
-  color:#ff5bab;
-  font-size:12px;
-  line-height:1;
-  font-weight:950;
-  letter-spacing:.16em;
-}
-.scene-teaser-title{
-  margin:12px 0 7px;
-  color:var(--scene-teaser-text);
-  font-size:25px;
-  line-height:1.15;
-  letter-spacing:-.025em;
-  font-weight:950;
-}
-.scene-teaser-copy{
-  margin:0;
-  color:var(--scene-teaser-muted);
-  font-size:13px;
-  line-height:1.7;
-}
-.scene-teaser-action{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  margin-top:14px;
-  color:var(--primary);
-  font-size:13px;
-  font-weight:950;
-  transition:transform .28s cubic-bezier(.2,.8,.2,1),color .25s ease;
-}
-.scene-teaser-main:hover .scene-teaser-action{transform:translateX(4px)}
-.scene-teaser-close{
-  position:absolute;
-  top:14px;
-  right:14px;
-  z-index:4;
-  width:38px;
-  height:38px;
-  display:grid;
-  place-items:center;
-  padding:0;
-  border:1px solid var(--scene-teaser-line);
-  border-radius:50%;
-  background:color-mix(in srgb,var(--scene-teaser-bg) 88%,white 12%);
-  color:var(--scene-teaser-text);
-  box-shadow:0 8px 22px rgba(0,0,0,.22);
-  cursor:pointer;
-  font-size:20px;
-  line-height:1;
-  transition:transform .25s cubic-bezier(.2,.8,.2,1),background .25s ease,border-color .25s ease;
-}
-.scene-teaser-close:hover{
-  transform:rotate(90deg) scale(1.06);
-  border-color:color-mix(in srgb,var(--primary) 48%,transparent);
-  background:color-mix(in srgb,var(--scene-teaser-bg) 78%,var(--primary) 22%);
-}
-.scene-teaser-close:active{transform:rotate(90deg) scale(.92)}
-.scene-teaser:hover{
-  box-shadow:0 22px 64px rgba(0,0,0,.32),0 0 28px color-mix(in srgb,var(--primary) 20%,transparent);
-}
-.scene-teaser.closing{
-  animation:none;
-  opacity:0;
-  transform:translateY(16px) scale(.96);
-  transition:opacity .26s ease,transform .3s cubic-bezier(.4,0,1,1);
-  pointer-events:none;
-}
-html[data-theme="light"] .scene-teaser{
-  --scene-teaser-bg:rgba(251,254,252,.93);
-  --scene-teaser-text:#13241b;
-  --scene-teaser-muted:#607168;
-  --scene-teaser-line:rgba(19,74,42,.10);
-  box-shadow:0 18px 48px rgba(33,73,48,.15),0 0 18px rgba(30,164,100,.08);
-}
-html[data-theme="light"] .scene-teaser::before{opacity:.26}
-html[data-theme="light"] .scene-teaser-close{box-shadow:0 7px 18px rgba(42,78,55,.14)}
 @keyframes sceneRingOrbit{to{--scene-ring-angle:360deg}}
 @keyframes sceneTeaserBreath{
   0%,100%{filter:brightness(.96)}
@@ -522,19 +300,6 @@ html[data-theme="light"] .scene-teaser-close{box-shadow:0 7px 18px rgba(42,78,55
   from{opacity:0;transform:translateY(22px) scale(.96)}
   to{opacity:1;transform:none}
 }
-@media(max-width:620px){
-  .scene-teaser{right:12px;bottom:12px;width:min(316px,calc(100vw - 24px));border-radius:23px}
-  .scene-teaser::after{border-radius:21px}
-  .scene-teaser-main{min-height:150px;padding:21px 54px 19px 20px;border-radius:21px}
-  .scene-teaser-title{font-size:22px}
-  .scene-teaser-close{top:12px;right:12px;width:36px;height:36px}
-}
-@media(prefers-reduced-motion:reduce){
-  .scene-teaser,.scene-teaser::before{animation:none!important}
-  .scene-teaser-main:hover .scene-teaser-action{transform:none}
-}
-
-/* Minecraft roster treatment: square surfaces, layered borders, and short stepped motion. */
 .control-btn{border-radius:4px;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:4px 4px 0 rgba(0,0,0,.28)}
 .theme-btn{border-radius:4px}
 .metric{border-radius:3px;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:3px 3px 0 rgba(0,0,0,.22)}
@@ -570,58 +335,17 @@ html[data-theme="light"] .scene-teaser-close{box-shadow:0 7px 18px rgba(42,78,55
 body,html[data-theme="light"] body{background:linear-gradient(180deg,var(--bg),var(--bg2) 48%,var(--bg))}
 .particle{border-radius:0;box-shadow:none;animation:pixelParticle 2.8s steps(2,end) infinite alternate}
 @keyframes pixelParticle{to{transform:translate3d(var(--x),var(--y),0);opacity:.42}}
-.scene-teaser{border-radius:4px;box-shadow:6px 6px 0 rgba(0,0,0,.32);animation:sceneTeaserEnter .7s steps(2,end) both}
-.scene-teaser::after,.scene-teaser-main,.scene-teaser-close{border-radius:2px}
-.scene-teaser::before{display:none}
-/* Match the homepage Minecraft palette and grid. */
 :root{--bg:#07100b;--bg2:#0c1710;--panel:#142018;--panel-strong:#1b2b1f;--line:#3b5842;--primary:#70b957;--primary2:#39763d;--text:#f5f2e8;--muted:#b7c3b9;--soft:#879487;--shadow:6px 6px 0 rgba(0,0,0,.52)}
 html[data-theme="light"]{--bg:#d9dccb;--bg2:#c9cfba;--panel:#ece7cf;--panel-strong:#ddd8c0;--line:#85846e;--primary:#4e9c49;--primary2:#2f6e36;--text:#262a23;--muted:#596257;--soft:#777968;--shadow:6px 6px 0 rgba(73,75,63,.30)}
 body,html[data-theme="light"] body{background-color:var(--bg);background-image:linear-gradient(rgba(112,185,87,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(112,185,87,.045) 1px,transparent 1px),linear-gradient(180deg,var(--bg),var(--bg2) 48%,var(--bg));background-size:32px 32px,32px 32px,auto}
 .team-orbit.player-list-panel .orbit-person,.team-orbit.player-list-panel .orbit-person:hover,.team-orbit.player-list-panel .orbit-person:focus-visible{animation:none!important;transform:none!important}
 @media(max-width:620px){.team-orbit.player-list-panel{width:100%;max-width:430px}.player-list-rows{grid-template-columns:1fr}.team-orbit .orbit-person{height:68px;grid-template-columns:46px minmax(0,1fr);padding:9px 11px}.team-orbit .orbit-person img,.team-orbit .orbit-person .avatar-fallback{width:46px;height:46px}.player-info b{font-size:14px}.player-info small{display:flex;gap:7px;font-size:9px}.player-role::before{content:"· "}.player-list-head{padding:13px 14px}.player-list-motd{padding-left:14px;padding-right:14px}}
-
-/* Shared homepage navigation treatment. */
-.site-navbar{position:fixed;top:0;left:0;width:100%;z-index:1000;background:color-mix(in srgb,var(--panel) 97%,transparent);border:2px solid #050806;outline:0;box-shadow:6px 6px 0 rgba(73,75,63,.26);overflow:visible;transition:top .42s cubic-bezier(.22,1,.36,1),width .42s cubic-bezier(.22,1,.36,1),border-radius .42s cubic-bezier(.22,1,.36,1),box-shadow .32s ease,background-color .32s ease}
-.site-navbar::before{content:"";position:absolute;inset:3px;border:1px solid color-mix(in srgb,var(--line) 72%,transparent);pointer-events:none}
-.site-nav-inner{width:min(1180px,calc(100% - 40px));min-height:88px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:28px;transition:min-height .42s cubic-bezier(.22,1,.36,1),gap .42s ease}
-.site-brand{display:flex;align-items:center;gap:12px;color:var(--text);font-weight:900;letter-spacing:.5px;white-space:nowrap}
-.site-brand-image{width:42px;height:42px;object-fit:cover;object-position:left center;image-rendering:pixelated;border-radius:2px;border:2px solid #050806;outline:2px solid var(--line);box-shadow:4px 4px 0 rgba(0,0,0,.46);transition:transform .42s cubic-bezier(.22,1,.36,1),width .42s ease,height .42s ease}
-.site-brand:hover .site-brand-image{transform:translate(-1px,-1px) rotate(-5deg) scale(1.06)}
-.site-nav-links{display:flex;align-items:center;gap:25px;flex:1;justify-content:flex-end;color:var(--muted);font-size:15px;transition:gap .42s ease,padding .42s ease}
-.site-nav-links a{position:relative;transition:color .25s ease,transform .25s ease;white-space:nowrap}
-.site-nav-links a:not(.site-nav-join)::after{content:"";position:absolute;left:50%;bottom:-8px;width:100%;height:3px;background:var(--primary);transform:translateX(-50%) scaleX(0);transition:transform .28s ease}
-.site-nav-links a:hover,.site-nav-links a.is-active{color:var(--primary);transform:translateY(-1px)}
-.site-nav-links a.is-active:not(.site-nav-join)::before{content:"+";display:inline-block;margin-right:6px;color:var(--primary);font:900 13px/1 ui-monospace,SFMono-Regular,Consolas,monospace}
-.site-nav-links a:hover::after,.site-nav-links a.is-active::after{transform:translateX(-50%) scaleX(1)}
-.site-nav-join{padding:10px 18px!important;border:2px solid #050806;background:linear-gradient(#68b450 0 50%,#4a8c43 50% 100%);color:#fff!important;font-weight:900;box-shadow:4px 4px 0 rgba(0,0,0,.46);transition:transform .25s ease,box-shadow .25s ease,background-color .25s ease}
-.site-nav-join:hover{transform:translate(-2px,-3px);box-shadow:6px 6px 0 rgba(0,0,0,.52)}
-.site-theme-toggle{width:52px;height:52px;flex:0 0 52px;position:relative;display:grid;place-items:center;border:2px solid #050806;outline:1px solid var(--line);background:#172b49;color:var(--text);box-shadow:4px 4px 0 rgba(73,75,63,.30);cursor:pointer;overflow:hidden;transition:transform .35s ease,background-color .35s ease,border-color .35s ease,box-shadow .35s ease}
-html[data-theme="light"] .site-theme-toggle{background:#73b9e8}
 .theme-icon{position:absolute;font-size:25px;line-height:1;transition:opacity .2s steps(2),transform .2s steps(2)}
 .theme-icon svg{width:40px;height:40px;display:block;image-rendering:pixelated;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.34))}
 .theme-icon-sun{color:#f4d968}.theme-icon-moon{color:#d8d9c7;opacity:0;transform:scale(.65)}
 html[data-theme="light"] .theme-icon-sun{opacity:0;transform:scale(.65)}
 html[data-theme="light"] .theme-icon-moon{opacity:1;transform:scale(1)}
-.site-theme-toggle:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 rgba(45,48,39,.38)}
-.site-theme-toggle:active{transform:translate(2px,2px);box-shadow:2px 2px 0 rgba(45,48,39,.35)}
-.site-menu-toggle{display:none;width:44px;height:44px;padding:8px;border:2px solid #050806;outline:1px solid var(--line);background:var(--panel-strong);box-shadow:4px 4px 0 rgba(0,0,0,.35);cursor:pointer}
-.site-menu-toggle span{display:block;height:3px;margin:4px 0;background:var(--text)}
-.site-navbar.scrolled{top:12px;left:50%;width:min(980px,calc(100% - 28px));border-radius:3px;box-shadow:7px 7px 0 rgba(45,48,39,.34);transform:translateX(-50%)}
-.site-navbar.scrolled .site-nav-inner{min-height:62px;gap:18px}
-.site-navbar.scrolled .site-brand-image{transform:scale(.82);transform-origin:left center}
-.site-navbar.scrolled .site-nav-links{gap:12px}
-/* Match the homepage scene teaser treatment. */
-.scene-teaser{right:22px;bottom:22px;width:min(352px,calc(100vw - 28px));padding:2px;border:0;border-radius:22px;background:conic-gradient(from var(--scene-ring-angle),#ff62ad,#a776ff,#5e8cff,#46e4ff,#62f2bf,#ffe46b,#ff8b78,#ff62ad);box-shadow:0 0 18px rgba(92,168,255,.28),0 0 32px rgba(255,91,174,.18),0 18px 52px rgba(0,0,0,.3);animation:sceneRingOrbit 10s linear infinite,sceneTeaserBreath 4.8s ease-in-out infinite,sceneTeaserEnter .7s steps(2,end) both}
-.scene-teaser::before{display:block;inset:-8px;border-radius:28px;background:conic-gradient(from var(--scene-ring-angle),rgba(255,98,173,.46),rgba(129,112,255,.42),rgba(70,228,255,.4),rgba(98,242,191,.36),rgba(255,228,107,.34),rgba(255,98,173,.46));filter:blur(16px);opacity:.5}
-.scene-teaser-main{min-height:132px;padding:18px 48px 18px 18px;border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,.055),transparent 48%),var(--scene-teaser-bg);backdrop-filter:blur(20px) saturate(135%);-webkit-backdrop-filter:blur(20px) saturate(135%)}
-.scene-teaser-close{border-radius:2px;box-shadow:0 7px 18px rgba(0,0,0,.14)}
-@media(max-width:620px){.scene-teaser{right:12px;bottom:12px;width:min(316px,calc(100vw - 24px));border-radius:22px}.scene-teaser-main{min-height:150px;padding:21px 54px 19px 20px;border-radius:20px}}
-@media(max-width:950px){.site-navbar{top:0;left:0;width:100%;transform:none}.site-navbar.scrolled{top:8px;left:50%;width:calc(100% - 20px);transform:translateX(-50%);border-radius:3px}.site-nav-inner,.site-navbar.scrolled .site-nav-inner{min-height:72px}.site-brand-image,.site-navbar.scrolled .site-brand-image{transform:none}.site-menu-toggle{display:block;order:2}.site-theme-toggle{order:3}.site-nav-links{position:absolute;top:92px;left:10px;right:10px;display:none;flex-direction:column;align-items:stretch;gap:0;padding:8px;background:var(--panel-strong);border:2px solid #050806;box-shadow:6px 6px 0 rgba(73,75,63,.28)}.site-nav-links.is-open{display:flex}.site-nav-links a{padding:13px 12px}.site-nav-links a:not(.site-nav-join)::after{bottom:5px;left:12px;right:auto;width:calc(100% - 24px);transform:scaleX(0)}.site-nav-links a:hover::after,.site-nav-links a.is-active::after{transform:scaleX(1)}.site-navbar.scrolled .site-nav-links{gap:0}.site-navbar.scrolled .site-nav-links{top:78px}}
-@media(max-width:600px){.site-nav-inner,.site-navbar.scrolled .site-nav-inner{min-height:64px}.site-nav-links{top:84px}.site-navbar.scrolled .site-nav-links{top:78px}.site-brand-image{width:38px;height:38px}.site-brand span{font-size:14px}.site-theme-toggle{width:48px;height:48px;flex-basis:48px}.theme-icon svg{width:36px;height:36px}}
-
-
-
-/* 新服务器 Title：团队页品牌识别 */
+@media(max-width:600px){.theme-icon svg{width:36px;height:36px}}
 .oa-team-title-image{
   display:block;
   width:min(100%,520px);
@@ -634,8 +358,6 @@ html[data-theme="light"] .theme-icon-moon{opacity:1;transform:scale(1)}
 @media(max-width:720px){
   .oa-team-title-image{width:min(100%,470px);margin-bottom:18px}
 }
-
-/* Exact homepage navbar selectors and motion. */
 .navbar{position:fixed;top:0;left:0;width:100%;z-index:1000;background:color-mix(in srgb,var(--panel) 97%,transparent);border:2px solid #050806;box-shadow:6px 6px 0 rgba(73,75,63,.26);overflow:visible;transform:translateX(0);transition:top .42s cubic-bezier(.22,1,.36,1),width .42s cubic-bezier(.22,1,.36,1),border-radius .42s cubic-bezier(.22,1,.36,1),box-shadow .32s ease}
 .navbar::before{content:"";position:absolute;inset:3px;border:1px solid color-mix(in srgb,var(--line) 72%,transparent);pointer-events:none}
 .nav-inner{min-height:88px;display:flex;align-items:center;justify-content:space-between;gap:28px;transition:min-height .42s cubic-bezier(.22,1,.36,1),gap .42s ease}
@@ -645,7 +367,6 @@ html[data-theme="light"] .theme-icon-moon{opacity:1;transform:scale(1)}
 .menu-button{display:none;width:46px;height:46px;border:2px solid #050806;background:var(--panel-strong);color:var(--text);box-shadow:4px 4px 0 rgba(0,0,0,.35);font-size:22px;cursor:pointer}
 .navbar.scrolled{top:12px;left:50%;width:min(980px,calc(100% - 28px));transform:translateX(-50%);border-radius:3px;box-shadow:7px 7px 0 rgba(45,48,39,.34)}.navbar.scrolled .nav-inner{min-height:62px;gap:18px}.navbar.scrolled .logo-icon{transform:scale(.82);transform-origin:left center}.navbar.scrolled .nav-links{gap:12px}
 @media(max-width:950px){.navbar{top:0;left:50%;width:100%;transform:translateX(-50%)}.navbar.scrolled{top:8px;width:calc(100% - 20px)}.nav-inner,.navbar.scrolled .nav-inner{min-height:72px}.navbar.scrolled .logo-icon{transform:none}.menu-button{display:block}.nav-links{position:absolute;top:92px;left:10px;right:10px;display:none;flex-direction:column;align-items:stretch;gap:0;padding:8px;background:var(--panel-strong);border:2px solid #050806;box-shadow:6px 6px 0 rgba(73,75,63,.28)}.nav-links.open{display:flex}.nav-links a{padding:13px 12px}.nav-links a:not(.nav-button)::after{bottom:5px;left:12px;right:auto;width:calc(100% - 24px);transform:scaleX(0)}.nav-links a.nav-team-link::after,.nav-links a:hover::after{transform:scaleX(1)}.nav-right{gap:10px}}@media(max-width:600px){.nav-inner,.navbar.scrolled .nav-inner{min-height:64px}.nav-links{top:84px}.navbar.scrolled .nav-links{top:78px}.theme-toggle{width:48px;height:48px}.theme-icon svg{width:36px;height:36px}}
-
 @property --oa-teaser-angle{syntax:"<angle>";inherits:false;initial-value:0deg}
 .oa-scene-teaser{--oa-teaser-angle:0deg;position:fixed;right:22px;bottom:22px;z-index:3400;width:min(352px,calc(100vw - 28px));padding:2px;border-radius:22px;background:conic-gradient(from var(--oa-teaser-angle),#ff62ad,#a776ff,#5e8cff,#46e4ff,#62f2bf,#ffe46b,#ff8b78,#ff62ad);box-shadow:0 0 18px rgba(92,168,255,.28),0 0 32px rgba(255,91,174,.18),0 18px 52px rgba(0,0,0,.3);animation:oaTeaserOrbit 10s linear infinite,oaTeaserBreathe 4.8s ease-in-out infinite;cursor:pointer;isolation:isolate;transform:translateZ(0);transition:transform .34s cubic-bezier(.2,.8,.2,1)}
 .oa-scene-teaser:hover{transform:translateY(-5px) scale(1.012)}.oa-scene-teaser::before{content:"";position:absolute;inset:-8px;z-index:-1;border-radius:28px;background:conic-gradient(from var(--oa-teaser-angle),rgba(255,98,173,.46),rgba(129,112,255,.42),rgba(70,228,255,.4),rgba(98,242,191,.36),rgba(255,228,107,.34),rgba(255,98,173,.46));filter:blur(16px);opacity:.5;pointer-events:none}
@@ -654,13 +375,9 @@ html[data-theme="light"] .theme-icon-moon{opacity:1;transform:scale(1)}
 .oa-scene-close{position:absolute;top:10px;right:10px;z-index:8;width:32px;height:32px;padding:0;border:1px solid var(--line);border-radius:2px;display:grid;place-items:center;background:rgba(5,15,11,.5);color:var(--text);font-size:19px;line-height:1;cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .22s ease,background .25s ease,border-color .25s ease}html[data-theme="light"] .oa-scene-close{background:rgba(255,255,255,.74)}.oa-scene-close:hover{transform:rotate(8deg) scale(1.08);border-color:var(--primary);background:color-mix(in srgb,var(--panel-strong) 78%,var(--primary) 22%)}
 .oa-scene-teaser.oa-closing{animation:none;opacity:0;transform:translateY(14px) scale(.96);transition:opacity .24s ease,transform .28s ease;pointer-events:none}@keyframes oaTeaserOrbit{to{--oa-teaser-angle:360deg}}@keyframes oaTeaserBreathe{0%,100%{box-shadow:0 0 13px rgba(92,168,255,.18),0 0 24px rgba(255,91,174,.12),0 18px 52px rgba(0,0,0,.28)}50%{box-shadow:0 0 23px rgba(92,168,255,.36),0 0 42px rgba(255,91,174,.25),0 20px 58px rgba(0,0,0,.34)}}@keyframes oaTeaserDot{0%,100%{opacity:.55;transform:scale(.86)}50%{opacity:1;transform:scale(1.12)}}
 @media(max-width:700px){.oa-scene-teaser{right:12px;bottom:12px;width:min(332px,calc(100vw - 24px))}.oa-scene-teaser-inner{min-height:122px;padding:16px 44px 16px 16px}.oa-scene-title{font-size:20px}}
-/* Homepage final Minecraft override: copied as the last rule. */
 .oa-scene-teaser{--oa-teaser-angle:0deg!important;padding:0!important;border:3px solid #050806!important;border-radius:0!important;outline:2px solid #3b5842!important;background:#142018!important;box-shadow:8px 8px 0 rgba(0,0,0,.45),0 0 18px rgba(112,185,87,.18)!important;animation:oaMcTeaserGlow 3.6s ease-in-out infinite!important;transform:none!important;transition:transform .10s steps(2,end),box-shadow .25s ease!important}.oa-scene-teaser:hover{transform:translate(-2px,-2px)!important;box-shadow:10px 10px 0 rgba(0,0,0,.45),0 0 28px rgba(112,185,87,.34)!important}.oa-scene-teaser::before{display:block!important;content:""!important;position:absolute!important;inset:-7px!important;z-index:-1!important;border:2px solid rgba(112,185,87,.42)!important;background:transparent!important;filter:blur(7px)!important;opacity:.55!important;pointer-events:none!important}.oa-scene-teaser-inner{min-height:128px;border:0!important;border-radius:0!important;outline:0!important;background:linear-gradient(90deg,rgba(255,255,255,.018) 50%,transparent 50%),#142018!important;background-size:16px 16px,auto!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.oa-scene-teaser-inner::after{display:none!important;content:none!important}.oa-scene-kicker{color:#6ebf59!important}.oa-scene-kicker-dot{animation:oaTeaserDot 2.6s ease-in-out infinite!important;box-shadow:0 0 12px rgba(101,239,172,.55)!important}.oa-scene-enter{color:#4f9b44!important;transition:none!important}.oa-scene-close,html[data-theme="light"] .oa-scene-close{width:32px;height:32px;border:2px solid #050806!important;border-radius:0!important;outline:1px solid #3b5842!important;background:#111914!important;color:#f5f2e8!important;box-shadow:3px 3px 0 rgba(0,0,0,.32)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;transition:none!important}.oa-scene-close:hover{transform:translate(-1px,-1px)!important}
 @keyframes oaMcTeaserGlow{0%,100%{box-shadow:8px 8px 0 rgba(0,0,0,.45),0 0 14px rgba(112,185,87,.14)}50%{box-shadow:8px 8px 0 rgba(0,0,0,.45),0 0 28px rgba(112,185,87,.34)}}
-/* Minecraft item slots for the team metrics. */
 .metric{position:relative;min-height:92px;padding:13px 15px 12px 66px!important;border:1px solid var(--line)!important;outline:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0 4px,transparent 4px 8px),var(--panel)!important;box-shadow:3px 3px 0 rgba(0,0,0,.2)!important}.metric-icon{position:absolute;left:14px;top:14px;width:38px;height:38px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.25));background:var(--panel-strong);border:1px solid var(--line);padding:3px}.metric b{font-family:Consolas,ui-monospace,monospace;text-shadow:2px 2px 0 rgba(0,0,0,.2)}html[data-theme="light"] .metric{background:repeating-linear-gradient(135deg,rgba(40,55,42,.035) 0 4px,transparent 4px 8px),var(--panel)!important;box-shadow:3px 3px 0 rgba(73,75,63,.22)!important}
-
-/* Homepage navbar parity: keep the team page on the exact checked-page geometry. */
 :root{--mc-panel:#142018;--mc-panel-2:#1b2b1f;--mc-edge:#050806;--mc-line:#3b5842;--mc-slot:#111914;--mc-text:#f5f2e8;--mc-muted:#b7c3b9;--mc-highlight:#70b957}
 html[data-theme="light"]{--mc-panel:#ece7cf;--mc-panel-2:#ddd8c0;--mc-edge:#4e4d40;--mc-line:#85846e;--mc-slot:#bebaa4;--mc-text:#262a23;--mc-muted:#596257;--mc-highlight:#4e9c49}
 .navbar{top:0!important;left:50%!important;right:auto!important;width:100%!important;transform:translateX(-50%);border:2px solid var(--mc-edge)!important;border-radius:0!important;background:color-mix(in srgb,var(--mc-panel) 97%,transparent)!important;box-shadow:6px 6px 0 rgba(73,75,63,.26)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
@@ -692,16 +409,12 @@ html[data-theme="light"] .theme-toggle{background:#73b9e8!important}
 html[data-theme="light"] .oa-theme-sun{opacity:0;transform:none!important}html[data-theme="light"] .oa-theme-moon{opacity:1;transform:none!important;color:#73b9e8!important}
 @media(max-width:950px){.navbar{top:0!important;left:50%!important;width:100%!important;transform:translateX(-50%)}.navbar.scrolled{top:8px!important;left:50%!important;width:calc(100% - 20px)!important;transform:translateX(-50%);border-radius:3px!important}.nav-links{top:92px!important;left:10px!important;right:10px!important;border-radius:3px!important;border:2px solid var(--mc-edge)!important;box-shadow:6px 6px 0 rgba(73,75,63,.28)!important}.navbar .nav-inner,.navbar.scrolled .nav-inner{min-height:72px}.navbar.scrolled .logo-image-wrap{transform:none}}
 @media(max-width:600px){.navbar .nav-inner,.navbar.scrolled .nav-inner{min-height:64px}.nav-links{top:84px!important}.navbar.scrolled .nav-links{top:78px!important}.theme-toggle{width:48px!important;height:48px!important}.mc-sky-svg{width:36px!important;height:36px!important}}
-
-/* The light theme must not turn the scene teaser into a hard black frame. */
 .oa-scene-teaser{--oa-teaser-angle:0deg!important;padding:0!important;border:3px solid #050806!important;border-radius:0!important;outline:2px solid #3b5842!important;background:#142018!important;box-shadow:8px 8px 0 rgba(0,0,0,.45),0 0 18px rgba(112,185,87,.18)!important;animation:oaMcTeaserGlow 3.6s ease-in-out infinite!important;transform:none!important;transition:transform .10s steps(2,end),box-shadow .25s ease!important}
 .oa-scene-teaser:hover{transform:translate(-2px,-2px)!important;box-shadow:10px 10px 0 rgba(0,0,0,.45),0 0 28px rgba(112,185,87,.34)!important}
 .oa-scene-teaser::before{display:block!important;content:""!important;position:absolute!important;inset:-7px!important;z-index:-1!important;border:2px solid rgba(112,185,87,.42)!important;background:transparent!important;filter:blur(7px)!important;opacity:.55!important;pointer-events:none!important}
 .oa-scene-teaser-inner{min-height:128px;border:0!important;border-radius:0!important;outline:0!important;background:linear-gradient(90deg,rgba(255,255,255,.018) 50%,transparent 50%),#142018!important;background-size:16px 16px,auto!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 .oa-scene-close,html[data-theme="light"] .oa-scene-close{width:32px;height:32px;border:2px solid var(--mc-edge)!important;border-radius:0!important;outline:1px solid var(--mc-line)!important;background:var(--mc-slot)!important;color:var(--mc-text)!important;box-shadow:3px 3px 0 rgba(0,0,0,.32)!important;backdrop-filter:none!important;transition:none!important}
 .oa-scene-close:hover{transform:translate(-1px,-1px)!important}
-
-/* Homepage logo preview interaction. */
 .logo-image-wrap{cursor:zoom-in}
 .logo-lightbox{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:28px;background:rgba(8,7,12,.88);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .28s ease,visibility .28s ease}
 .logo-lightbox.open{opacity:1;visibility:visible;pointer-events:auto}
@@ -714,8 +427,6 @@ html[data-theme="light"] .oa-scene-teaser{border-color:#4e4d40!important;outline
 html[data-theme="light"] .oa-scene-teaser-inner{background:#ece7cf!important;color:#262a23!important}
 html[data-theme="light"] .oa-scene-title{color:#262a23!important}html[data-theme="light"] .oa-scene-desc{color:#596257!important}
 html[data-theme="light"] .oa-scene-close{border-color:var(--mc-edge)!important;outline-color:var(--mc-line)!important;background:var(--mc-slot)!important;color:var(--mc-text)!important;box-shadow:3px 3px 0 rgba(73,75,63,.30)!important}
-
-/* Exact homepage teaser geometry, kept explicit so page-specific styles cannot change its height. */
 .oa-scene-teaser{right:22px!important;bottom:22px!important;width:min(352px,calc(100vw - 28px))!important}
 .oa-scene-teaser-inner{min-height:128px!important;padding:18px 48px 18px 18px!important}
 .oa-scene-title{margin-top:7px!important;font-size:22px!important;line-height:1.2!important;font-weight:950!important}
@@ -723,8 +434,6 @@ html[data-theme="light"] .oa-scene-close{border-color:var(--mc-edge)!important;o
 .oa-scene-enter{margin-top:11px!important;font-size:13px!important;font-weight:900!important}
 @media(max-width:700px){.oa-scene-teaser{right:12px!important;bottom:12px!important;width:min(332px,calc(100vw - 24px))!important}.oa-scene-teaser-inner{min-height:122px!important;padding:16px 44px 16px 16px!important}.oa-scene-title{font-size:20px!important}}
 html[data-theme="light"] .oa-scene-kicker,html[data-theme="light"] .oa-scene-enter{ text-shadow:1px 1px 0 rgba(255,255,255,.65);-webkit-text-stroke:.2px rgba(47,88,48,.28) }
-
-/* Use the same unframed Mojang sprites as the homepage feature cards. */
 .metric{min-height:116px;padding:18px 16px 16px!important;border:2px solid var(--mc-edge)!important;outline:1px solid var(--mc-line)!important;border-radius:0!important;background:var(--mc-panel)!important;box-shadow:4px 4px 0 rgba(0,0,0,.22)!important}
 .metric-icon,.metric-icon.mc-official-item{position:static;width:58px;height:58px;margin:0 0 8px;padding:0;border:0;background:none;outline:0;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(4px 4px 0 rgba(0,0,0,.28));display:block}
 .metric.mc-item-failed .metric-icon{display:none}
@@ -732,8 +441,6 @@ html[data-theme="light"] .oa-scene-kicker,html[data-theme="light"] .oa-scene-ent
 .metric b{font-size:26px;line-height:1;color:var(--mc-text);text-shadow:2px 2px 0 rgba(0,0,0,.18)}
 .metric span{color:var(--mc-muted,var(--soft));font-family:Consolas,ui-monospace,monospace}
 @media(max-width:620px){.metric{min-height:108px;padding:14px 12px 12px!important}.metric-icon,.metric-icon.mc-official-item{width:50px;height:50px}.metric.mc-item-failed::before{width:50px;height:50px;line-height:50px}}
-
-/* Homepage navigation contract: keep geometry, colors and mobile behavior identical to index.html. */
 :root{--oa-nav-text:#f5fff9;--oa-nav-muted:#a7bab0;--oa-nav-mobile-bg:rgba(22,43,35,.92);--oa-nav-hard-shadow:4px 4px 0 rgba(0,0,0,.46)}
 html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-mobile-bg:rgba(255,255,255,.98);--oa-nav-hard-shadow:4px 4px 0 rgba(73,75,63,.24)}
 .navbar{font-family:"Microsoft YaHei","PingFang SC",system-ui,-apple-system,BlinkMacSystemFont,Arial,sans-serif!important}
@@ -766,8 +473,6 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
   .navbar .theme-toggle{width:48px!important;height:48px!important}
   .navbar .menu-button{width:42px;height:42px}
 }
-
-/* Final screen: one complete viewport with its message centered. */
 .finale{
   min-height:100svh;
   padding:clamp(96px,12vh,150px) 0;
@@ -779,7 +484,6 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
   width:min(100% - 40px,1180px);
   translate:0 50px;
 }
-
 @media(max-width:700px){
   .finale{
     min-height:100svh;
@@ -795,54 +499,69 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
   .finale p{max-width:340px;font-size:15px;line-height:1.75}
 }
 </style>
-  <link rel="icon" type="image/png" href="NEW-logo-ICON.png">
-  <link rel="apple-touch-icon" href="NEW-logo-ICON.png">
-  <link rel="stylesheet" href="site-nav-shared.css?v=20260913-teaser-glow-v1">
-  <link rel="stylesheet" href="site-mobile-shared.css?v=20260913-frontend-design-v1">
-  <script src="site-card-follow.js?v=20260828-touch-follow-v7" defer></script>
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png">
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+  <link rel="stylesheet" href="site-nav-shared.css?v=20261008">
+  <link rel="stylesheet" href="site-mobile-shared.css?v=20261008">
+  <script src="site-card-follow.js?v=20261008" defer></script>
+  <link rel="canonical" href="https://zxwusheng.github.io/jieshao.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="无声无息:Once Again">
+  <meta property="og:title" content="团队介绍｜无声无息:Once Again">
+  <meta property="og:description" content="认识无声无息:Once Again 的四位团队成员，了解项目策划、模组移植、核心开发和团队协作职责。">
+  <meta property="og:url" content="https://zxwusheng.github.io/jieshao.html">
+  <meta property="og:image" content="https://zxwusheng.github.io/最新服务器title.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="258">
+  <meta property="og:image:alt" content="Once Again · Without A Sound">
+  <meta name="twitter:card" content="summary_large_image">
+  <script src="site-config.js?v=20261008" defer></script>
+  <script src="site-common.js?v=20261008" defer></script>
 </head>
 <body class="page-team">
+  <a class="site-skip-link" href="#main-content">跳到主要内容</a>
 <header class="navbar" id="navbar">
   <div class="container nav-inner">
-    <a class="logo" href="index.html#home" aria-label="返回 Once Again 首页">
-      <span class="logo-icon logo-image-wrap" id="logoPreviewTrigger" role="button" tabindex="0" aria-label="放大查看 Once Again Logo" title="点击放大查看"><img src="NEW-logo-ICON.png" alt=""></span>
-      <span class="logo-name">无声无息:Once Again</span>
-    </a>
+    <div class="logo">
+        <button class="logo-icon logo-image-wrap" id="logoPreviewTrigger" type="button" aria-label="放大查看 Once Again Logo" aria-haspopup="dialog" aria-controls="logoLightbox"><img src="assets/brand/logo-96.png" width="96" height="96" alt="" decoding="async"></button>
+        <a class="logo-name" href="index.html#home" aria-label="Once Again 首页">无声无息:Once Again</a>
+      </div>
     <div class="nav-right">
     <nav class="nav-links" id="navLinks" aria-label="主导航">
-      <a href="index.html#home">首页</a>
-      <a href="index.html#features">核心玩法</a>
-      <a href="index.html#news">最新公告</a>
-      <a class="nav-team-link" href="jieshao.html#team">团队介绍</a>
-      <a href="ztdh.html#recruit">招募协作者</a>
-      <a class="nav-button" href="index.html#join">加入服务器</a>
-    </nav>
+          <a href="index.html#home">首页</a>
+          <a href="index.html#features">核心玩法</a>
+          <a href="index.html#news">动态与规划</a>
+          <a class="nav-team-link" href="jieshao.html#team">团队介绍</a>
+          <a href="ztdh.html#recruit">招募协作者</a>
+          <a href="scene1.html">赞助支持</a>
+          <a class="nav-button" href="index.html#join">开放状态</a>
+        </nav>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换到白色主题" title="切换黑白主题">
       <span class="oa-theme-glyph oa-theme-sun mc-theme-celestial" aria-hidden="true"><svg class="mc-sky-svg" viewBox="0 0 32 32" shape-rendering="crispEdges" focusable="false"><rect x="12" y="0" width="8" height="4" fill="#f8df65"/><rect x="12" y="28" width="8" height="4" fill="#bd8529"/><rect x="0" y="12" width="4" height="8" fill="#d19b31"/><rect x="28" y="12" width="4" height="8" fill="#bd8529"/><rect x="4" y="4" width="4" height="4" fill="#e1b541"/><rect x="24" y="4" width="4" height="4" fill="#d19b31"/><rect x="4" y="24" width="4" height="4" fill="#c58d2b"/><rect x="24" y="24" width="4" height="4" fill="#a97825"/><rect x="8" y="8" width="16" height="16" fill="#e3b83f"/><rect x="12" y="8" width="8" height="4" fill="#fff1a0"/><rect x="8" y="12" width="4" height="8" fill="#f4d968"/><rect x="12" y="12" width="8" height="8" fill="#ffe98a"/><rect x="20" y="16" width="4" height="8" fill="#c9922b"/><rect x="12" y="20" width="8" height="4" fill="#dca735"/></svg></span>
       <span class="oa-theme-glyph oa-theme-moon mc-theme-celestial" aria-hidden="true"><svg class="mc-sky-svg" viewBox="0 0 32 32" shape-rendering="crispEdges" focusable="false"><rect x="12" y="4" width="12" height="4" fill="#f2f0d5"/><rect x="8" y="8" width="12" height="4" fill="#d8d9c7"/><rect x="4" y="12" width="12" height="8" fill="#c5c8bb"/><rect x="8" y="20" width="12" height="4" fill="#d8d9c7"/><rect x="12" y="24" width="12" height="4" fill="#f0eed3"/><rect x="12" y="8" width="4" height="4" fill="#fffbe2"/><rect x="4" y="12" width="4" height="4" fill="#e4e5d3"/><rect x="8" y="20" width="4" height="4" fill="#b3b7aa"/></svg></span>
     </button>
-    <button class="menu-button" id="menuButton" type="button" aria-label="打开导航菜单">☰</button>
+    <button class="menu-button" id="menuButton" type="button" aria-label="打开导航菜单" aria-controls="navLinks" aria-expanded="false">☰</button>
     </div>
   </div>
 </header>
-
-<div class="logo-lightbox" id="logoLightbox" aria-hidden="true">
-  <div class="logo-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Once Again Logo 大图预览">
-    <button class="logo-lightbox-close" id="logoLightboxClose" type="button" aria-label="关闭图片预览">×</button>
-    <img class="logo-lightbox-image" id="logoLightboxImage" alt="无声无息 Once Again Logo 大图预览">
+<div class="logo-lightbox" id="logoLightbox" aria-hidden="true" inert>
+    <div class="logo-lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="imagePreviewTitle">
+      <button class="logo-lightbox-close" id="logoLightboxClose" type="button" aria-label="关闭图片预览">×</button>
+      <h2 class="site-preview-title" id="imagePreviewTitle">图片预览</h2>
+      <img class="logo-lightbox-image" id="logoLightboxImage" alt="图片预览" decoding="async">
+      <a class="site-original-link" id="imageOriginalLink" href="NEW-logo-ICON.png" target="_blank" rel="noopener noreferrer">查看原图（新窗口）</a>
+    </div>
   </div>
-</div>
-
-<div class="oa-scene-teaser" id="oaSceneTeaser" role="button" tabindex="0" aria-label="助力服务器复活，进入赞助场景">
-  <div class="oa-scene-teaser-inner">
-    <button class="oa-scene-close" id="oaSceneTeaserClose" type="button" aria-label="关闭助力服务器复活窗口" title="关闭">×</button>
+<aside class="oa-scene-teaser" id="oaSceneTeaser" aria-label="赞助支持入口">
+    <a class="oa-scene-teaser-inner" href="scene1.html">
     <span class="oa-scene-kicker"><i class="oa-scene-kicker-dot"></i>NEW SCENE</span>
     <strong class="oa-scene-title">助力服务器复活</strong>
     <span class="oa-scene-desc">前往另一个场景，查看赞助与支持方式。</span>
     <span class="oa-scene-enter">进入场景 <span aria-hidden="true">→</span></span>
-  </div>
-</div>
-
+  </a>
+    <button class="oa-scene-close" id="oaSceneTeaserClose" type="button" aria-label="关闭赞助支持入口">×</button>
+  </aside>
 <div class="particles" aria-hidden="true">
   <i class="particle" style="left:7%;top:18%;--x:18px;--y:-24px;--d:8s"></i>
   <i class="particle" style="left:18%;top:72%;--x:-16px;--y:26px;--d:10s"></i>
@@ -855,45 +574,42 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
   <i class="particle" style="left:12%;top:48%;--x:14px;--y:18px;--d:11.5s"></i>
   <i class="particle" style="left:51%;top:84%;--x:-18px;--y:-14px;--d:9.2s"></i>
 </div>
-
-<main>
+<main id="main-content" tabindex="-1">
+    <p class="container site-note site-script-note">部分交互暂不可用，请使用页脚导航；联系方式可手动选取，收款码可通过原图链接查看。</p>
 <section class="hero">
   <div class="container hero-grid">
     <div class="reveal show">
-      <img class="oa-team-title-image" src="最新服务器title.png" alt="Once Again · Without A Sound 服务器标题">
+      <img class="oa-team-title-image" src="最新服务器title.png" alt="Once Again · Without A Sound 服务器标题" width="1024" height="258" decoding="async" fetchpriority="high">
       <div class="eyebrow">MEET THE TEAM</div>
       <h1>我们只有四个人。<span>但想把这件事认真做完。</span></h1>
       <p class="hero-copy">没有庞大的工作室，也没有一长串头衔。<strong>无声无息: Once Again</strong> 目前由四个人共同推进：有人负责方向，有人负责把玩法落地，有人负责底层逻辑，也有人负责……在路边值守。</p>
       <div class="hero-metrics">
-        <div class="metric" data-fallback="绿色收纳袋"><img class="metric-icon mc-official-item" data-mc-item="bundle_green" src="https://cdn.jsdelivr.net/gh/Mojang/bedrock-samples@main/resource_pack/textures/items/bundle_green.png" alt="绿色收纳袋" decoding="async" referrerpolicy="no-referrer"><b>04</b><span>PEOPLE / 成员</span></div>
-        <div class="metric" data-fallback="树脂砖"><img class="metric-icon mc-official-item" data-mc-item="resin_brick" src="https://cdn.jsdelivr.net/gh/Mojang/bedrock-samples@main/resource_pack/textures/items/resin_brick.png" alt="树脂砖" decoding="async" referrerpolicy="no-referrer"><b>01</b><span>SERVER / 项目</span></div>
-        <div class="metric" data-fallback="望远镜"><img class="metric-icon mc-official-item" data-mc-item="spyglass" src="https://cdn.jsdelivr.net/gh/Mojang/bedrock-samples@main/resource_pack/textures/items/spyglass.png" alt="望远镜" decoding="async" referrerpolicy="no-referrer"><b>∞</b><span>TODO / 想做的事</span></div>
+        <div class="metric" data-fallback="绿色收纳袋"><img class="metric-icon mc-official-item" data-mc-item="bundle_green" src="mc-icons/bundle_green.png" alt="绿色收纳袋" decoding="async" referrerpolicy="no-referrer" width="16" height="16" loading="lazy"><b>04</b><span>PEOPLE / 成员</span></div>
+        <div class="metric" data-fallback="树脂砖"><img class="metric-icon mc-official-item" data-mc-item="resin_brick" src="mc-icons/resin_brick.png" alt="树脂砖" decoding="async" referrerpolicy="no-referrer" width="16" height="16" loading="lazy"><b>01</b><span>SERVER / 项目</span></div>
+        <div class="metric" data-fallback="望远镜"><img class="metric-icon mc-official-item" data-mc-item="spyglass" src="mc-icons/spyglass.png" alt="望远镜" decoding="async" referrerpolicy="no-referrer" width="16" height="16" loading="lazy"><b>∞</b><span>TODO / 想做的事</span></div>
       </div>
     </div>
-
-    <div class="team-orbit player-list-panel reveal show" aria-label="在线玩家名单">
+    <div class="team-orbit player-list-panel reveal show" aria-label="团队成员名单，状态为介绍展示">
       <div class="player-list-head"><span class="server-dot"></span><strong>Once Again</strong><span class="player-count">4 / 4</span></div>
-      <div class="player-list-motd">无声无息 · 四个人，一个服务器</div>
+      <div class="player-list-motd">无声无息 · 四个人，一个服务器<br><small>状态为成员介绍展示，并非实时在线数据。</small></div>
       <div class="player-list-rows">
-        <div class="orbit-person op1 is-selected" data-id="owner" tabindex="0" role="button" aria-pressed="true" aria-label="查看在下无声的成员档案" title="在下无声 / ZX_Wu_Sheng"><span class="avatar-fallback">无声</span><img src="https://mc-heads.net/avatar/ZX_Wu_Sheng/160" data-mcid="ZX_Wu_Sheng" data-avatar-size="160" data-avatar-source="0" alt="ZX_Wu_Sheng 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"><span class="player-info"><b>在下无声</b><small><span class="player-mcid">ZX_Wu_Sheng</span><span class="player-role">项目主理人</span></small></span><span class="player-status">在线</span></div>
-        <div class="orbit-person op2" data-id="badnng" tabindex="0" role="button" aria-pressed="false" aria-label="查看 Badnng 的成员档案" title="Badnng"><span class="avatar-fallback">NNG</span><img src="https://mc-heads.net/avatar/Badnng/160" data-mcid="Badnng" data-avatar-size="160" data-avatar-source="0" alt="Badnng 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"><span class="player-info"><b>Badnng</b><small><span class="player-mcid">Badnng</span><span class="player-role">玩法开发</span></small></span><span class="player-status">在线</span></div>
-        <div class="orbit-person op3" data-id="ksq" tabindex="0" role="button" aria-pressed="false" aria-label="查看 KsqsnK 的成员档案" title="KsqsnK"><span class="avatar-fallback">KS</span><img src="https://mc-heads.net/avatar/KsqsnK/160" data-mcid="KsqsnK" data-avatar-size="160" data-avatar-source="0" alt="KsqsnK 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"><span class="player-info"><b>KsqsnK</b><small><span class="player-mcid">KsqsnK</span><span class="player-role">核心系统</span></small></span><span class="player-status">在线</span></div>
-        <div class="orbit-person op4" data-id="wang" tabindex="0" role="button" aria-pressed="false" aria-label="查看王美丽的成员档案" title="王美丽 / Wangmeili"><span class="avatar-fallback">王</span><img src="https://mc-heads.net/avatar/Wangmeili/160" data-mcid="Wangmeili" data-avatar-size="160" data-avatar-source="0" alt="Wangmeili 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"><span class="player-info"><b>王美丽</b><small><span class="player-mcid">Wangmeili</span><span class="player-role">安保 / 气氛组</span></small></span><span class="player-status">挂机</span></div>
+        <div class="orbit-person op1 is-selected" data-id="owner" tabindex="0" role="button" aria-pressed="true" aria-label="查看在下无声的成员档案" title="在下无声 / ZX_Wu_Sheng" aria-controls="profilePanel"><span class="avatar-fallback">无声</span><img src="assets/avatars/ZX_Wu_Sheng.png" data-mcid="ZX_Wu_Sheng" data-avatar-size="160" data-avatar-source="0" alt="ZX_Wu_Sheng 的 Minecraft 头像" loading="eager" width="160" height="160" decoding="async"><span class="player-info"><b>在下无声</b><small><span class="player-mcid">ZX_Wu_Sheng</span><span class="player-role">项目主理人</span></small></span><span class="player-status">在线</span></div>
+        <div class="orbit-person op2" data-id="badnng" tabindex="0" role="button" aria-pressed="false" aria-label="查看 Badnng 的成员档案" title="Badnng" aria-controls="profilePanel"><span class="avatar-fallback">NNG</span><img src="assets/avatars/Badnng.png" data-mcid="Badnng" data-avatar-size="160" data-avatar-source="0" alt="Badnng 的 Minecraft 头像" loading="eager" width="160" height="160" decoding="async"><span class="player-info"><b>Badnng</b><small><span class="player-mcid">Badnng</span><span class="player-role">玩法开发</span></small></span><span class="player-status">在线</span></div>
+        <div class="orbit-person op3" data-id="ksq" tabindex="0" role="button" aria-pressed="false" aria-label="查看 KsqsnK 的成员档案" title="KsqsnK" aria-controls="profilePanel"><span class="avatar-fallback">KS</span><img src="assets/avatars/KsqsnK.png" data-mcid="KsqsnK" data-avatar-size="160" data-avatar-source="0" alt="KsqsnK 的 Minecraft 头像" loading="eager" width="160" height="160" decoding="async"><span class="player-info"><b>KsqsnK</b><small><span class="player-mcid">KsqsnK</span><span class="player-role">核心系统</span></small></span><span class="player-status">在线</span></div>
+        <div class="orbit-person op4" data-id="wang" tabindex="0" role="button" aria-pressed="false" aria-label="查看王美丽的成员档案" title="王美丽 / Wangmeili" aria-controls="profilePanel"><span class="avatar-fallback">王</span><img src="assets/avatars/Wangmeili.png" data-mcid="Wangmeili" data-avatar-size="160" data-avatar-source="0" alt="Wangmeili 的 Minecraft 头像" loading="eager" width="160" height="160" decoding="async"><span class="player-info"><b>王美丽</b><small><span class="player-mcid">Wangmeili</span><span class="player-role">安保 / 气氛组</span></small></span><span class="player-status">挂机</span></div>
       </div>
     </div>
   </div>
 </section>
-
 <section class="section" id="team">
   <div class="container">
     <div class="section-head reveal">
       <div><div class="kicker">TEAM ROSTER / 04 PLAYERS</div><h2>四个人，四种职责。</h2></div>
-      <p class="section-desc">把“服主、开发、安保”这些简单标签拆开一点，你会更清楚服务器背后到底是谁在负责什么。</p>
+      <p class="section-desc">把“服主、开发、安保”这些简单标签拆开一点，你会更清楚服务器背后到底是谁在负责什么。选择成员卡片，可以查看下方的职责档案。</p>
     </div>
-
     <div class="team-grid">
-      <article class="member-card active reveal" data-id="owner" tabindex="0" role="button" aria-label="查看在下无声的成员档案">
-        <div class="card-top"><span class="member-number">PLAYER / 01</span><div class="head-wrap"><span class="head-fallback">无声</span><img src="https://mc-heads.net/avatar/ZX_Wu_Sheng/160" data-mcid="ZX_Wu_Sheng" data-avatar-size="160" data-avatar-source="0" alt="ZX_Wu_Sheng 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div></div>
+      <article class="member-card active reveal" data-id="owner" tabindex="0" role="button" aria-label="查看在下无声的成员档案" aria-pressed="true" aria-controls="profilePanel">
+        <div class="card-top"><span class="member-number">PLAYER / 01</span><div class="head-wrap"><span class="head-fallback">无声</span><img src="assets/avatars/ZX_Wu_Sheng.png" data-mcid="ZX_Wu_Sheng" data-avatar-size="160" data-avatar-source="0" alt="ZX_Wu_Sheng 的 Minecraft 头像" loading="lazy" width="160" height="160" decoding="async"></div></div>
         <div class="member-role">SERVER OWNER · PROJECT LEAD</div>
         <h3 class="member-name">在下无声</h3>
         <div class="mcid">MCID / ZX_Wu_Sheng</div>
@@ -901,9 +617,8 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
         <div class="tags"><span class="tag">资金投入</span><span class="tag">整体策划</span><span class="tag">项目决策</span></div>
         <div class="status">ONLINE · PLANNING</div>
       </article>
-
-      <article class="member-card badnng reveal" data-id="badnng" tabindex="0" role="button" aria-label="查看 Badnng 的成员档案">
-        <div class="card-top"><span class="member-number">PLAYER / 02</span><div class="head-wrap"><span class="head-fallback">NNG</span><img src="https://mc-heads.net/avatar/Badnng/160" data-mcid="Badnng" data-avatar-size="160" data-avatar-source="0" alt="Badnng 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div></div>
+      <article class="member-card badnng reveal" data-id="badnng" tabindex="0" role="button" aria-label="查看 Badnng 的成员档案" aria-pressed="false" aria-controls="profilePanel">
+        <div class="card-top"><span class="member-number">PLAYER / 02</span><div class="head-wrap"><span class="head-fallback">NNG</span><img src="assets/avatars/Badnng.png" data-mcid="Badnng" data-avatar-size="160" data-avatar-source="0" alt="Badnng 的 Minecraft 头像" loading="lazy" width="160" height="160" decoding="async"></div></div>
         <div class="member-role">MOD & GAMEPLAY DEVELOPER</div>
         <h3 class="member-name">Badnng</h3>
         <div class="mcid">MCID / Badnng</div>
@@ -911,9 +626,8 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
         <div class="tags"><span class="tag">模组移植</span><span class="tag">兼容修改</span><span class="tag">主题玩法</span></div>
         <div class="status">BUILDING · GAMEPLAY</div>
       </article>
-
-      <article class="member-card ksq reveal" data-id="ksq" tabindex="0" role="button" aria-label="查看 KsqsnK 的成员档案">
-        <div class="card-top"><span class="member-number">PLAYER / 03</span><div class="head-wrap"><span class="head-fallback">KS</span><img src="https://mc-heads.net/avatar/KsqsnK/160" data-mcid="KsqsnK" data-avatar-size="160" data-avatar-source="0" alt="KsqsnK 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div></div>
+      <article class="member-card ksq reveal" data-id="ksq" tabindex="0" role="button" aria-label="查看 KsqsnK 的成员档案" aria-pressed="false" aria-controls="profilePanel">
+        <div class="card-top"><span class="member-number">PLAYER / 03</span><div class="head-wrap"><span class="head-fallback">KS</span><img src="assets/avatars/KsqsnK.png" data-mcid="KsqsnK" data-avatar-size="160" data-avatar-source="0" alt="KsqsnK 的 Minecraft 头像" loading="lazy" width="160" height="160" decoding="async"></div></div>
         <div class="member-role">CORE SYSTEMS DEVELOPER</div>
         <h3 class="member-name">KsqsnK</h3>
         <div class="mcid">MCID / KsqsnK</div>
@@ -921,9 +635,8 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
         <div class="tags"><span class="tag">核心逻辑</span><span class="tag">指令开发</span><span class="tag">局内交互</span></div>
         <div class="status">COMPILING · CORE LOGIC</div>
       </article>
-
-      <article class="member-card wang reveal" data-id="wang" tabindex="0" role="button" aria-label="查看王美丽的成员档案">
-        <div class="card-top"><span class="member-number">PLAYER / 04</span><div class="head-wrap"><span class="head-fallback">王</span><img src="https://mc-heads.net/avatar/Wangmeili/160" data-mcid="Wangmeili" data-avatar-size="160" data-avatar-source="0" alt="Wangmeili 的 Minecraft 头像" loading="lazy" onerror="OAAvatarFallback.next(this)"></div></div>
+      <article class="member-card wang reveal" data-id="wang" tabindex="0" role="button" aria-label="查看王美丽的成员档案" aria-pressed="false" aria-controls="profilePanel">
+        <div class="card-top"><span class="member-number">PLAYER / 04</span><div class="head-wrap"><span class="head-fallback">王</span><img src="assets/avatars/Wangmeili.png" data-mcid="Wangmeili" data-avatar-size="160" data-avatar-source="0" alt="Wangmeili 的 Minecraft 头像" loading="lazy" width="160" height="160" decoding="async"></div></div>
         <div class="member-role">??? · SECURITY / ATMOSPHERE UNIT</div>
         <h3 class="member-name">王美丽</h3>
         <div class="mcid">MCID / Wangmeili</div>
@@ -932,10 +645,9 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
         <div class="status">AFK · SECURITY</div>
       </article>
     </div>
-
-    <section class="profile-panel reveal" id="profilePanel" style="--profile:#70efad" aria-live="polite">
+    <section class="profile-panel reveal" id="profilePanel" style="--profile:#70efad" aria-labelledby="profileTitle" aria-live="polite" aria-atomic="true">
       <div class="profile-inner">
-        <div class="profile-avatar"><span class="profile-avatar-fallback" id="profileFallback">无声</span><img id="profileAvatar" src="https://mc-heads.net/avatar/ZX_Wu_Sheng/240" data-mcid="ZX_Wu_Sheng" data-avatar-size="240" data-avatar-source="0" alt="在下无声的 Minecraft 头像" onerror="OAAvatarFallback.next(this)"></div>
+        <div class="profile-avatar"><span class="profile-avatar-fallback" id="profileFallback">无声</span><img id="profileAvatar" src="assets/avatars/ZX_Wu_Sheng.png" data-mcid="ZX_Wu_Sheng" data-avatar-size="240" data-avatar-source="0" alt="在下无声的 Minecraft 头像" width="240" height="240" decoding="async"></div>
         <div>
           <div class="profile-label" id="profileLabel">SELECTED PROFILE / PLAYER 01</div>
           <h3 class="profile-title" id="profileTitle">在下无声 · 项目主理人</h3>
@@ -950,7 +662,6 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
     </section>
   </div>
 </section>
-
 <section class="section">
   <div class="container story-wrap">
     <aside class="story-index reveal"><div class="big">04→01</div><p>四个人，不同分工，最后都指向同一个东西：<strong>把服务器真的做出来。</strong></p></aside>
@@ -961,7 +672,6 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
     </div>
   </div>
 </section>
-
 <section class="finale">
   <div class="container reveal">
     <div class="micro">THIS IS NOT A COMPANY.</div>
@@ -971,266 +681,87 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
   </div>
 </section>
 </main>
-<footer>无声无息: Once Again · TEAM PAGE</footer>
-
-<script>
-const $ = (s, root=document) => root.querySelector(s);
-const $$ = (s, root=document) => [...root.querySelectorAll(s)];
-
-// 主题切换
-const themeToggle = $('#themeToggle');
-function isLight(){ return document.documentElement.getAttribute('data-theme') === 'light'; }
-function updateThemeButtonText(){
-  const label = isLight() ? '切换到黑色主题' : '切换到白色主题';
-  themeToggle.setAttribute('aria-label', label);
-  themeToggle.setAttribute('title', label);
-}
-updateThemeButtonText();
-themeToggle.addEventListener('click',()=>{
-  if(isLight()) document.documentElement.removeAttribute('data-theme');
-  else document.documentElement.setAttribute('data-theme','light');
-  try{ const theme=isLight()?'light':'dark'; localStorage.setItem('once-again-theme',theme); localStorage.setItem('website-theme',theme); localStorage.setItem('sponsor-theme',theme); }catch(e){}
-  updateThemeButtonText();
-});
-
-// 与主页一致的顶栏收缩和移动端菜单。
-const siteNavbar = $('#navbar');
-const siteMenuToggle = $('#menuButton');
-const siteNavLinks = $('#navLinks');
-function syncSiteNavbar(){ if(siteNavbar) siteNavbar.classList.toggle('scrolled', window.scrollY > 25); }
-syncSiteNavbar();
-window.addEventListener('scroll', syncSiteNavbar, {passive:true});
-if(siteMenuToggle && siteNavLinks){
-  siteMenuToggle.addEventListener('click',()=>{
-    const open = siteNavLinks.classList.toggle('open');
-    siteMenuToggle.textContent = open ? '×' : '☰';
-    siteMenuToggle.setAttribute('aria-expanded', String(open));
-  });
-  siteNavLinks.addEventListener('click', event=>{
-    if(event.target.closest('a')){ siteNavLinks.classList.remove('open'); siteMenuToggle.textContent='☰'; siteMenuToggle.setAttribute('aria-expanded','false'); }
-  });
-  document.addEventListener('click', event=>{
-    if(window.innerWidth > 950 || siteNavLinks.contains(event.target) || siteMenuToggle.contains(event.target)) return;
-    siteNavLinks.classList.remove('open');
-    siteMenuToggle.textContent='☰';
-    siteMenuToggle.setAttribute('aria-label','打开导航菜单');
-  });
-}
-
-// 进入视口动画
-const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-if(reduceMotion){ $$('.reveal').forEach(el=>el.classList.add('show')); }
-else{
-  const revealThreshold = .25;
-  const io = new IntersectionObserver(entries=>entries.forEach(entry=>{
-    entry.target.classList.toggle('show',entry.intersectionRatio>=revealThreshold);
-  }),{threshold:revealThreshold,rootMargin:'0px 0px -30px'});
-  $$('.reveal').forEach(el=>io.observe(el));
-}
-
-// 成员档案
-const members = {
-  owner:{
-    color:'#70efad', number:'01', name:'在下无声', title:'项目主理人', mcid:'ZX_Wu_Sheng', fallback:'无声',
-    focus:'资金 / 策划 / 决策', status:'ONLINE · PLANNING',
-    text:'负责服务器的主要资金投入、整体策划与方向决策。他更像项目的“总控台”：决定我们往哪里走、优先做什么，以及什么时候该把一个过大的脑洞先放回抽屉里。'
-  },
-  badnng:{
-    color:'#59a9ff', number:'02', name:'Badnng', title:'模组与玩法开发', mcid:'Badnng', fallback:'NNG',
-    focus:'模组移植 / 兼容 / 玩法', status:'BUILDING · GAMEPLAY',
-    text:'负责模组移植、兼容性修改、主题玩法与内容系统开发。很多“这个玩法要是能这样就好了”的想法，最后都需要在这里变成真正能加载、能运行、能玩的东西。'
-  },
-  ksq:{
-    color:'#c98cff', number:'03', name:'KsqsnK', title:'核心系统开发', mcid:'KsqsnK', fallback:'KS',
-    focus:'代码逻辑 / 指令 / 交互', status:'COMPILING · CORE LOGIC',
-    text:'负责服务器的主要代码逻辑、局内指令与交互流程。玩法规则、事件触发、条件判断和各种幕后系统，很多都从这里开始写成服务器真正能理解的逻辑。'
-  },
-  wang:{
-    color:'#ffcf66', number:'04', name:'王美丽', title:'??? / 安保兼气氛组', mcid:'Wangmeili', fallback:'王',
-    focus:'挂机 / 值守 / 气氛', status:'AFK · SECURITY',
-    text:'长期负责挂机值守、承受团队吐槽、充当服务器吉祥物与路边安保单位。工作范围不明、职责边界不明，但只要看到他在那儿，某种意义上就说明安保系统仍在运行。'
-  }
-};
-function selectMember(id){
-  const m = members[id]; if(!m) return;
-  $$('.member-card').forEach(c=>c.classList.toggle('active',c.dataset.id===id));
-  $$('.orbit-person').forEach(person=>{
-    const selected = person.dataset.id===id;
-    person.classList.toggle('is-selected',selected);
-    person.setAttribute('aria-pressed',String(selected));
-  });
-  const panel = $('#profilePanel'); panel.style.setProperty('--profile',m.color);
-  $('#profileLabel').textContent = `SELECTED PROFILE / PLAYER ${m.number}`;
-  $('#profileTitle').textContent = `${m.name} · ${m.title}`;
-  $('#profileText').textContent = m.text;
-  $('#profileMcid').textContent = m.mcid;
-  $('#profileFocus').textContent = m.focus;
-  $('#profileStatus').textContent = m.status;
-  $('#profileFallback').textContent = m.fallback;
-  const img = $('#profileAvatar');
-  img.alt = `${m.name} 的 Minecraft 头像`;
-  OAAvatarFallback.start(img, m.mcid, 240);
-}
-$$('.member-card').forEach(card=>{
-  card.addEventListener('click',()=>selectMember(card.dataset.id));
-  card.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();selectMember(card.dataset.id);} });
-});
-
-// 首屏头像与下方成员卡片联动：选择成员后滚动到详细档案。
-function selectOrbitMember(id){
-  selectMember(id);
-  const panel = $('#profilePanel');
-  if(panel) window.setTimeout(()=>panel.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'center'}),80);
-}
-$$('.orbit-person').forEach(person=>{
-  person.addEventListener('click',()=>selectOrbitMember(person.dataset.id));
-  person.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();selectOrbitMember(person.dataset.id);} });
-});
-</script>
-
-<script>
-/* 在 file:// 本地预览和正式站点中，都把当前主题带到相互跳转的页面。 */
-(function(){
-  function currentTheme(){
-    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-  }
-
-  document.addEventListener('click', function(event){
-    const anchor = event.target.closest && event.target.closest('a[href]');
-    if(!anchor) return;
-
-    const raw = anchor.getAttribute('href');
-    if(!raw || raw.startsWith('#') || /^(mailto:|tel:|javascript:)/i.test(raw)) return;
-
-    let url;
-    try{ url = new URL(raw, location.href); }catch(e){ return; }
-    if(url.origin !== location.origin && location.protocol !== 'file:') return;
-
-    const file = (url.pathname.split('/').pop() || '').toLowerCase();
-    if(!['index.html','scene1.html','jieshao.html','ztdh.html'].includes(file)) return;
-
-    url.searchParams.set('theme', currentTheme());
-    anchor.href = url.href;
-  }, true);
-})();
-</script>
-
-
-<script id="oa-theme-link-sync">
-(function () {
-  const root = document.documentElement;
-  const internalPages = new Set(['index.html', 'jieshao.html', 'scene1.html', 'ztdh.html']);
-
-  function currentTheme() {
-    return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-  }
-
-  function saveTheme(theme) {
-    try {
-      localStorage.setItem('once-again-theme', theme);
-      localStorage.setItem('website-theme', theme);
-      localStorage.setItem('sponsor-theme', theme);
-    } catch (e) {}
-  }
-
-  function syncThemeState() {
-    saveTheme(currentTheme());
-  }
-
-  document.addEventListener('click', function (event) {
-    const link = event.target.closest && event.target.closest('a[href]');
-    if (!link) return;
-    try {
-      const url = new URL(link.getAttribute('href'), location.href);
-      const page = url.pathname.split('/').pop();
-      if (!internalPages.has(page)) return;
-      const theme = currentTheme();
-      saveTheme(theme);
-      url.searchParams.set('theme', theme);
-      link.href = url.href;
-    } catch (e) {}
-  }, true);
-
-  const themeButton = document.getElementById('themeToggle');
-  if (themeButton) {
-    themeButton.addEventListener('click', function () {
-      setTimeout(syncThemeState, 0);
-    });
-  }
-})();
-</script>
-
-
-
-<script id="mc-item-source-fallback">
-(function(){
-  const roots = [
-    'https://cdn.jsdelivr.net/gh/Mojang/bedrock-samples@main/resource_pack/textures/items/',
-    'https://gitcode.com/gh_mirrors/be/bedrock-samples/-/raw/main/resource_pack/textures/items/',
-    'https://fastly.jsdelivr.net/gh/Mojang/bedrock-samples@main/resource_pack/textures/items/',
-    'https://gcore.jsdelivr.net/gh/Mojang/bedrock-samples@main/resource_pack/textures/items/',
-    'https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/items/'
-  ];
-  const files = { bundle_green:'bundle_green.png', resin_brick:'resin_brick.png', spyglass:'spyglass.png' };
-  document.querySelectorAll('img.mc-official-item[data-mc-item]').forEach(function(img){
-    const file = files[img.dataset.mcItem];
-    if(!file) return;
-    let index = 0;
-    const parent = img.closest('.metric');
-    function tryNext(){
-      index += 1;
-      if(index >= roots.length){
-        img.onerror = null;
-        if(parent) parent.classList.add('mc-item-failed');
-        return;
-      }
-      img.src = roots[index] + file;
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+      <p>© 2026 无声无息:Once Again Minecraft 服务器</p>
+      <nav class="site-footer-links" aria-label="页脚导航">
+        <a href="index.html#home">首页</a><a href="index.html#features">核心玩法</a>
+        <a href="index.html#news">动态与规划</a><a href="jieshao.html#team">团队介绍</a>
+        <a href="ztdh.html#recruit">协作者招募</a><a href="scene1.html">赞助支持</a>
+        <a href="index.html#contact">社区入口</a>
+      </nav>
+      <p class="site-note">本项目与 Mojang / Microsoft 无官方关联。服务器地址与开放时间待公布。</p>
+    </div>
+  </footer>
+<script id="team-profiles">
+(() => {
+  const $ = (selector) => document.querySelector(selector);
+  const $$ = (selector) => [...document.querySelectorAll(selector)];
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // 成员档案
+  const members = {
+    owner:{
+      color:'#70efad', number:'01', name:'在下无声', title:'项目主理人', mcid:'ZX_Wu_Sheng', fallback:'无声',
+      focus:'资金 / 策划 / 决策', status:'ONLINE · PLANNING',
+      text:'负责服务器的主要资金投入、整体策划与方向决策。他更像项目的“总控台”：决定我们往哪里走、优先做什么，以及什么时候该把一个过大的脑洞先放回抽屉里。'
+    },
+    badnng:{
+      color:'#59a9ff', number:'02', name:'Badnng', title:'模组与玩法开发', mcid:'Badnng', fallback:'NNG',
+      focus:'模组移植 / 兼容 / 玩法', status:'BUILDING · GAMEPLAY',
+      text:'负责模组移植、兼容性修改、主题玩法与内容系统开发。很多“这个玩法要是能这样就好了”的想法，最后都需要在这里变成真正能加载、能运行、能玩的东西。'
+    },
+    ksq:{
+      color:'#c98cff', number:'03', name:'KsqsnK', title:'核心系统开发', mcid:'KsqsnK', fallback:'KS',
+      focus:'代码逻辑 / 指令 / 交互', status:'COMPILING · CORE LOGIC',
+      text:'负责服务器的主要代码逻辑、局内指令与交互流程。玩法规则、事件触发、条件判断和各种幕后系统，很多都从这里开始写成服务器真正能理解的逻辑。'
+    },
+    wang:{
+      color:'#ffcf66', number:'04', name:'王美丽', title:'??? / 安保兼气氛组', mcid:'Wangmeili', fallback:'王',
+      focus:'挂机 / 值守 / 气氛', status:'AFK · SECURITY',
+      text:'长期负责挂机值守、承受团队吐槽、充当服务器吉祥物与路边安保单位。工作范围不明、职责边界不明，但只要看到他在那儿，某种意义上就说明安保系统仍在运行。'
     }
-    img.addEventListener('load', function(){ if(parent) parent.classList.remove('mc-item-failed'); });
-    img.addEventListener('error', tryNext);
-    if(img.complete && img.naturalWidth === 0) tryNext();
+  };
+  function selectMember(id){
+    const m = members[id]; if(!m) return;
+    $$('.member-card').forEach(card => {
+      const selected = card.dataset.id === id;
+      card.classList.toggle('active', selected);
+      card.setAttribute('aria-pressed', String(selected));
+    });
+    $$('.orbit-person').forEach(person=>{
+      const selected = person.dataset.id===id;
+      person.classList.toggle('is-selected',selected);
+      person.setAttribute('aria-pressed',String(selected));
+    });
+    const panel = $('#profilePanel'); panel.style.setProperty('--profile',m.color);
+    $('#profileLabel').textContent = `SELECTED PROFILE / PLAYER ${m.number}`;
+    $('#profileTitle').textContent = `${m.name} · ${m.title}`;
+    $('#profileText').textContent = m.text;
+    $('#profileMcid').textContent = m.mcid;
+    $('#profileFocus').textContent = m.focus;
+    $('#profileStatus').textContent = m.status;
+    $('#profileFallback').textContent = m.fallback;
+    const img = $('#profileAvatar');
+    img.alt = `${m.name} 的 Minecraft 头像`;
+    OAAvatarFallback.start(img, m.mcid, 240);
+  }
+  $$('.member-card').forEach(card=>{
+    card.addEventListener('click',()=>selectMember(card.dataset.id));
+    card.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();selectMember(card.dataset.id);} });
+  });
+  // 首屏头像与下方成员卡片联动：选择成员后滚动到详细档案。
+  function selectOrbitMember(id){
+    selectMember(id);
+    const panel = $('#profilePanel');
+    if(panel) window.setTimeout(()=>panel.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'center'}),80);
+  }
+  $$('.orbit-person').forEach(person=>{
+    person.addEventListener('click',()=>selectOrbitMember(person.dataset.id));
+    person.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();selectOrbitMember(person.dataset.id);} });
   });
 })();
 </script>
-
-<script id="logo-lightbox-script">
-(function(){
-  const trigger = document.getElementById('logoPreviewTrigger');
-  const lightbox = document.getElementById('logoLightbox');
-  const image = document.getElementById('logoLightboxImage');
-  const close = document.getElementById('logoLightboxClose');
-  if(!trigger || !lightbox || !image || !close) return;
-  function open(){ image.src = trigger.querySelector('img').src; lightbox.classList.add('open'); lightbox.setAttribute('aria-hidden','false'); document.body.classList.add('lightbox-open'); close.focus(); }
-  function dismiss(){ lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden','true'); document.body.classList.remove('lightbox-open'); trigger.focus(); }
-  trigger.addEventListener('click', function(event){ event.preventDefault(); event.stopPropagation(); open(); });
-  trigger.addEventListener('keydown', function(event){ if(event.key==='Enter' || event.key===' '){ event.preventDefault(); open(); } });
-  close.addEventListener('click', dismiss);
-  lightbox.addEventListener('click', function(event){ if(event.target===lightbox) dismiss(); });
-  document.addEventListener('keydown', function(event){ if(event.key==='Escape' && lightbox.classList.contains('open')) dismiss(); });
-})();
-</script>
-
-<script id="scene-teaser-script">
-(function(){
-  const teaser = document.getElementById('oaSceneTeaser');
-  const close = document.getElementById('oaSceneTeaserClose');
-  if(!teaser || !close) return;
-  function enterScene(){ window.location.href = 'scene1.html'; }
-  teaser.addEventListener('click', function(event){
-    if(event.target.closest('#oaSceneTeaserClose')) return;
-    enterScene();
-  });
-  teaser.addEventListener('keydown', function(event){
-    if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); enterScene(); }
-  });
-  close.addEventListener('click', function(event){
-    event.preventDefault();
-    event.stopPropagation();
-    teaser.classList.add('oa-closing');
-    window.setTimeout(function(){ teaser.remove(); }, 300);
-  });
-})();
-</script>
-
+  <p class="site-status" id="siteStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+  <textarea class="site-manual-copy" id="manualCopy" aria-label="手动复制内容" readonly hidden></textarea>
 </body>
 </html>
