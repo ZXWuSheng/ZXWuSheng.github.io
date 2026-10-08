@@ -34,7 +34,7 @@
 
     function render() {
       frame = 0;
-      // Read every card's geometry before writing styles to avoid layout thrashing.
+      // 先统一读取卡片尺寸，再写入样式，避免反复触发布局计算。
       const positions = Array.from(pendingCards, function ([card, point]) {
         const rect = card.getBoundingClientRect();
         const scaleX = rect.width ? card.offsetWidth / rect.width : 1;

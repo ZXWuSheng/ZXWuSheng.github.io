@@ -1,4 +1,4 @@
-/* Apply the saved theme before the first paint; storage can be unavailable. */
+/* 首次绘制前应用已保存的主题，并兼容本地存储不可用的情况。 */
 (function () {
   let theme;
   try {

@@ -1,4 +1,4 @@
-/* Canonical navigation and logo preview, based on scene1.html. */
+/* 基于赞助页统一导航栏与标志预览。 */
 :root {
   --site-nav-bg: rgba(20, 32, 24, .96);
   --site-nav-panel: #142018;
@@ -299,7 +299,7 @@ html[data-theme="light"] .navbar .theme-toggle {
 html[data-theme="light"] .navbar .oa-theme-sun { opacity: 0 !important; }
 html[data-theme="light"] .navbar .oa-theme-moon { opacity: 1 !important; }
 
-/* Viewport-wide pointer light keeps backgrounds and the shared navbar responsive. */
+/* 全视口指针光效让背景和公共导航栏同步响应。 */
 .oa-global-pointer-light {
   --oa-global-pointer-x: 50vw;
   --oa-global-pointer-y: 50vh;
@@ -333,7 +333,7 @@ html.oa-global-pointer-active .oa-global-pointer-light {
   opacity: 1;
 }
 
-/* Stronger local response for cards, panels and the sponsor teaser. */
+/* 增强卡片、面板和赞助入口的局部响应。 */
 .oa-pointer-card {
   --oa-pointer-x: 50%;
   --oa-pointer-y: 50%;
@@ -633,7 +633,7 @@ body.lightbox-open {
   }
 }
 
-/* Canonical scene teaser shared by every page that exposes the sponsor entry. */
+/* 提供赞助入口的页面共用同一场景提示组件。 */
 .oa-scene-teaser {
   position: fixed !important;
   right: 22px !important;

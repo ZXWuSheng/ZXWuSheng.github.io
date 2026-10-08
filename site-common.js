@@ -98,7 +98,7 @@
   }, { passive: true });
   updateNavbar();
 
-  // One image dialog is shared by the Logo and both unmodified payment images.
+  // 标志与两张保持原样的收款图片共用一个预览弹窗。
   const lightbox = document.getElementById('logoLightbox');
   const lightboxImage = document.getElementById('logoLightboxImage');
   const lightboxClose = document.getElementById('logoLightboxClose');
@@ -134,7 +134,7 @@
     inertElements = [...document.body.children].filter(element => element !== lightbox && element.tagName !== 'SCRIPT')
       .map(element => ({ element, inert: element.inert }));
     inertElements.forEach(item => { item.element.inert = true; });
-    // The legacy preview has a visibility transition; focus after it settles.
+    // 现有预览包含显示过渡，等待过渡结束后再移入焦点。
     setTimeout(function () {
       if (lightbox.classList.contains('open') && !lightbox.contains(document.activeElement)) {
         lightboxClose.focus({ preventScroll: true });
@@ -245,7 +245,7 @@
     if (fragment.childElementCount) log.replaceChildren(fragment);
   }
 
-  // Reveal once; keep content readable with no script or with reduced motion.
+  // 入场动画只播放一次；脚本不可用或减少动态时仍保持内容可读。
   const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-smooth');
   document.body.classList.add('page-ready');
   if ('IntersectionObserver' in window && !reducedMotion.matches) {
@@ -264,7 +264,7 @@
 
   document.querySelectorAll('img').forEach(function (image) {
     function failed() {
-      // Avatars own a finite fallback chain and accessible initials.
+      // 头像单独使用有限的回退链，并提供可访问的文字标识。
       if (image.dataset.mcid || !image.hasAttribute('src')) return;
       image.hidden = true;
       image.closest('.mc-item-icon')?.classList.add('mc-item-failed');

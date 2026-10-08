@@ -1,4 +1,4 @@
-/* Shared visual system for the Once Again server pages. */
+/* Once Again 服务器页面共用的视觉样式。 */
 :root {
   --oa-ink: #172218;
   --oa-forest: #2f6f3d;
@@ -7,7 +7,7 @@
   --oa-grid-line: rgba(44, 82, 48, .10);
 }
 
-/* Shared functional components; retain the existing forest / paper palette. */
+/* 公共功能组件沿用现有森林绿与纸张配色。 */
 :root {
   --site-space: 16px;
   --site-motion-duration: .2s;
@@ -75,7 +75,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Shared motion contract: short, composited transitions with one easing curve. */
+/* 公共动效采用短时过渡与统一缓动曲线，优先使用合成属性。 */
 :root { --oa-motion-ease: cubic-bezier(.16, 1, .3, 1); }
 .reveal, .reveal-left, .reveal-right, .reveal-smooth { will-change: auto; }
 .page-home .reveal, .page-home .reveal-left, .page-home .reveal-right {
@@ -170,7 +170,7 @@ body.page-sponsor {
   text-wrap: pretty;
 }
 
-/* Shared mobile layout contract for every Once Again page. */
+/* 所有 Once Again 页面共用的移动端布局约定。 */
 @media (max-width: 700px) {
   html,
   body,
@@ -313,7 +313,7 @@ body.page-sponsor {
     padding-bottom: 76px;
   }
 
-  /* Homepage and inactive homepage preview. */
+  /* 首页与本地保留的旧首页预览。 */
   .page-home .hero {
     min-height: auto !important;
     padding: 100px 0 50px !important;
@@ -420,7 +420,7 @@ body.page-sponsor {
     padding: 24px 16px !important;
   }
 
-  /* Team introduction. */
+  /* 团队介绍。 */
   .page-team .hero {
     min-height: auto !important;
     padding: 96px 0 38px !important;
@@ -494,7 +494,7 @@ body.page-sponsor {
     translate: 0 -4px !important;
   }
 
-  /* Sponsor page. */
+  /* 赞助页面。 */
   .page-sponsor .page {
     width: calc(100% - 28px) !important;
   }
@@ -590,8 +590,8 @@ body.page-sponsor {
   }
 }
 
-/* Touch browsers can keep :hover after a tap. Prevent hover transforms from
-   changing geometry on small screens while retaining the visual states. */
+/* 触屏浏览器点击后可能保留悬停状态；保留视觉反馈，
+   但避免悬停变换改变小屏幕上的布局尺寸。 */
 @media (max-width: 700px) and (hover: none) {
   .navbar .logo:hover .logo-image-wrap,
   .navbar .nav-links a:hover,
@@ -676,7 +676,7 @@ body.page-sponsor {
     padding-bottom: 84px !important;
   }
 }
-/* Final shared component rules override legacy page-specific patches. */
+/* 最终公共组件规则覆盖页面中旧有的局部补丁。 */
 .navbar .logo { min-width: 0 !important; }
 .navbar .logo-image-wrap { padding: 0 !important; }
 .navbar .logo-name { text-decoration: none; }
@@ -756,7 +756,7 @@ html[data-theme="light"] .oa-scene-close {
 .image-fallback:empty { display: none; }
 html.site-ready .site-script-note { display: none; }
 html:not(.site-ready) .navbar .menu-button { display: none !important; }
-/* Keep the first-screen copy available while the decorative scene animates. */
+/* 装饰场景播放动画时，首屏文字仍立即显示。 */
 .page-home .hero :is(.hero-title-line, .hero-description, .hero-actions, .hero-server-address) {
   opacity: 1 !important; transform: none !important; animation: none !important;
 }
