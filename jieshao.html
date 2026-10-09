@@ -24,8 +24,9 @@
     img.dataset.mcid = mcid;
     img.dataset.avatarSize = String(size);
     img.dataset.avatarSource = cachedAvatars[mcid] ? '0' : '1';
+    img.onerror = null;
+    img.hidden = false;
     img.style.display = 'block';
-    img.onerror = () => next(img);
     img.src = cachedAvatars[mcid] || remoteAvatar(mcid, size);
   }
 
@@ -34,6 +35,7 @@
     const mcid = img.dataset.mcid;
     if (!mcid || Number(img.dataset.avatarSource || 0) >= 1) {
       img.onerror = null;
+      img.hidden = true;
       img.style.display = 'none';
       return;
     }
@@ -44,6 +46,12 @@
   window.OAAvatarFallback = { start, next };
   document.addEventListener('error', function (event) {
     if (event.target instanceof HTMLImageElement && event.target.dataset.mcid) next(event.target);
+  }, true);
+  document.addEventListener('load', function (event) {
+    if (event.target instanceof HTMLImageElement && event.target.dataset.mcid) {
+      event.target.hidden = false;
+      event.target.style.display = 'block';
+    }
   }, true);
 })();
 </script>
@@ -501,8 +509,8 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
 </style>
   <link rel="icon" type="image/png" href="assets/brand/favicon.png">
   <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
-  <link rel="stylesheet" href="site-nav-shared.css?v=20261008">
-  <link rel="stylesheet" href="site-mobile-shared.css?v=20261008">
+  <link rel="stylesheet" href="site-nav-shared.css?v=20261009-2">
+  <link rel="stylesheet" href="site-mobile-shared.css?v=20261009-2">
   <script src="site-card-follow.js?v=20261008" defer></script>
   <link rel="canonical" href="https://zxwusheng.github.io/jieshao.html">
   <meta property="og:type" content="website">
@@ -517,7 +525,7 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
   <meta property="og:image:alt" content="Once Again · Without A Sound">
   <meta name="twitter:card" content="summary_large_image">
   <script src="site-config.js?v=20261008" defer></script>
-  <script src="site-common.js?v=20261008" defer></script>
+  <script src="site-common.js?v=20261009-2" defer></script>
 </head>
 <body class="page-team">
   <a class="site-skip-link" href="#main-content">跳到主要内容</a>
@@ -697,7 +705,7 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
 (() => {
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => [...document.querySelectorAll(selector)];
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   // 成员档案
   const members = {
     owner:{
@@ -753,7 +761,7 @@ html[data-theme="light"]{--oa-nav-text:#13241b;--oa-nav-muted:#5d7065;--oa-nav-m
   function selectOrbitMember(id){
     selectMember(id);
     const panel = $('#profilePanel');
-    if(panel) window.setTimeout(()=>panel.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'center'}),80);
+    if(panel) window.setTimeout(()=>panel.scrollIntoView({behavior:reduceMotion.matches?'auto':'smooth',block:'center'}),80);
   }
   $$('.orbit-person').forEach(person=>{
     person.addEventListener('click',()=>selectOrbitMember(person.dataset.id));

@@ -19,7 +19,7 @@ html[data-theme="light"] {
   --site-nav-line: #85846e;
   --site-nav-text: #262a23;
   --site-nav-muted: #5b6256;
-  --site-nav-highlight: #4f8d45;
+  --site-nav-highlight: #2a6a34;
   --site-nav-shadow: 4px 4px 0 rgba(73, 75, 63, .24);
 }
 
@@ -871,7 +871,7 @@ html[data-theme="light"] .oa-scene-close {
   50% { opacity: 1; transform: scale(1); }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1100px) {
   .oa-scene-teaser {
     left: 50% !important;
     right: auto !important;

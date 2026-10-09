@@ -28,6 +28,9 @@
     const theme = root.dataset.theme === 'light' ? 'dark' : 'light';
     root.dataset.theme = theme;
     try { localStorage.setItem('website-theme', theme); } catch (_) {}
+    const url = new URL(location.href);
+    url.searchParams.set('theme', theme);
+    history.replaceState(history.state, '', url);
     updateThemeButton();
   });
 
@@ -96,6 +99,8 @@
   window.addEventListener('scroll', function () {
     if (!scrollFrame) scrollFrame = requestAnimationFrame(updateNavbar);
   }, { passive: true });
+  window.addEventListener('hashchange', updateNavbar);
+  window.addEventListener('popstate', updateNavbar);
   updateNavbar();
 
   // 标志与两张保持原样的收款图片共用一个预览弹窗。
@@ -168,6 +173,18 @@
     (mobile.matches ? menuButton : menu?.querySelector('a[href*="scene1.html"]'))?.focus();
   });
 
+  const copyStates = new WeakMap();
+  const manualCopy = document.getElementById('manualCopy');
+  let manualCopyTrigger;
+  manualCopy?.addEventListener('blur', () => { manualCopy.hidden = true; });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && manualCopy && !manualCopy.hidden) {
+      event.preventDefault();
+      manualCopy.hidden = true;
+      manualCopyTrigger?.focus();
+    }
+  });
+
   async function copyText(button) {
     const target = button.dataset.copyTarget && document.querySelector(button.dataset.copyTarget);
     const text = button.dataset.copyText || target?.value || target?.textContent;
@@ -175,17 +192,23 @@
     try {
       await navigator.clipboard.writeText(text.trim());
       announce('已复制，可粘贴使用。');
-      const label = button.textContent;
+      const state = copyStates.get(button) || { label: button.textContent };
+      clearTimeout(state.timer);
       button.textContent = '已复制';
-      setTimeout(() => { button.textContent = label; }, 1800);
+      state.timer = setTimeout(() => {
+        button.textContent = state.label;
+        copyStates.delete(button);
+      }, 1800);
+      copyStates.set(button, state);
     } catch (_) {
       if (target instanceof HTMLTextAreaElement || target instanceof HTMLInputElement) {
         target.focus(); target.select();
       } else {
-        const field = document.getElementById('manualCopy');
-        field.hidden = false;
-        field.value = text.trim();
-        field.focus(); field.select();
+        if (!manualCopy) return;
+        manualCopyTrigger = button;
+        manualCopy.hidden = false;
+        manualCopy.value = text.trim();
+        manualCopy.focus(); manualCopy.select();
       }
       announce('自动复制不可用，已选中内容，请手动复制。');
     }
@@ -253,7 +276,8 @@
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('reveal-active', 'visible', 'in-view');
+          // 各页面沿用的可见态不同：主页用 reveal-active，团队与招募用 show。
+          entry.target.classList.add('reveal-active', 'show', 'is-visible', 'visible', 'in-view');
           observer.unobserve(entry.target);
         }
       });
@@ -267,18 +291,25 @@
       // 头像单独使用有限的回退链，并提供可访问的文字标识。
       if (image.dataset.mcid || !image.hasAttribute('src')) return;
       image.hidden = true;
-      image.closest('.mc-item-icon')?.classList.add('mc-item-failed');
+      const item = image.closest('[data-fallback]');
+      if (item) {
+        // 复用页面已有的物品文字占位，避免通用提示撑开小图标格子。
+        item.classList.add('mc-item-failed', 'is-fallback');
+        return;
+      }
       let fallback = image.parentElement.querySelector('.image-fallback');
       if (!fallback) {
         fallback = document.createElement('span'); fallback.className = 'image-fallback';
         const isPayment = image.classList.contains('payment-qr') || image.closest('.payment-preview');
-        fallback.textContent = isPayment ? '收款码加载失败，请刷新页面或查看原图。' : (image.alt || '');
+        const isLogo = image.closest('.logo-image-wrap');
+        fallback.textContent = isPayment ? '收款码加载失败，请刷新页面或查看原图。' : (isLogo ? 'OA' : image.alt);
         image.insertAdjacentElement('afterend', fallback);
       }
     }
     image.addEventListener('error', failed);
     image.addEventListener('load', () => {
       image.hidden = false;
+      image.closest('[data-fallback]')?.classList.remove('mc-item-failed', 'is-fallback');
       image.parentElement.querySelector('.image-fallback')?.remove();
     });
     if (image.hasAttribute('src') && image.complete && !image.naturalWidth) failed();
